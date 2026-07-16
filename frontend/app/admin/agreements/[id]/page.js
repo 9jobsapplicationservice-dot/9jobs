@@ -9,6 +9,7 @@ import {
   generateAndStoreAgreementPdf,
   getAgreementById,
   getAgreementDocumentById,
+  recoverFailedInternalAgreementCompletions,
   syncAgreementDocumentStatusFromDocuSign,
 } from '@/lib/agreements/service';
 
@@ -25,6 +26,7 @@ function DetailRow({ label, value }) {
 
 export default async function AgreementDetailPage({ params }) {
   await requireAdminPageSession();
+  await recoverFailedInternalAgreementCompletions(1);
   const { id } = await params;
   let agreementDocument = await getAgreementDocumentById(id);
 

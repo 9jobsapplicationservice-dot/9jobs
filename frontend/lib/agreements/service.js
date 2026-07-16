@@ -9,6 +9,7 @@ import {
   hasDocuSignRuntimeConfig,
 } from '@/lib/docusign/client';
 import { mapDocuSignEnvelopeStatus } from '@/lib/docusign/status';
+import { retryFailedAgreementCompletion } from '@/lib/agreements/completion';
 
 const ACTIVE_DOCUSIGN_STATUSES = ['sent', 'delivered', 'viewed'];
 const TERMINAL_DOCUSIGN_STATUSES = ['completed', 'declined', 'voided'];
@@ -105,6 +106,35 @@ export async function syncPendingAgreementStatuses() {
   }
 
   return agreements.length;
+}
+
+export async function recoverFailedInternalAgreementCompletions(limit = 10) {
+  await connectDB();
+
+  const agreements = await Agreement.find({
+    status: 'completion_processing_failed',
+    signedPdfStorageKey: '',
+    auditTrailStorageKey: '',
+    'clientSignature.signedAt': { $ne: null },
+    'providerSignature.signedAt': { $ne: null },
+  })
+    .sort({ updatedAt: -1 })
+    .limit(limit);
+
+  let recoveredCount = 0;
+
+  for (const agreement of agreements) {
+    try {
+      const recovered = await retryFailedAgreementCompletion(String(agreement._id));
+      if (recovered?.status === 'completed') {
+        recoveredCount += 1;
+      }
+    } catch (error) {
+      console.error(`Agreement completion retry failed for ${agreement._id}:`, error);
+    }
+  }
+
+  return recoveredCount;
 }
 
 export async function createAgreement(payload) {

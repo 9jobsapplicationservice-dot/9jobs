@@ -4,13 +4,18 @@ import AdminShell from '@/components/admin/AdminShell';
 import AgreementRegisterActions from '@/components/admin/AgreementRegisterActions';
 import StatusBadge from '@/components/admin/StatusBadge';
 import { requireAdminPageSession } from '@/lib/admin/auth/require-admin';
-import { listAgreements, syncPendingAgreementStatuses } from '@/lib/agreements/service';
+import {
+  listAgreements,
+  recoverFailedInternalAgreementCompletions,
+  syncPendingAgreementStatuses,
+} from '@/lib/agreements/service';
 
 export const dynamic = 'force-dynamic';
 
 export default async function AgreementsPage() {
   await requireAdminPageSession();
   await syncPendingAgreementStatuses();
+  await recoverFailedInternalAgreementCompletions();
   const agreements = await listAgreements();
 
   return (

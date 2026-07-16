@@ -5,7 +5,7 @@ import StatusBadge from '@/components/admin/StatusBadge';
 import { requireAdminPageSession } from '@/lib/admin/auth/require-admin';
 import connectDB from '@/utils/db';
 import Agreement from '@/models/Agreement';
-import { syncPendingAgreementStatuses } from '@/lib/agreements/service';
+import { recoverFailedInternalAgreementCompletions, syncPendingAgreementStatuses } from '@/lib/agreements/service';
 import { serializeAgreement } from '@/lib/agreements/serialize';
 
 export const dynamic = 'force-dynamic';
@@ -13,6 +13,7 @@ export const dynamic = 'force-dynamic';
 export default async function AdminDashboardPage() {
   await requireAdminPageSession();
   await syncPendingAgreementStatuses();
+  await recoverFailedInternalAgreementCompletions();
   await connectDB();
 
   const [totalAgreements, sent, completed, pendingDocs, latestAgreements] = await Promise.all([
