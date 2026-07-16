@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { requireAdminApiSession } from '@/lib/admin/auth/require-admin';
 import { createDocuSignEnvelope } from '@/lib/docusign/client';
+import { resolveEsignProvider } from '@/lib/agreements/provider';
 import {
   getAgreementById,
   getAgreementDocumentById,
@@ -31,8 +32,24 @@ export async function POST(request, { params }) {
 
   const agreement = await getAgreementById(agreementId);
   const pdfBuffer = await getAgreementPdfBuffer(agreement, 'generated');
-  
-  const useDocuSign = process.env.ESIGN_PROVIDER === 'docusign';
+
+  const hostname = new URL(request.url).hostname;
+  const selectedProvider = resolveEsignProvider({
+    configuredProvider: process.env.ESIGN_PROVIDER,
+    hostname,
+  });
+  const useDocuSign = selectedProvider === 'docusign';
+
+  console.info(
+    '[agreement-send]',
+    JSON.stringify({
+      deploymentEnvironment: process.env.VERCEL_ENV || process.env.NODE_ENV || 'unknown',
+      selectedProvider,
+      agreementId,
+      routeBranch: useDocuSign ? 'docusign' : 'internal',
+      hostname,
+    })
+  );
 
   if (useDocuSign) {
     try {
