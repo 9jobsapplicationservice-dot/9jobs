@@ -4,6 +4,20 @@ const FIXED_PROVIDER = {
   phone: '+61 422 279 428',
 };
 
+function formatInitialTerm(value) {
+  const normalized = String(value || '').trim();
+
+  if (!normalized) {
+    return '1 week';
+  }
+
+  if (/\bweek(s)?\b/i.test(normalized)) {
+    return normalized;
+  }
+
+  return `${normalized} ${normalized === '1' ? 'week' : 'weeks'}`;
+}
+
 function createSection(heading, paragraphs, intro = null) {
   return {
     heading,
@@ -32,7 +46,7 @@ export function buildAgreementTemplate(input) {
     ),
     createSection('2. Payment Terms', [
       `The Customer agrees to pay the Service Provider a fee of ${input.servicePrice || '$150 (AUD)'} in advance for the services.`,
-      `If the Customer wishes to continue receiving services after the initial ${input.initialTerm || '1 week'}, the fee will be ${input.servicePrice || '$150 (AUD)'} per week, payable in advance.`,
+      `If the Customer wishes to continue receiving services after ${formatInitialTerm(input.initialTerm)}, the fee will be ${input.servicePrice || '$150 (AUD)'} per week, payable in advance.`,
       `Payments must be made using the agreed payment method between the Customer and the Service Provider. Payments are due every ${input.paymentDay || 'Monday'} before services commence for that week. Services will not be provided unless payment is received in advance.`,
     ]),
     createSection('3. Payment Schedule, Cost Structure and Service Oversight', [

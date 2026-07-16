@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, startTransition } from 'react';
+import { startTransition, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { useToast } from '@/components/admin/ToastProvider';
 
-export default function AgreementActions({ agreementId, hasGeneratedPdf, hasSignedPdf, isCompleted }) {
+export default function InvoiceActions({ invoiceId, hasGeneratedPdf }) {
   const router = useRouter();
   const { pushToast } = useToast();
   const [pendingAction, setPendingAction] = useState('');
@@ -20,12 +20,12 @@ export default function AgreementActions({ agreementId, hasGeneratedPdf, hasSign
       const data = await response.json();
 
       if (!response.ok) {
-        pushToast({ title: data.error || `Unable to ${action}.`, tone: 'error' });
+        pushToast({ title: data.error || `Unable to ${action} invoice.`, tone: 'error' });
         return;
       }
 
       pushToast({
-        title: action === 'generate' ? 'Agreement preview generated.' : 'Agreement sent.',
+        title: action === 'generate' ? 'Invoice preview generated.' : 'Invoice sent by email.',
         tone: 'success',
       });
       startTransition(() => {
@@ -41,37 +41,19 @@ export default function AgreementActions({ agreementId, hasGeneratedPdf, hasSign
       <button
         className="admin-primary-button"
         disabled={pendingAction === 'generate'}
-        onClick={() => runAction('generate', `/api/agreements/${agreementId}/generate-pdf`)}
+        onClick={() => runAction('generate', `/api/invoices/${invoiceId}/generate-pdf`)}
         type="button"
       >
         {pendingAction === 'generate' ? 'Generating...' : hasGeneratedPdf ? 'Regenerate Preview' : 'Generate Preview'}
       </button>
-
       <button
         className="admin-dark-button"
         disabled={pendingAction === 'send'}
-        onClick={() => runAction('send', `/api/docusign/send/${agreementId}`)}
+        onClick={() => runAction('send', `/api/invoices/send/${invoiceId}`)}
         type="button"
       >
-        {pendingAction === 'send' ? 'Sending...' : 'Send Agreement'}
+        {pendingAction === 'send' ? 'Sending...' : 'Send Invoice'}
       </button>
-
-      {hasSignedPdf ? (
-        <a className="admin-ghost-button admin-ghost-button--link" href={`/api/docusign/download/${agreementId}`}>
-          Download Signed PDF
-        </a>
-      ) : null}
-
-      {isCompleted && hasSignedPdf ? (
-        <a
-          className="admin-ghost-button admin-ghost-button--link"
-          href={`/api/agreements/${agreementId}/preview-pdf?variant=signed`}
-          rel="noreferrer"
-          target="_blank"
-        >
-          View Signed PDF
-        </a>
-      ) : null}
     </div>
   );
 }

@@ -47,14 +47,14 @@ export async function sealAgreementPdf(originalPdfBuffer, agreement) {
     const clientImage = await pdfDoc.embedPng(clientSigBuffer);
     clientPage.drawImage(clientImage, {
       x: clientCoords.x,
-      y: clientCoords.y + 5,
+      y: clientCoords.y - 8,
       width: 140,
       height: 40,
     });
   } else if (agreement.clientSignature.signatureType === 'typed') {
     clientPage.drawText(agreement.clientSignature.name, {
       x: clientCoords.x,
-      y: clientCoords.y + 10,
+      y: clientCoords.y - 2,
       font: timesItalic,
       size: 16,
       color: rgb(0.06, 0.09, 0.16),
@@ -71,14 +71,14 @@ export async function sealAgreementPdf(originalPdfBuffer, agreement) {
     const providerImage = await pdfDoc.embedPng(providerSigBuffer);
     providerPage.drawImage(providerImage, {
       x: providerCoords.x,
-      y: providerCoords.y + 5,
+      y: providerCoords.y - 8,
       width: 140,
       height: 40,
     });
   } else if (agreement.providerSignature.signatureType === 'typed') {
     providerPage.drawText(agreement.providerSignature.name, {
       x: providerCoords.x,
-      y: providerCoords.y + 10,
+      y: providerCoords.y - 2,
       font: timesItalic,
       size: 16,
       color: rgb(0.06, 0.09, 0.16),
