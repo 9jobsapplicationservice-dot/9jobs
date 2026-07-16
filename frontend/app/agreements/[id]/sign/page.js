@@ -33,7 +33,10 @@ export default function SignAgreementPage() {
   // Canvas Ref
   const canvasRef = useRef(null);
   const typedCanvasRef = useRef(null);
+  const lastDrawPointRef = useRef(null);
+  const lastDrawTimeRef = useRef(0);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [hasDrawnSignature, setHasDrawnSignature] = useState(false);
 
   // Fetch Initial Token Verification Context
   useEffect(() => {
@@ -134,7 +137,7 @@ export default function SignAgreementPage() {
     ctx.scale(2, 2);
 
     ctx.strokeStyle = '#0f172a';
-    ctx.lineWidth = 2.5;
+    ctx.lineWidth = 2.2;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
   }, [isOtpVerified, signatureType, submissionState]);
@@ -163,6 +166,8 @@ export default function SignAgreementPage() {
 
     ctx.beginPath();
     ctx.moveTo(point.x, point.y);
+    lastDrawPointRef.current = point;
+    lastDrawTimeRef.current = Date.now();
     setIsDrawing(true);
   };
 
@@ -173,8 +178,21 @@ export default function SignAgreementPage() {
     const point = getCanvasPoint(e);
     if (!point) return;
 
-    ctx.lineTo(point.x, point.y);
+    const previousPoint = lastDrawPointRef.current || point;
+    const now = Date.now();
+    const distance = Math.hypot(point.x - previousPoint.x, point.y - previousPoint.y);
+    const elapsed = Math.max(now - (lastDrawTimeRef.current || now), 1);
+    const speed = distance / elapsed;
+    const nextWidth = Math.max(1.6, Math.min(3.2, 3.1 - speed * 0.18));
+    const midX = (previousPoint.x + point.x) / 2;
+    const midY = (previousPoint.y + point.y) / 2;
+
+    ctx.lineWidth = nextWidth;
+    ctx.quadraticCurveTo(previousPoint.x, previousPoint.y, midX, midY);
     ctx.stroke();
+    lastDrawPointRef.current = point;
+    lastDrawTimeRef.current = now;
+    setHasDrawnSignature(true);
   };
 
   const stopDrawing = (e) => {
@@ -183,6 +201,7 @@ export default function SignAgreementPage() {
         canvasRef.current.releasePointerCapture(e.pointerId);
       } catch {}
     }
+    lastDrawPointRef.current = null;
     setIsDrawing(false);
   };
 
@@ -191,6 +210,8 @@ export default function SignAgreementPage() {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    lastDrawPointRef.current = null;
+    setHasDrawnSignature(false);
   };
 
   const buildTypedSignatureImage = async (name) => {
@@ -318,6 +339,11 @@ export default function SignAgreementPage() {
 
     if (signatureType === 'drawn') {
       if (!canvasRef.current) return;
+      if (!hasDrawnSignature) {
+        alert('Please draw your signature first using the pencil area.');
+        setSubmittingSign(false);
+        return;
+      }
       const canvas = canvasRef.current;
       signatureImage = canvas.toDataURL('image/png');
     } else {
@@ -538,6 +564,7 @@ export default function SignAgreementPage() {
               <label style={styles.inputLabel}>Draw Signature on Canvas</label>
               <p style={styles.signatureHint}>Use your mouse, finger, or stylus here to sign naturally like a pen.</p>
               <div style={styles.canvasContainer}>
+                <div style={styles.canvasPencilBadge} aria-hidden="true">✎</div>
                 <canvas
                   ref={canvasRef}
                   onPointerDown={startDrawing}
@@ -863,13 +890,23 @@ const styles = {
     borderRadius: '8px',
     overflow: 'hidden',
     border: '2px dashed #334155',
+    position: 'relative',
   },
   canvas: {
     width: '100%',
     height: '100%',
-    cursor: 'crosshair',
+    cursor: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M6 22l4-1 10-10-3-3L7 18l-1 4z' fill='%23111827'/%3E%3Cpath d='M17 7l3 3' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") 4 24, crosshair`,
     backgroundColor: '#ffffff',
     touchAction: 'none',
+  },
+  canvasPencilBadge: {
+    position: 'absolute',
+    top: '10px',
+    right: '12px',
+    color: '#475569',
+    fontSize: '16px',
+    pointerEvents: 'none',
+    opacity: 0.9,
   },
   signatureHint: {
     color: '#cbd5e1',

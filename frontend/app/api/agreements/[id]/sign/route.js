@@ -246,11 +246,6 @@ export async function POST(request, { params }) {
   if (action === 'submit_signature') {
     const { signatureType, signatureName, signatureImage, consentAccepted } = body;
 
-    // Rate Limiting signature submissions (max 3 per hour per token)
-    if (await isRateLimited(`token:${tokenHash}:submit-signature`, 3, 60 * 60 * 1000)) {
-      return NextResponse.json({ error: 'Too many submission retries. Please wait.' }, { status: 429 });
-    }
-
     // 1. Validate Consent Checkbox
     if (!consentAccepted) {
       return NextResponse.json({ error: 'Consent is mandatory: You must agree to use electronic signature.' }, { status: 400 });
@@ -260,6 +255,11 @@ export async function POST(request, { params }) {
     const otpVerifiedAt = isClient ? agreement.clientOtpVerifiedAt : agreement.providerOtpVerifiedAt;
     if (!otpVerifiedAt) {
       return NextResponse.json({ error: 'Access denied: Verification code must be validated first.' }, { status: 403 });
+    }
+
+    // Rate limit only real submission attempts after the basic validation passes.
+    if (await isRateLimited(`token:${tokenHash}:submit-signature`, 3, 60 * 60 * 1000)) {
+      return NextResponse.json({ error: 'Too many submission retries. Please wait.' }, { status: 429 });
     }
 
     let signatureFileKey = '';
