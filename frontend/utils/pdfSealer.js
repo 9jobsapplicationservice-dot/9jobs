@@ -45,11 +45,12 @@ export async function sealAgreementPdf(originalPdfBuffer, agreement) {
     const { fetchBlobBufferByKey } = require('@/lib/storage/blob');
     const clientSigBuffer = await fetchBlobBufferByKey(agreement.clientSignature.signatureFileKey);
     const clientImage = await pdfDoc.embedPng(clientSigBuffer);
+    const isTypedClient = agreement.clientSignature.signatureType === 'typed';
     clientPage.drawImage(clientImage, {
       x: clientCoords.x,
-      y: clientCoords.y - 8,
-      width: 140,
-      height: 40,
+      y: isTypedClient ? clientCoords.y + 2 : clientCoords.y - 4,
+      width: isTypedClient ? 128 : 140,
+      height: isTypedClient ? 28 : 36,
     });
   } else if (agreement.clientSignature.signatureType === 'typed') {
     clientPage.drawText(agreement.clientSignature.name, {
@@ -69,11 +70,12 @@ export async function sealAgreementPdf(originalPdfBuffer, agreement) {
     const { fetchBlobBufferByKey } = require('@/lib/storage/blob');
     const providerSigBuffer = await fetchBlobBufferByKey(agreement.providerSignature.signatureFileKey);
     const providerImage = await pdfDoc.embedPng(providerSigBuffer);
+    const isTypedProvider = agreement.providerSignature.signatureType === 'typed';
     providerPage.drawImage(providerImage, {
       x: providerCoords.x,
-      y: providerCoords.y - 8,
-      width: 140,
-      height: 40,
+      y: isTypedProvider ? providerCoords.y + 2 : providerCoords.y - 4,
+      width: isTypedProvider ? 128 : 140,
+      height: isTypedProvider ? 28 : 36,
     });
   } else if (agreement.providerSignature.signatureType === 'typed') {
     providerPage.drawText(agreement.providerSignature.name, {

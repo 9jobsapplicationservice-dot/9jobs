@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useParams } from 'next/navigation';
 
-const SIGNATURE_FONT_STACK = '"Snell Roundhand", "Segoe Script", "Brush Script MT", "Lucida Handwriting", cursive';
+const SIGNATURE_FONT_STACK = '"Segoe Script", "Snell Roundhand", "Brush Script MT", "Lucida Handwriting", cursive';
 const MAX_SIGNATURE_EXPORT_WIDTH = 560;
 const MAX_SIGNATURE_EXPORT_HEIGHT = 180;
 
@@ -271,20 +271,9 @@ export default function SignAgreementPage() {
     const baselineY = Math.round((height + ascent - descent) / 2);
 
     ctx.save();
-    ctx.translate(startX - 6, baselineY + 2);
-    ctx.transform(1, 0, -0.14, 1, 0, 0);
-    ctx.fillStyle = 'rgba(15, 23, 42, 0.18)';
-    ctx.fillText(trimmedName, 8, 6);
-    ctx.restore();
-
-    ctx.save();
     ctx.translate(startX, baselineY);
-    ctx.transform(1, 0, -0.14, 1, 0, 0);
-    const gradient = ctx.createLinearGradient(0, -ascent, textWidth, descent);
-    gradient.addColorStop(0, '#0f172a');
-    gradient.addColorStop(0.55, '#111827');
-    gradient.addColorStop(1, '#1e293b');
-    ctx.fillStyle = gradient;
+    ctx.transform(1, 0, -0.1, 1, 0, 0);
+    ctx.fillStyle = '#111827';
     ctx.fillText(trimmedName, 0, 0);
     ctx.restore();
 
@@ -312,7 +301,7 @@ export default function SignAgreementPage() {
       return '';
     }
 
-    const cropPadding = 10;
+    const cropPadding = 4;
     const cropX = Math.max(minX - cropPadding, 0);
     const cropY = Math.max(minY - cropPadding, 0);
     const cropWidth = Math.min(maxX - minX + cropPadding * 2 + 1, width - cropX);
