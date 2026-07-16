@@ -1,66 +1,144 @@
-import crypto from 'node:crypto';
+import mongoose from 'mongoose';
 
-import { put } from '@vercel/blob';
+import connectDB from '@/utils/db';
 
-function ensureBlobConfig() {
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    throw new Error('BLOB_READ_WRITE_TOKEN is required for private PDF storage.');
-  }
+const STORAGE_BUCKET_NAME = 'agreementFiles';
+const GRIDFS_PROTOCOL = 'gridfs://';
+
+function normalizeStorageKey(folder, fileName) {
+  const safeFolder = String(folder || '').replace(/^\/+|\/+$/g, '');
+  return safeFolder ? `${safeFolder}/${fileName}` : fileName;
 }
 
-export async function uploadPrivatePdf({ folder, fileName, buffer }) {
-  ensureBlobConfig();
+function toGridFsUrl(key) {
+  return `${GRIDFS_PROTOCOL}${encodeURIComponent(key)}`;
+}
 
-  const safeFolder = folder.replace(/^\/+|\/+$/g, '');
-  const blobPath = `${safeFolder}/${crypto.randomUUID()}-${fileName}`;
-  const result = await put(blobPath, buffer, {
-    access: 'private',
-    addRandomSuffix: false,
-    contentType: 'application/pdf',
-    cacheControlMaxAge: 0,
+function extractGridFsKey(url) {
+  if (!url?.startsWith(GRIDFS_PROTOCOL)) {
+    return '';
+  }
+
+  return decodeURIComponent(url.slice(GRIDFS_PROTOCOL.length));
+}
+
+async function getBucket() {
+  await connectDB();
+
+  const db = mongoose.connection?.db;
+  if (!db) {
+    throw new Error('MongoDB connection is required for GridFS storage.');
+  }
+
+  return new mongoose.mongo.GridFSBucket(db, {
+    bucketName: STORAGE_BUCKET_NAME,
   });
+}
 
-  return {
-    url: result.url,
-    path: blobPath,
-  };
+async function getFilesCollection() {
+  await connectDB();
+
+  const db = mongoose.connection?.db;
+  if (!db) {
+    throw new Error('MongoDB connection is required for GridFS storage.');
+  }
+
+  return db.collection(`${STORAGE_BUCKET_NAME}.files`);
+}
+
+async function getFileRecordByKey(key) {
+  const files = await getFilesCollection();
+  return files.findOne({ filename: key }, { sort: { uploadDate: -1 } });
+}
+
+async function bufferFromStream(stream) {
+  const chunks = [];
+  for await (const chunk of stream) {
+    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+  }
+  return Buffer.concat(chunks);
+}
+
+export async function uploadPrivatePdf({ folder, fileName, buffer, contentType = 'application/pdf', metadata = {} }) {
+  const path = normalizeStorageKey(folder, fileName);
+  await deleteStoredFileByKey(path).catch(() => {});
+  const bucket = await getBucket();
+
+  return new Promise((resolve, reject) => {
+    const uploadStream = bucket.openUploadStream(path, {
+      contentType,
+      metadata,
+    });
+
+    uploadStream.on('error', reject);
+    uploadStream.on('finish', () => {
+      resolve({
+        url: toGridFsUrl(path),
+        path,
+        id: String(uploadStream.id),
+      });
+    });
+
+    uploadStream.end(buffer);
+  });
 }
 
 export async function fetchBlobBuffer(url) {
+  const gridFsKey = extractGridFsKey(url);
+  if (gridFsKey) {
+    return fetchBlobBufferByKey(gridFsKey);
+  }
+
   const response = await fetch(url, {
     cache: 'no-store',
   });
 
   if (!response.ok) {
-    throw new Error(`Unable to fetch blob asset (${response.status}).`);
+    throw new Error(`Unable to fetch stored asset (${response.status}).`);
   }
 
   return Buffer.from(await response.arrayBuffer());
 }
 
-/**
- * Resolves a private Vercel Blob URL dynamically by storage key/pathname
- * and downloads its content into a Buffer.
- * 
- * @param {string} key The Vercel Blob pathname / storage key
- * @returns {Promise<Buffer>}
- */
 export async function fetchBlobBufferByKey(key) {
-  ensureBlobConfig();
-  
   if (!key) {
-    throw new Error('Storage key is required to retrieve blob buffer.');
+    throw new Error('Storage key is required to retrieve stored content.');
   }
 
-  const { list } = require('@vercel/blob');
-  const { blobs } = await list({ prefix: key });
-  
-  if (!blobs || blobs.length === 0) {
-    throw new Error(`Private blob asset not found for key: ${key}`);
+  const { stream } = await openDownloadStreamByKey(key);
+  return bufferFromStream(stream);
+}
+
+export async function openDownloadStreamByKey(key) {
+  if (!key) {
+    throw new Error('Storage key is required to open a download stream.');
   }
 
-  // Find exact match or first matching blob
-  const targetBlob = blobs.find(b => b.pathname === key) || blobs[0];
-  return fetchBlobBuffer(targetBlob.url);
+  const bucket = await getBucket();
+  const file = await getFileRecordByKey(key);
+  if (!file) {
+    throw new Error(`Stored asset not found for key: ${key}`);
+  }
+
+  return {
+    file,
+    stream: bucket.openDownloadStream(file._id),
+  };
+}
+
+export async function deleteStoredFileByKey(key) {
+  if (!key) {
+    return 0;
+  }
+
+  const bucket = await getBucket();
+  const files = await getFilesCollection();
+  const matches = await files.find({ filename: key }).toArray();
+
+  for (const file of matches) {
+    await bucket.delete(file._id);
+  }
+
+  return matches.length;
 }
 

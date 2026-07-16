@@ -24,19 +24,16 @@ jest.doMock('@/lib/agreements/email', () => ({
   sendAgreementCompletedEmail: mockSendAgreementCompletedEmail
 }));
 
-jest.doMock('@vercel/blob', () => ({
-  put: jest.fn().mockResolvedValue({ url: 'https://storage/signed.pdf' }),
-  del: jest.fn().mockResolvedValue(true)
-}));
-
 const mockUploadPrivatePdf = jest.fn().mockResolvedValue({ url: 'https://storage/signed.pdf', path: 'signed.pdf' });
 const mockFetchBlobBuffer = jest.fn().mockResolvedValue(Buffer.from('%PDF-1.4 test buffer'));
 const mockFetchBlobBufferByKey = jest.fn().mockResolvedValue(Buffer.from('%PDF-1.4 test buffer'));
+const mockDeleteStoredFileByKey = jest.fn().mockResolvedValue(1);
 
 jest.doMock('@/lib/storage/blob', () => ({
   uploadPrivatePdf: mockUploadPrivatePdf,
   fetchBlobBuffer: mockFetchBlobBuffer,
-  fetchBlobBufferByKey: mockFetchBlobBufferByKey
+  fetchBlobBufferByKey: mockFetchBlobBufferByKey,
+  deleteStoredFileByKey: mockDeleteStoredFileByKey
 }));
 
 jest.doMock('@/utils/pdfSealer', () => ({

@@ -1,7 +1,5 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { parsePdfSignatureCoords } from './pdfCoords.js';
-import { fetchBlobBuffer } from '@/lib/storage/blob';
-import { del } from '@vercel/blob';
 
 /**
  * Formats a date to "DD MMM YYYY" format in UTC.

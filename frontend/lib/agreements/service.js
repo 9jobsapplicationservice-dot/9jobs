@@ -2,7 +2,7 @@ import connectDB from '@/utils/db';
 import Agreement from '@/models/Agreement';
 import { generateAgreementPdfBuffer } from '@/lib/agreements/pdf';
 import { serializeAgreement } from '@/lib/agreements/serialize';
-import { uploadPrivatePdf, fetchBlobBuffer } from '@/lib/storage/blob';
+import { uploadPrivatePdf, fetchBlobBuffer, fetchBlobBufferByKey } from '@/lib/storage/blob';
 import {
   downloadCompletedEnvelopePdf,
   getDocuSignEnvelopeStatus,
@@ -133,31 +133,15 @@ export async function generateAndStoreAgreementPdf(agreementDocument) {
     _id: String(agreementDocument._id),
   });
 
-  let generatedPdfUrl = '';
-  let generatedPdfPath = '';
+  const upload = await uploadPrivatePdf({
+    folder: `agreements/${agreementDocument._id}`,
+    fileName: 'generated-agreement.pdf',
+    buffer,
+    contentType: 'application/pdf',
+  });
 
-  try {
-    if (process.env.BLOB_READ_WRITE_TOKEN) {
-      const upload = await uploadPrivatePdf({
-        folder: `agreements/${agreementDocument._id}`,
-        fileName: 'generated-agreement.pdf',
-        buffer,
-      });
-      generatedPdfUrl = upload.url;
-      generatedPdfPath = upload.path;
-    } else {
-      // Fallback: store as data URL directly in database
-      generatedPdfUrl = `data:application/pdf;base64,${buffer.toString('base64')}`;
-      generatedPdfPath = `db://agreements/${agreementDocument._id}/generated-agreement.pdf`;
-    }
-  } catch (error) {
-    console.error('Failed to upload generated PDF, falling back to db storage:', error);
-    generatedPdfUrl = `data:application/pdf;base64,${buffer.toString('base64')}`;
-    generatedPdfPath = `db://agreements/${agreementDocument._id}/generated-agreement.pdf`;
-  }
-
-  agreementDocument.generatedPdfUrl = generatedPdfUrl;
-  agreementDocument.generatedPdfPath = generatedPdfPath;
+  agreementDocument.generatedPdfUrl = upload.url;
+  agreementDocument.generatedPdfPath = upload.path;
   agreementDocument.status = agreementDocument.status === 'draft' ? 'previewed' : agreementDocument.status;
   await agreementDocument.save();
 
@@ -168,8 +152,6 @@ export async function generateAndStoreAgreementPdf(agreementDocument) {
 }
 
 export async function getAgreementPdfBuffer(agreement, variant = 'generated') {
-  const { fetchBlobBufferByKey } = require('@/lib/storage/blob');
-
   if (variant === 'signed') {
     if (agreement.signedPdfStorageKey) {
       return fetchBlobBufferByKey(agreement.signedPdfStorageKey);
@@ -208,31 +190,16 @@ export async function getAgreementPdfBuffer(agreement, variant = 'generated') {
 
 export async function attachSignedAgreementPdf(agreementDocument) {
   const signedBuffer = await downloadCompletedEnvelopePdf(agreementDocument.docuSignEnvelopeId);
-  
-  let signedPdfUrl = '';
-  let signedPdfPath = '';
 
-  try {
-    if (process.env.BLOB_READ_WRITE_TOKEN) {
-      const upload = await uploadPrivatePdf({
-        folder: `agreements/${agreementDocument._id}`,
-        fileName: 'signed-agreement.pdf',
-        buffer: signedBuffer,
-      });
-      signedPdfUrl = upload.url;
-      signedPdfPath = upload.path;
-    } else {
-      signedPdfUrl = `data:application/pdf;base64,${signedBuffer.toString('base64')}`;
-      signedPdfPath = `db://agreements/${agreementDocument._id}/signed-agreement.pdf`;
-    }
-  } catch (error) {
-    console.error('Failed to upload signed PDF, falling back to db storage:', error);
-    signedPdfUrl = `data:application/pdf;base64,${signedBuffer.toString('base64')}`;
-    signedPdfPath = `db://agreements/${agreementDocument._id}/signed-agreement.pdf`;
-  }
+  const upload = await uploadPrivatePdf({
+    folder: `agreements/${agreementDocument._id}`,
+    fileName: 'signed-agreement.pdf',
+    buffer: signedBuffer,
+    contentType: 'application/pdf',
+  });
 
-  agreementDocument.signedPdfUrl = signedPdfUrl;
-  agreementDocument.signedPdfPath = signedPdfPath;
+  agreementDocument.signedPdfUrl = upload.url;
+  agreementDocument.signedPdfPath = upload.path;
   agreementDocument.signedAt = new Date();
   await agreementDocument.save();
 

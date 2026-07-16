@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
+import { Readable } from 'node:stream';
 import connectDB from '@/utils/db';
 import Agreement from '@/models/Agreement';
 import { hashToken, constantTimeCompare } from '@/utils/cryptoUtils';
-import { fetchBlobBufferByKey } from '@/lib/storage/blob';
+import { openDownloadStreamByKey } from '@/lib/storage/blob';
 import { isRateLimited } from '@/utils/rateLimiter';
 
 export const dynamic = 'force-dynamic';
@@ -70,9 +71,17 @@ export async function GET(request, { params }) {
     });
   }
 
-  let pdfBuffer;
   try {
-    pdfBuffer = await fetchBlobBufferByKey(agreement.signedPdfStorageKey);
+    const { stream } = await openDownloadStreamByKey(agreement.signedPdfStorageKey);
+    return new NextResponse(Readable.toWeb(stream), {
+      status: 200,
+      headers: {
+        'content-type': 'application/pdf',
+        'content-disposition': `attachment; filename="9jobs-completed-agreement-${id}.pdf"`,
+        'cache-control': 'private, no-store, no-cache, must-revalidate',
+        'x-robots-tag': 'noindex, nofollow',
+      },
+    });
   } catch (err) {
     console.error('Failed to download completed PDF:', err);
     return new NextResponse(JSON.stringify({ error: 'Failed to retrieve completed document from storage.' }), {
@@ -81,14 +90,4 @@ export async function GET(request, { params }) {
     });
   }
 
-  // 6. Return Secure Stream
-  return new NextResponse(pdfBuffer, {
-    status: 200,
-    headers: {
-      'content-type': 'application/pdf',
-      'content-disposition': `attachment; filename="9jobs-completed-agreement-${id}.pdf"`,
-      'cache-control': 'private, no-store, no-cache, must-revalidate',
-      'x-robots-tag': 'noindex, nofollow',
-    },
-  });
 }

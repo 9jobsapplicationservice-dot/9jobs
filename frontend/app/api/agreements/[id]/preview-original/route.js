@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
+import { Readable } from 'node:stream';
 import connectDB from '@/utils/db';
 import Agreement from '@/models/Agreement';
 import { hashToken, constantTimeCompare } from '@/utils/cryptoUtils';
-import { fetchBlobBuffer } from '@/lib/storage/blob';
+import { fetchBlobBuffer, fetchBlobBufferByKey, openDownloadStreamByKey } from '@/lib/storage/blob';
 import { isRateLimited } from '@/utils/rateLimiter';
 
 export const dynamic = 'force-dynamic';
@@ -85,26 +86,57 @@ export async function GET(request, { params }) {
   }
 
   // 5. Fetch Original PDF Buffer
-  let pdfBuffer;
   try {
-    const { fetchBlobBufferByKey } = require('@/lib/storage/blob');
     if (agreement.originalPdfStorageKey) {
-      pdfBuffer = await fetchBlobBufferByKey(agreement.originalPdfStorageKey);
-    } else {
-      const url = agreement.originalPdfUrl || agreement.generatedPdfUrl;
-      if (!url) {
-        return new NextResponse(JSON.stringify({ error: 'Original PDF is not available.' }), {
-          status: 404,
-          headers: { 'content-type': 'application/json' }
-        });
-      }
-      if (url.startsWith('data:application/pdf;base64,')) {
-        const base64Data = url.substring(url.indexOf(',') + 1);
-        pdfBuffer = Buffer.from(base64Data, 'base64');
-      } else {
-        pdfBuffer = await fetchBlobBuffer(url);
-      }
+      const { stream } = await openDownloadStreamByKey(agreement.originalPdfStorageKey);
+      return new NextResponse(Readable.toWeb(stream), {
+        status: 200,
+        headers: {
+          'content-type': 'application/pdf',
+          'cache-control': 'private, no-store, no-cache, must-revalidate',
+          'x-robots-tag': 'noindex, nofollow, nosnippet',
+        },
+      });
     }
+
+    const fallbackKey = agreement.generatedPdfPath;
+    if (fallbackKey) {
+      const { stream } = await openDownloadStreamByKey(fallbackKey);
+      return new NextResponse(Readable.toWeb(stream), {
+        status: 200,
+        headers: {
+          'content-type': 'application/pdf',
+          'cache-control': 'private, no-store, no-cache, must-revalidate',
+          'x-robots-tag': 'noindex, nofollow, nosnippet',
+        },
+      });
+    }
+
+    const url = agreement.originalPdfUrl || agreement.generatedPdfUrl;
+    if (!url) {
+      return new NextResponse(JSON.stringify({ error: 'Original PDF is not available.' }), {
+        status: 404,
+        headers: { 'content-type': 'application/json' }
+      });
+    }
+    let pdfBuffer;
+    if (url.startsWith('data:application/pdf;base64,')) {
+      const base64Data = url.substring(url.indexOf(',') + 1);
+      pdfBuffer = Buffer.from(base64Data, 'base64');
+    } else if (url.startsWith('gridfs://')) {
+      pdfBuffer = await fetchBlobBuffer(url);
+    } else {
+      pdfBuffer = await fetchBlobBuffer(url);
+    }
+
+    return new NextResponse(pdfBuffer, {
+      status: 200,
+      headers: {
+        'content-type': 'application/pdf',
+        'cache-control': 'private, no-store, no-cache, must-revalidate',
+        'x-robots-tag': 'noindex, nofollow, nosnippet',
+      },
+    });
   } catch (err) {
     console.error('Failed to fetch original PDF:', err);
     return new NextResponse(JSON.stringify({ error: 'Failed to retrieve original PDF file from storage.' }), {
@@ -113,13 +145,4 @@ export async function GET(request, { params }) {
     });
   }
 
-  // 6. Return Secure Stream
-  return new NextResponse(pdfBuffer, {
-    status: 200,
-    headers: {
-      'content-type': 'application/pdf',
-      'cache-control': 'private, no-store, no-cache, must-revalidate',
-      'x-robots-tag': 'noindex, nofollow, nosnippet',
-    },
-  });
 }

@@ -6,6 +6,10 @@ const hasDocuSignRuntimeConfig = jest.fn();
 
 async function loadAgreementService() {
   jest.resetModules();
+  const mockUploadPrivatePdf = jest.fn().mockResolvedValue({
+    url: 'gridfs://agreements/agreement-1/signed-agreement.pdf',
+    path: 'agreements/agreement-1/signed-agreement.pdf',
+  });
   jest.doMock('@/utils/db', () => ({
     __esModule: true,
     default: jest.fn().mockResolvedValue({}),
@@ -15,8 +19,9 @@ async function loadAgreementService() {
     default: {},
   }));
   jest.doMock('@/lib/storage/blob', () => ({
-    uploadPrivatePdf: jest.fn(),
+    uploadPrivatePdf: mockUploadPrivatePdf,
     fetchBlobBuffer: jest.fn(),
+    fetchBlobBufferByKey: jest.fn(),
   }));
   jest.doMock('@/lib/agreements/pdf', () => ({
     generateAgreementPdfBuffer: jest.fn(),
@@ -74,7 +79,7 @@ describe('agreement DocuSign status sync', () => {
     expect(getDocuSignEnvelopeStatus).toHaveBeenCalledWith('env-123');
     expect(downloadCompletedEnvelopePdf).toHaveBeenCalledWith('env-123');
     expect(agreementDocument.status).toBe('completed');
-    expect(agreementDocument.signedPdfUrl).toContain('data:application/pdf;base64,');
+    expect(agreementDocument.signedPdfUrl).toBe('gridfs://agreements/agreement-1/signed-agreement.pdf');
     expect(result.status).toBe('completed');
   });
 });

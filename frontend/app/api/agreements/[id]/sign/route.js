@@ -12,7 +12,7 @@ import {
 } from '@/utils/cryptoUtils';
 import { sanitizeAndReencodePng } from '@/utils/pngUtils';
 import { isRateLimited } from '@/utils/rateLimiter';
-import { uploadPrivatePdf, fetchBlobBuffer } from '@/lib/storage/blob';
+import { uploadPrivatePdf, fetchBlobBuffer, fetchBlobBufferByKey, deleteStoredFileByKey } from '@/lib/storage/blob';
 import { 
   sendOtpEmail, 
   sendClientSigningInvite, 
@@ -279,6 +279,7 @@ export async function POST(request, { params }) {
           folder: `signatures/${agreement._id}`,
           fileName: `temp-${isClient ? 'client' : 'provider'}-sig.png`,
           buffer: sanitizedImageBuffer,
+          contentType: 'image/png',
         });
         signatureFileKey = upload.path; // Stored securely as path key
       } catch (err) {
@@ -415,8 +416,6 @@ async function executeFinalSealing(agreement) {
   }
 
   try {
-    const { fetchBlobBufferByKey } = require('@/lib/storage/blob');
-
     // 2. Fetch Original PDF Buffer using storage keys first
     const originalKey = lockedAgreement.originalPdfStorageKey || lockedAgreement.generatedPdfPath;
     let originalBuffer;
@@ -451,9 +450,10 @@ async function executeFinalSealing(agreement) {
       folder: `agreements/${lockedAgreement._id}`,
       fileName: 'signed-agreement.pdf',
       buffer: sealedPdfBuffer,
+      contentType: 'application/pdf',
     });
 
-    lockedAgreement.signedPdfUrl = ''; // Leave blank for internal agreements to avoid public exposure
+    lockedAgreement.signedPdfUrl = uploadResult.url;
     lockedAgreement.signedPdfStorageKey = uploadResult.path;
     lockedAgreement.signedPdfSha256 = signedPdfSha256;
 
@@ -463,9 +463,10 @@ async function executeFinalSealing(agreement) {
       folder: `agreements/${lockedAgreement._id}`,
       fileName: 'audit-trail.json',
       buffer: auditBuffer,
+      contentType: 'application/json',
     });
 
-    lockedAgreement.auditTrailUrl = '';
+    lockedAgreement.auditTrailUrl = auditUploadResult.url;
     lockedAgreement.auditTrailStorageKey = auditUploadResult.path;
     lockedAgreement.auditTrailSha256 = auditHash;
 
@@ -493,13 +494,9 @@ async function executeFinalSealing(agreement) {
     }
 
     if (keysToDelete.length > 0) {
-      const { list, del } = require('@vercel/blob');
       for (const key of keysToDelete) {
         try {
-          const { blobs } = await list({ prefix: key });
-          if (blobs && blobs.length > 0) {
-            await del(blobs[0].url);
-          }
+          await deleteStoredFileByKey(key);
         } catch (cleanupErr) {
           console.error(`Failed to clean up temporary signature key ${key}:`, cleanupErr);
         }
