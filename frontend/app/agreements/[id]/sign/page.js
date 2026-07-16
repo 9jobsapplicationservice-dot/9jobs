@@ -139,49 +139,50 @@ export default function SignAgreementPage() {
     ctx.lineJoin = 'round';
   }, [isOtpVerified, signatureType, submissionState]);
 
-  // Touch & Mouse Canvas Draw Handlers
+  // Pointer-based drawing supports mouse, finger, and stylus like a pen.
+  const getCanvasPoint = (e) => {
+    if (!canvasRef.current) return null;
+    const rect = canvasRef.current.getBoundingClientRect();
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    };
+  };
+
   const startDrawing = (e) => {
     e.preventDefault();
     if (!canvasRef.current) return;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    const rect = canvas.getBoundingClientRect();
-    
-    let clientX, clientY;
-    if (e.touches) {
-      clientX = e.touches[0].clientX;
-      clientY = e.touches[0].clientY;
-    } else {
-      clientX = e.clientX;
-      clientY = e.clientY;
+    const point = getCanvasPoint(e);
+    if (!point) return;
+
+    if (typeof canvas.setPointerCapture === 'function' && e.pointerId != null) {
+      canvas.setPointerCapture(e.pointerId);
     }
 
     ctx.beginPath();
-    ctx.moveTo(clientX - rect.left, clientY - rect.top);
+    ctx.moveTo(point.x, point.y);
     setIsDrawing(true);
   };
 
   const draw = (e) => {
     e.preventDefault();
     if (!isDrawing || !canvasRef.current) return;
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    const rect = canvas.getBoundingClientRect();
+    const ctx = canvasRef.current.getContext('2d');
+    const point = getCanvasPoint(e);
+    if (!point) return;
 
-    let clientX, clientY;
-    if (e.touches) {
-      clientX = e.touches[0].clientX;
-      clientY = e.touches[0].clientY;
-    } else {
-      clientX = e.clientX;
-      clientY = e.clientY;
-    }
-
-    ctx.lineTo(clientX - rect.left, clientY - rect.top);
+    ctx.lineTo(point.x, point.y);
     ctx.stroke();
   };
 
-  const stopDrawing = () => {
+  const stopDrawing = (e) => {
+    if (canvasRef.current && typeof canvasRef.current.releasePointerCapture === 'function' && e?.pointerId != null) {
+      try {
+        canvasRef.current.releasePointerCapture(e.pointerId);
+      } catch {}
+    }
     setIsDrawing(false);
   };
 
@@ -535,16 +536,15 @@ export default function SignAgreementPage() {
           {signatureType === 'drawn' ? (
             <div style={{ marginBottom: '20px' }}>
               <label style={styles.inputLabel}>Draw Signature on Canvas</label>
+              <p style={styles.signatureHint}>Use your mouse, finger, or stylus here to sign naturally like a pen.</p>
               <div style={styles.canvasContainer}>
                 <canvas
                   ref={canvasRef}
-                  onMouseDown={startDrawing}
-                  onMouseMove={draw}
-                  onMouseUp={stopDrawing}
-                  onMouseLeave={stopDrawing}
-                  onTouchStart={startDrawing}
-                  onTouchMove={draw}
-                  onTouchEnd={stopDrawing}
+                  onPointerDown={startDrawing}
+                  onPointerMove={draw}
+                  onPointerUp={stopDrawing}
+                  onPointerLeave={stopDrawing}
+                  onPointerCancel={stopDrawing}
                   style={styles.canvas}
                 />
               </div>
@@ -869,6 +869,13 @@ const styles = {
     height: '100%',
     cursor: 'crosshair',
     backgroundColor: '#ffffff',
+    touchAction: 'none',
+  },
+  signatureHint: {
+    color: '#cbd5e1',
+    fontSize: '12px',
+    margin: '0 0 10px 0',
+    lineHeight: '1.5',
   },
   typedPreview: {
     width: '100%',
