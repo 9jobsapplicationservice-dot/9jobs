@@ -2,8 +2,8 @@ import { describe, expect, jest, test, beforeEach } from '@jest/globals';
 import { PDFDocument } from 'pdf-lib';
 import { hashToken, hashOtp } from '@/utils/cryptoUtils';
 import { generateAuditTrail } from '@/utils/auditTrail';
-import { parsePdfSignatureCoords } from '@/utils/pdfCoords';
-import { generateAgreementPdfBuffer } from '@/lib/agreements/pdf';
+import { parsePdfSignatureCoords, resolvePdfSignatureCoords } from '@/utils/pdfCoords';
+import { generateAgreementPdfArtifact, generateAgreementPdfBuffer } from '@/lib/agreements/pdf';
 import { sanitizeAndReencodePng } from '@/utils/pngUtils';
 
 // Mock all external modules
@@ -38,6 +38,12 @@ jest.doMock('@/lib/storage/blob', () => ({
 
 jest.doMock('@/utils/pdfSealer', () => ({
   sealAgreementPdf: jest.fn().mockResolvedValue(Buffer.from('%PDF-1.4 sealed buffer'))
+}));
+
+const mockExecuteFinalSealing = jest.fn().mockResolvedValue({ status: 'completed' });
+jest.doMock('@/lib/agreements/completion', () => ({
+  executeFinalSealing: mockExecuteFinalSealing,
+  retryFailedAgreementCompletion: jest.fn(),
 }));
 
 // Mock Database Connection
@@ -450,6 +456,49 @@ describe('secure internal e-signature workflow', () => {
     expect(coords.customerSign.y).toBe(165.34000000000006);
     expect(coords.dateBlock.x).toBe(54);
     expect(coords.dateBlock.y).toBe(60);
+  });
+
+  test('generated PDF artifact exposes deterministic anchor coordinates', async () => {
+    const artifact = await generateAgreementPdfArtifact({
+      clientName: 'Jane Client',
+      clientEmail: 'jane@example.com',
+      clientPhone: '+61 400 111 222',
+      providerName: '9 Jobs Pty Ltd',
+      providerEmail: 'provider@9jobs.co',
+      providerPhone: '+61 422 279 428',
+      providerSignatureName: 'Aditya Singh',
+      agreementDate: '2026-06-30',
+      packageName: 'Premium Job Search',
+      servicePrice: '$999 (AUD)',
+      weeklyJobTarget: '65',
+      initialTerm: '4 weeks',
+      notes: 'Priority applications for Melbourne operations roles.',
+    });
+
+    expect(Buffer.isBuffer(artifact.buffer)).toBe(true);
+    expect(artifact.anchorCoords.providerSign.pageIndex).toBeGreaterThanOrEqual(0);
+    expect(artifact.anchorCoords.customerSign.pageIndex).toBeGreaterThanOrEqual(0);
+    expect(artifact.anchorCoords.dateBlock.pageIndex).toBeGreaterThanOrEqual(0);
+  });
+
+  test('resolvePdfSignatureCoords falls back to stored agreement anchor coordinates', async () => {
+    const pdfDoc = await PDFDocument.create();
+    pdfDoc.addPage([600, 800]);
+    const blankPdfBuffer = Buffer.from(await pdfDoc.save());
+
+    const coords = await resolvePdfSignatureCoords(blankPdfBuffer, {
+      pdfAnchorCoords: {
+        providerSign: { pageIndex: 1, x: 100, y: 200 },
+        customerSign: { pageIndex: 1, x: 110, y: 210 },
+        dateBlock: { pageIndex: 1, x: 120, y: 220 },
+      },
+    });
+
+    expect(coords).toEqual({
+      providerSign: { pageIndex: 1, x: 100, y: 200 },
+      customerSign: { pageIndex: 1, x: 110, y: 210 },
+      dateBlock: { pageIndex: 1, x: 120, y: 220 },
+    });
   });
 
   test('rejects empty transparent 1x1 pixel PNG', () => {

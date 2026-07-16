@@ -1,5 +1,6 @@
 import { PDFDocument } from 'pdf-lib';
 import { decodePDFRawStream } from 'pdf-lib/cjs/core/streams/decode';
+import { generateAgreementPdfArtifact } from '@/lib/agreements/pdf';
 
 /**
  * Converts a text string to its uppercase Hexadecimal representation.
@@ -134,4 +135,74 @@ export async function parsePdfSignatureCoords(pdfBuffer) {
     customerSign,
     dateBlock,
   };
+}
+
+function isValidCoordBlock(block) {
+  return Boolean(
+    block &&
+      Number.isFinite(Number(block.pageIndex)) &&
+      Number.isFinite(Number(block.x)) &&
+      Number.isFinite(Number(block.y))
+  );
+}
+
+function normalizeCoordBlock(block) {
+  return {
+    pageIndex: Number(block.pageIndex),
+    x: Number(block.x),
+    y: Number(block.y),
+  };
+}
+
+function normalizeAnchorCoords(coords) {
+  if (
+    !coords ||
+    !isValidCoordBlock(coords.providerSign) ||
+    !isValidCoordBlock(coords.customerSign) ||
+    !isValidCoordBlock(coords.dateBlock)
+  ) {
+    return null;
+  }
+
+  return {
+    providerSign: normalizeCoordBlock(coords.providerSign),
+    customerSign: normalizeCoordBlock(coords.customerSign),
+    dateBlock: normalizeCoordBlock(coords.dateBlock),
+  };
+}
+
+function toPlainAgreement(agreement) {
+  if (!agreement) {
+    return {};
+  }
+
+  if (typeof agreement.toObject === 'function') {
+    return agreement.toObject();
+  }
+
+  return { ...agreement };
+}
+
+export async function resolvePdfSignatureCoords(pdfBuffer, agreement) {
+  const storedCoords = normalizeAnchorCoords(agreement?.pdfAnchorCoords);
+  if (storedCoords) {
+    return storedCoords;
+  }
+
+  try {
+    return await parsePdfSignatureCoords(pdfBuffer);
+  } catch (parseError) {
+    const plainAgreement = toPlainAgreement(agreement);
+    const artifact = await generateAgreementPdfArtifact({
+      ...plainAgreement,
+      _id: String(plainAgreement._id || 'agreement'),
+    });
+    const fallbackCoords = normalizeAnchorCoords(artifact.anchorCoords);
+
+    if (!fallbackCoords) {
+      throw parseError;
+    }
+
+    return fallbackCoords;
+  }
 }

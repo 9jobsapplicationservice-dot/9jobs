@@ -1,26 +1,21 @@
 import { NextResponse } from 'next/server';
-import crypto from 'node:crypto';
 import connectDB from '@/utils/db';
 import Agreement from '@/models/Agreement';
 import { 
   hashToken, 
   hashOtp, 
   constantTimeCompare, 
-  generateOtp, 
-  generateSecureToken, 
-  hashPdf 
+  generateOtp,
+  generateSecureToken
 } from '@/utils/cryptoUtils';
 import { sanitizeAndReencodePng } from '@/utils/pngUtils';
 import { isRateLimited } from '@/utils/rateLimiter';
-import { uploadPrivatePdf, fetchBlobBuffer, fetchBlobBufferByKey, deleteStoredFileByKey } from '@/lib/storage/blob';
+import { uploadPrivatePdf } from '@/lib/storage/blob';
 import { 
   sendOtpEmail, 
-  sendClientSigningInvite, 
-  sendProviderSigningInvite, 
-  sendAgreementCompletedEmail 
+  sendProviderSigningInvite
 } from '@/lib/agreements/email';
-import { sealAgreementPdf } from '@/utils/pdfSealer';
-import { generateAuditTrail } from '@/utils/auditTrail';
+import { executeFinalSealing } from '@/lib/agreements/completion';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,6 +28,7 @@ export async function GET(request, { params }) {
   const id = (await params).id;
   const { searchParams } = new URL(request.url);
   const rawToken = searchParams.get('token') || '';
+  const statusPoll = searchParams.get('status') === '1';
 
   if (!rawToken) {
     return NextResponse.json({ error: 'Missing token parameter.' }, { status: 400 });
@@ -61,6 +57,18 @@ export async function GET(request, { params }) {
   const isClient = constantTimeCompare(agreement.clientSigningTokenHash, tokenHash);
   const expiry = isClient ? agreement.clientTokenExpiresAt : agreement.providerTokenExpiresAt;
   const usedAt = isClient ? agreement.clientTokenUsedAt : agreement.providerTokenUsedAt;
+
+  if (statusPoll) {
+    return NextResponse.json({
+      agreementId: String(agreement._id),
+      signerRole: isClient ? 'Client' : 'Provider',
+      status: agreement.status,
+      isCompleted: agreement.status === 'completed',
+      isCompletionFailed: agreement.status === 'completion_processing_failed',
+      isProcessingCompletion: agreement.status === 'completion_processing',
+      hasProviderBeenInvited: Boolean(agreement.providerInvitationSentAt),
+    });
+  }
 
   if (usedAt) {
     return NextResponse.json({ error: 'This signing link has already been used.' }, { status: 403 });
@@ -334,7 +342,11 @@ export async function POST(request, { params }) {
         // Do not fail the request, we can resend later since status is updated.
       }
 
-      return NextResponse.json({ success: true, message: 'Client signature saved. Provider invited.' });
+      return NextResponse.json({
+        success: true,
+        status: 'client_signed',
+        message: 'Client signature saved. Provider invited.',
+      });
     } else {
       // Provider Submission
       const updatedProvider = await Agreement.findOneAndUpdate(
@@ -366,189 +378,31 @@ export async function POST(request, { params }) {
 
       // Trigger Final Sealing & Archiving
       try {
-        await executeFinalSealing(updatedProvider);
+        const finalizedAgreement = await executeFinalSealing(updatedProvider);
+        if (finalizedAgreement?.status === 'completed') {
+          return NextResponse.json({
+            success: true,
+            status: 'completed',
+            message: 'Agreement completed successfully.',
+          });
+        }
       } catch (err) {
         console.error('Final sealing execution failed:', err);
         return NextResponse.json({ 
           success: true, 
+          status: 'completion_processing',
           message: 'Provider signature captured. Document sealing is processing.',
           warning: 'Final sealing encountered an error. A retry will be attempted.' 
         });
       }
 
-      return NextResponse.json({ success: true, message: 'Agreement completed successfully.' });
+      return NextResponse.json({
+        success: true,
+        status: 'completion_processing',
+        message: 'Provider signature captured. Document sealing is processing.',
+      });
     }
   }
 
   return NextResponse.json({ error: 'Invalid action.' }, { status: 400 });
-}
-
-/**
- * Internal execution of final PDF sealing, hashing, audit trails, and email completions.
- */
-async function executeFinalSealing(agreement) {
-  const lockId = crypto.randomUUID();
-  
-  // 1. Acquire Atomic Completion Lock with stale lock recovery (Point 8)
-  const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
-  const lockedAgreement = await Agreement.findOneAndUpdate(
-    { 
-      _id: agreement._id,
-      status: 'completion_processing',
-      $or: [
-        { completionLockId: '' },
-        { completionStartedAt: { $lt: fiveMinutesAgo } }
-      ]
-    },
-    { 
-      $set: { 
-        completionLockId: lockId,
-        completionStartedAt: new Date()
-      },
-      $inc: { completionAttemptCount: 1 }
-    },
-    { new: true }
-  );
-
-  if (!lockedAgreement) {
-    // Lock couldn't be acquired (already processing or locked by another worker)
-    return;
-  }
-
-  try {
-    // 2. Fetch Original PDF Buffer using storage keys first
-    const originalKey = lockedAgreement.originalPdfStorageKey || lockedAgreement.generatedPdfPath;
-    let originalBuffer;
-    
-    if (originalKey) {
-      originalBuffer = await fetchBlobBufferByKey(originalKey);
-    } else {
-      const originalUrl = lockedAgreement.originalPdfUrl || lockedAgreement.generatedPdfUrl;
-      if (!originalUrl) {
-        throw new Error('Original PDF storage location is missing.');
-      }
-      if (originalUrl.startsWith('data:application/pdf;base64,')) {
-        const base64Data = originalUrl.substring(originalUrl.indexOf(',') + 1);
-        originalBuffer = Buffer.from(base64Data, 'base64');
-      } else {
-        originalBuffer = await fetchBlobBuffer(originalUrl);
-      }
-    }
-
-    // 3. Verify original PDF SHA-256 integrity
-    const currentOriginalHash = hashPdf(originalBuffer);
-    if (lockedAgreement.originalPdfSha256 && lockedAgreement.originalPdfSha256 !== currentOriginalHash) {
-      throw new Error('Document Integrity Failure: Original PDF checksum mismatch.');
-    }
-
-    // 4. Seal PDF (single sealing pass for both signatures/dates)
-    const sealedPdfBuffer = await sealAgreementPdf(originalBuffer, lockedAgreement);
-    const signedPdfSha256 = hashPdf(sealedPdfBuffer);
-
-    // 5. Upload completed PDF to private storage
-    const uploadResult = await uploadPrivatePdf({
-      folder: `agreements/${lockedAgreement._id}`,
-      fileName: 'signed-agreement.pdf',
-      buffer: sealedPdfBuffer,
-      contentType: 'application/pdf',
-    });
-
-    lockedAgreement.signedPdfUrl = uploadResult.url;
-    lockedAgreement.signedPdfStorageKey = uploadResult.path;
-    lockedAgreement.signedPdfSha256 = signedPdfSha256;
-
-    // 6. Generate and upload secure Audit Trail
-    const { buffer: auditBuffer, hash: auditHash } = generateAuditTrail(lockedAgreement);
-    const auditUploadResult = await uploadPrivatePdf({
-      folder: `agreements/${lockedAgreement._id}`,
-      fileName: 'audit-trail.json',
-      buffer: auditBuffer,
-      contentType: 'application/json',
-    });
-
-    lockedAgreement.auditTrailUrl = auditUploadResult.url;
-    lockedAgreement.auditTrailStorageKey = auditUploadResult.path;
-    lockedAgreement.auditTrailSha256 = auditHash;
-
-    // 7. Complete Agreement
-    const clientDownloadToken = generateSecureToken();
-    const providerDownloadToken = generateSecureToken();
-    
-    lockedAgreement.clientDownloadTokenHash = hashToken(clientDownloadToken);
-    lockedAgreement.providerDownloadTokenHash = hashToken(providerDownloadToken);
-    lockedAgreement.downloadTokenExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
-
-    lockedAgreement.status = 'completed';
-    lockedAgreement.completedAt = new Date();
-    lockedAgreement.signedAt = new Date();
-    lockedAgreement.completionLockId = ''; // Release lock
-    await lockedAgreement.save();
-
-    // 8. Transactional cleanup of temporary PNG signatures (Point 9)
-    const keysToDelete = [];
-    if (lockedAgreement.clientSignature.signatureFileKey) {
-      keysToDelete.push(lockedAgreement.clientSignature.signatureFileKey);
-    }
-    if (lockedAgreement.providerSignature.signatureFileKey) {
-      keysToDelete.push(lockedAgreement.providerSignature.signatureFileKey);
-    }
-
-    if (keysToDelete.length > 0) {
-      for (const key of keysToDelete) {
-        try {
-          await deleteStoredFileByKey(key);
-        } catch (cleanupErr) {
-          console.error(`Failed to clean up temporary signature key ${key}:`, cleanupErr);
-        }
-      }
-    }
-
-    // 9. Deliver Completed emails to both parties (idempotent checks)
-    if (!lockedAgreement.clientCompletionEmailSentAt) {
-      try {
-        await sendAgreementCompletedEmail({
-          email: lockedAgreement.clientEmail,
-          name: lockedAgreement.clientName,
-          agreement: lockedAgreement,
-          pdfBuffer: sealedPdfBuffer,
-          downloadToken: clientDownloadToken
-        });
-        lockedAgreement.clientCompletionEmailSentAt = new Date();
-        await lockedAgreement.save();
-      } catch (err) {
-        console.error('Failed to email completed agreement to client:', err);
-      }
-    }
-
-    if (!lockedAgreement.providerCompletionEmailSentAt) {
-      try {
-        await sendAgreementCompletedEmail({
-          email: lockedAgreement.providerEmail,
-          name: lockedAgreement.providerSignatureName,
-          agreement: lockedAgreement,
-          pdfBuffer: sealedPdfBuffer,
-          downloadToken: providerDownloadToken
-        });
-        lockedAgreement.providerCompletionEmailSentAt = new Date();
-        await lockedAgreement.save();
-      } catch (err) {
-        console.error('Failed to email completed agreement to provider:', err);
-      }
-    }
-
-  } catch (err) {
-    console.error('Error during agreement completion sealing:', err);
-    // Set failure state and release lock
-    await Agreement.updateOne(
-      { _id: lockedAgreement._id, completionLockId: lockId },
-      { 
-        $set: { 
-          status: 'completion_processing_failed',
-          esignError: err.message,
-          completionLockId: '' 
-        } 
-      }
-    );
-    throw err;
-  }
 }

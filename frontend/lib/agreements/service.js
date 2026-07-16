@@ -1,6 +1,6 @@
 import connectDB from '@/utils/db';
 import Agreement from '@/models/Agreement';
-import { generateAgreementPdfBuffer } from '@/lib/agreements/pdf';
+import { generateAgreementPdfArtifact } from '@/lib/agreements/pdf';
 import { serializeAgreement } from '@/lib/agreements/serialize';
 import { uploadPrivatePdf, fetchBlobBuffer, fetchBlobBufferByKey } from '@/lib/storage/blob';
 import {
@@ -128,10 +128,11 @@ export async function updateAgreementById(id, updates) {
 }
 
 export async function generateAndStoreAgreementPdf(agreementDocument) {
-  const buffer = await generateAgreementPdfBuffer({
+  const artifact = await generateAgreementPdfArtifact({
     ...agreementDocument.toObject(),
     _id: String(agreementDocument._id),
   });
+  const buffer = artifact.buffer;
 
   const upload = await uploadPrivatePdf({
     folder: `agreements/${agreementDocument._id}`,
@@ -142,6 +143,7 @@ export async function generateAndStoreAgreementPdf(agreementDocument) {
 
   agreementDocument.generatedPdfUrl = upload.url;
   agreementDocument.generatedPdfPath = upload.path;
+  agreementDocument.pdfAnchorCoords = artifact.anchorCoords;
   agreementDocument.status = agreementDocument.status === 'draft' ? 'previewed' : agreementDocument.status;
   await agreementDocument.save();
 

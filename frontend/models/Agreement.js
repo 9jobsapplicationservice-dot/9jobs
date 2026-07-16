@@ -85,10 +85,28 @@ const AgreementSchema = new mongoose.Schema(
     originalPdfStorageKey: { type: String, default: '' },
     signedPdfStorageKey: { type: String, default: '' },
     auditTrailStorageKey: { type: String, default: '' },
+    pdfAnchorCoords: {
+      providerSign: {
+        pageIndex: { type: Number, default: 0 },
+        x: { type: Number, default: 0 },
+        y: { type: Number, default: 0 },
+      },
+      customerSign: {
+        pageIndex: { type: Number, default: 0 },
+        x: { type: Number, default: 0 },
+        y: { type: Number, default: 0 },
+      },
+      dateBlock: {
+        pageIndex: { type: Number, default: 0 },
+        x: { type: Number, default: 0 },
+        y: { type: Number, default: 0 },
+      },
+    },
 
     completionLockId: { type: String, default: '' },
     completionStartedAt: { type: Date, default: null },
     completionAttemptCount: { type: Number, default: 0 },
+    esignError: { type: String, default: '' },
 
     status: {
       type: String,

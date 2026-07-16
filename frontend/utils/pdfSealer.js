@@ -1,5 +1,5 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
-import { parsePdfSignatureCoords } from './pdfCoords.js';
+import { resolvePdfSignatureCoords } from './pdfCoords.js';
 
 /**
  * Formats a date to "DD MMM YYYY" format in UTC.
@@ -28,7 +28,7 @@ function formatUtcDate(date) {
  */
 export async function sealAgreementPdf(originalPdfBuffer, agreement) {
   // 1. Dynamic Coordinate Parsing
-  const coords = await parsePdfSignatureCoords(originalPdfBuffer);
+  const coords = await resolvePdfSignatureCoords(originalPdfBuffer, agreement);
   
   const pdfDoc = await PDFDocument.load(originalPdfBuffer);
   const pages = pdfDoc.getPages();

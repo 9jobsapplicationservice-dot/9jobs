@@ -155,6 +155,11 @@ function drawHeaderAndFooter(renderer, logoImage) {
 }
 
 export async function generateAgreementPdfBuffer(agreement) {
+  const artifact = await generateAgreementPdfArtifact(agreement);
+  return artifact.buffer;
+}
+
+export async function generateAgreementPdfArtifact(agreement) {
   const document = buildAgreementTemplate(agreement);
   const pdfDoc = await PDFDocument.create();
   const fonts = {
@@ -171,6 +176,11 @@ export async function generateAgreementPdfBuffer(agreement) {
   }
 
   const renderer = createRenderer(pdfDoc, fonts);
+  const anchorCoords = {
+    providerSign: null,
+    customerSign: null,
+    dateBlock: null,
+  };
 
   renderer.drawCenteredText('9Jobs Service Contract', {
     font: fonts.bold,
@@ -294,6 +304,11 @@ export async function generateAgreementPdfBuffer(agreement) {
     size: 11,
     color: COLOR_WHITE,
   });
+  anchorCoords.providerSign = {
+    pageIndex: renderer.pages.length - 1,
+    x: PAGE_MARGIN_LEFT_RIGHT + 60,
+    y: renderer.cursorY + 25,
+  };
 
   renderer.drawWrappedText('Customer:', {
     font: fonts.bold,
@@ -313,6 +328,11 @@ export async function generateAgreementPdfBuffer(agreement) {
     size: 11,
     color: COLOR_WHITE,
   });
+  anchorCoords.customerSign = {
+    pageIndex: renderer.pages.length - 1,
+    x: PAGE_MARGIN_LEFT_RIGHT + 60,
+    y: renderer.cursorY + 25,
+  };
 
   renderer.page.drawText('[[DS_PROVIDER_DATE_HERE]] [[DS_CUSTOMER_DATE_HERE]]', {
     x: PAGE_MARGIN_LEFT_RIGHT,
@@ -321,9 +341,17 @@ export async function generateAgreementPdfBuffer(agreement) {
     size: 10,
     color: COLOR_WHITE,
   });
+  anchorCoords.dateBlock = {
+    pageIndex: renderer.pages.length - 1,
+    x: PAGE_MARGIN_LEFT_RIGHT,
+    y: PAGE_MARGIN_BOTTOM,
+  };
 
   drawHeaderAndFooter(renderer, logoImage);
 
   const bytes = await pdfDoc.save();
-  return Buffer.from(bytes);
+  return {
+    buffer: Buffer.from(bytes),
+    anchorCoords,
+  };
 }

@@ -25,7 +25,8 @@ export default function SignAgreementPage() {
   const [signerName, setSignerName] = useState('');
   const [consentAccepted, setConsentAccepted] = useState(false);
   const [submittingSign, setSubmittingSign] = useState(false);
-  const [completed, setCompleted] = useState(false);
+  const [submissionState, setSubmissionState] = useState('');
+  const [submissionMessage, setSubmissionMessage] = useState('');
 
   // Canvas Ref
   const canvasRef = useRef(null);
@@ -72,9 +73,53 @@ export default function SignAgreementPage() {
     return () => clearInterval(timer);
   }, [otpCooldown]);
 
+  useEffect(() => {
+    if (submissionState !== 'completion_processing') return;
+
+    let cancelled = false;
+    const pollCompletion = async () => {
+      try {
+        const res = await fetch(`/api/agreements/${agreementId}/sign?token=${token}&status=1`, {
+          cache: 'no-store',
+        });
+        const data = await res.json();
+
+        if (!res.ok || cancelled) {
+          return;
+        }
+
+        if (data.status === 'completed') {
+          setSubmissionState('completed');
+          setSubmissionMessage('A completed copy of the document has been emailed to your registered mailbox.');
+          return;
+        }
+
+        if (data.status === 'completion_processing_failed') {
+          setSubmissionState('completion_processing_failed');
+          setSubmissionMessage('Your signature was received, but the completed document is still being processed. Our team has been notified.');
+          return;
+        }
+
+        if (!cancelled) {
+          setTimeout(pollCompletion, 2500);
+        }
+      } catch {
+        if (!cancelled) {
+          setTimeout(pollCompletion, 4000);
+        }
+      }
+    };
+
+    const timer = setTimeout(pollCompletion, 1500);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [agreementId, submissionState, token]);
+
   // Canvas Drawing Logic
   useEffect(() => {
-    if (!isOtpVerified || signatureType !== 'drawn' || completed || !canvasRef.current) return;
+    if (!isOtpVerified || signatureType !== 'drawn' || submissionState || !canvasRef.current) return;
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -89,7 +134,7 @@ export default function SignAgreementPage() {
     ctx.lineWidth = 2.5;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-  }, [isOtpVerified, signatureType, completed]);
+  }, [isOtpVerified, signatureType, submissionState]);
 
   // Touch & Mouse Canvas Draw Handlers
   const startDrawing = (e) => {
@@ -250,7 +295,16 @@ export default function SignAgreementPage() {
       if (!res.ok) {
         alert(data.error || 'Failed to submit signature.');
       } else {
-        setCompleted(true);
+        if (signerContext?.signerRole === 'Client') {
+          setSubmissionState('client_signed');
+          setSubmissionMessage('The service provider will receive the invitation to sign next.');
+        } else if (data.status === 'completed') {
+          setSubmissionState('completed');
+          setSubmissionMessage('A completed copy of the document has been emailed to your registered mailbox.');
+        } else {
+          setSubmissionState('completion_processing');
+          setSubmissionMessage('We are finalizing the completed agreement now.');
+        }
       }
     } catch (err) {
       alert('Connection failed during signature submission.');
@@ -280,17 +334,30 @@ export default function SignAgreementPage() {
     );
   }
 
-  if (completed) {
+  if (submissionState) {
+    const isClientSigned = submissionState === 'client_signed';
+    const isProviderProcessing = submissionState === 'completion_processing';
+    const isCompleted = submissionState === 'completed';
+    const isCompletionFailed = submissionState === 'completion_processing_failed';
+
     return (
       <div style={styles.completedContainer}>
         <div style={styles.completedCard}>
           <div style={styles.completedIcon}>✓</div>
-          <h3 style={styles.completedTitle}>Agreement Signed!</h3>
+          <h3 style={styles.completedTitle}>
+            {isClientSigned && 'Signature Received'}
+            {isProviderProcessing && 'Processing your completed agreement...'}
+            {isCompleted && 'Agreement Completed'}
+            {isCompletionFailed && 'Processing In Progress'}
+          </h3>
           <p style={styles.completedDesc}>
-            Thank you, {signerName}. Your signature has been successfully captured and applied to the agreement.
+            {isClientSigned && `Thank you, ${signerName}. Your signature has been successfully captured.`}
+            {isProviderProcessing && `Thank you, ${signerName}. Both signatures were received and the completed agreement is being finalized now.`}
+            {isCompleted && `Thank you, ${signerName}. Your signature has been successfully captured and the agreement is now complete.`}
+            {isCompletionFailed && `Thank you, ${signerName}. Your signature was received, but the completed document is still being processed.`}
           </p>
           <p style={{ color: '#64748b', fontSize: '14px' }}>
-            A completed copy of the document has been emailed to your registered mailbox.
+            {submissionMessage}
           </p>
         </div>
       </div>
