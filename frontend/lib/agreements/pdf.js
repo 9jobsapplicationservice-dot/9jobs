@@ -190,19 +190,19 @@ export async function generateAgreementPdfBuffer(agreement) {
     }
   );
 
-  renderer.drawWrappedText(`${document.provider.legalName} ABN:`, {
+  renderer.drawWrappedText(document.provider.legalName, {
     font: fonts.bold,
     fontSize: 11,
     color: COLOR_INK,
     paragraphGap: 4,
   });
-  renderer.drawWrappedText(document.provider.abn, {
+  renderer.drawWrappedText(`ABN : ${document.provider.abn}`, {
     font: fonts.regular,
     fontSize: 11,
     color: COLOR_INK,
     paragraphGap: 4,
   });
-  renderer.drawWrappedText(`Phone: ${document.provider.phone}`, {
+  renderer.drawWrappedText(`Phone : ${document.provider.phone}`, {
     font: fonts.regular,
     fontSize: 11,
     color: COLOR_INK,
@@ -281,7 +281,8 @@ export async function generateAgreementPdfBuffer(agreement) {
     color: COLOR_INK,
     paragraphGap: 6,
   });
-  renderer.drawSignatureLine('Name:', `${document.provider.legalName} ABN: ${document.provider.abn}`, { gapAfter: 4 });
+  renderer.drawSignatureLine('Name:', document.provider.legalName, { gapAfter: 4 });
+  renderer.drawSignatureLine('ABN :', document.provider.abn, { gapAfter: 4 });
   renderer.drawSignatureLine('Signature:', '___________________', {
     font: fonts.bold,
     gapAfter: 20,
