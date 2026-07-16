@@ -150,11 +150,102 @@ export async function createAgreement(payload) {
 
 export async function updateAgreementById(id, updates) {
   await connectDB();
-  const agreement = await Agreement.findByIdAndUpdate(id, updates, {
-    new: true,
-  });
+  const existingAgreement = await Agreement.findById(id);
+
+  if (!existingAgreement) {
+    return null;
+  }
+
+  if (existingAgreement.status === 'completed') {
+    throw new Error('Completed agreements cannot be edited.');
+  }
+
+  const agreement = await Agreement.findByIdAndUpdate(
+    id,
+    {
+      ...updates,
+      generatedPdfUrl: '',
+      generatedPdfPath: '',
+      signedPdfUrl: '',
+      signedPdfPath: '',
+      signedPdfStorageKey: '',
+      auditTrailUrl: '',
+      auditTrailStorageKey: '',
+      originalPdfUrl: '',
+      originalPdfStorageKey: '',
+      originalPdfSha256: '',
+      signedPdfSha256: '',
+      auditTrailSha256: '',
+      pdfAnchorCoords: {
+        providerSign: { pageIndex: 0, x: 0, y: 0 },
+        customerSign: { pageIndex: 0, x: 0, y: 0 },
+        dateBlock: { pageIndex: 0, x: 0, y: 0 },
+      },
+      clientSigningTokenHash: '',
+      providerSigningTokenHash: '',
+      clientTokenExpiresAt: null,
+      providerTokenExpiresAt: null,
+      clientTokenUsedAt: null,
+      providerTokenUsedAt: null,
+      clientOtpHash: '',
+      providerOtpHash: '',
+      clientOtpExpiresAt: null,
+      providerOtpExpiresAt: null,
+      clientOtpAttempts: 0,
+      providerOtpAttempts: 0,
+      clientOtpCooldownUntil: null,
+      providerOtpCooldownUntil: null,
+      clientOtpVerifiedAt: null,
+      providerOtpVerifiedAt: null,
+      clientDocumentViewedAt: null,
+      providerDocumentViewedAt: null,
+      clientInvitationSentAt: null,
+      providerInvitationSentAt: null,
+      clientCompletionEmailSentAt: null,
+      providerCompletionEmailSentAt: null,
+      clientConsentAcceptedAt: null,
+      providerConsentAcceptedAt: null,
+      clientSignature: {
+        name: '',
+        ip: '',
+        userAgent: '',
+        signedAt: null,
+        signatureFileKey: '',
+        signatureType: '',
+      },
+      providerSignature: {
+        name: '',
+        ip: '',
+        userAgent: '',
+        signedAt: null,
+        signatureFileKey: '',
+        signatureType: '',
+      },
+      clientDownloadTokenHash: '',
+      providerDownloadTokenHash: '',
+      downloadTokenExpiresAt: null,
+      completionLockId: '',
+      completionStartedAt: null,
+      completionAttemptCount: 0,
+      status: 'draft',
+      sentAt: null,
+      signedAt: null,
+      lastViewedAt: null,
+      docuSignEnvelopeId: '',
+      esignProvider: '',
+      esignError: '',
+      envelopeEvents: [],
+    },
+    { new: true }
+  );
 
   return agreement ? serializeAgreement(agreement) : null;
+}
+
+export async function deleteAgreementById(id) {
+  await connectDB();
+  const result = await Agreement.findByIdAndDelete(id);
+  return Boolean(result);
 }
 
 export async function generateAndStoreAgreementPdf(agreementDocument) {

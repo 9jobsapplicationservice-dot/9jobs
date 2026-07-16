@@ -63,10 +63,10 @@ function getInputType(field) {
   return 'text';
 }
 
-export default function AgreementForm() {
+export default function AgreementForm({ initialValues = null, agreementId = '', mode = 'create' }) {
   const router = useRouter();
   const { pushToast } = useToast();
-  const [values, setValues] = useState(initialState);
+  const [values, setValues] = useState(initialValues ? { ...initialState, ...initialValues } : initialState);
   const [fieldErrors, setFieldErrors] = useState({});
   const [isPending, setIsPending] = useState(false);
 
@@ -98,20 +98,20 @@ export default function AgreementForm() {
 
     try {
       const response = await fetch('/api/agreements', {
-        method: 'POST',
+        method: mode === 'edit' ? 'PATCH' : 'POST',
         headers: {
           'content-type': 'application/json',
         },
-        body: JSON.stringify(validation.data),
+        body: JSON.stringify(mode === 'edit' ? { id: agreementId, ...validation.data } : validation.data),
       });
       const data = await response.json();
 
       if (!response.ok) {
-        pushToast({ title: data.error || 'Unable to create agreement.', tone: 'error' });
+        pushToast({ title: data.error || `Unable to ${mode === 'edit' ? 'update' : 'create'} agreement.`, tone: 'error' });
         return;
       }
 
-      pushToast({ title: 'Agreement created.', tone: 'success' });
+      pushToast({ title: mode === 'edit' ? 'Agreement updated.' : 'Agreement created.', tone: 'success' });
       startTransition(() => {
         router.push(`/admin/agreements/${data.agreement._id}`);
         router.refresh();
@@ -166,7 +166,7 @@ export default function AgreementForm() {
 
       <div className="admin-form-actions">
         <button className="admin-primary-button" disabled={isPending} type="submit">
-          {isPending ? 'Creating...' : 'Create Agreement'}
+          {isPending ? (mode === 'edit' ? 'Saving...' : 'Creating...') : (mode === 'edit' ? 'Save Agreement' : 'Create Agreement')}
         </button>
       </div>
     </form>

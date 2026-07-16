@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import AdminShell from '@/components/admin/AdminShell';
+import AgreementRowActions from '@/components/admin/AgreementRowActions';
 import StatusBadge from '@/components/admin/StatusBadge';
 import { requireAdminPageSession } from '@/lib/admin/auth/require-admin';
 import connectDB from '@/utils/db';
@@ -78,9 +79,11 @@ export default async function AdminDashboardPage() {
                     </td>
                     <td>{agreement.createdAt?.slice(0, 10)}</td>
                     <td className="admin-actions-cell" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                      <Link className="admin-link admin-link--view" href={`/admin/agreements/${agreement._id}`}>
-                        View
-                      </Link>
+                      <AgreementRowActions
+                        agreementId={agreement._id}
+                        hasSignedPdf={Boolean(agreement.signedPdfUrl)}
+                        status={agreement.status}
+                      />
                       {agreement.status === 'completed' && (
                         <a
                           className="admin-link admin-link--download"

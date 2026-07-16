@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import AdminShell from '@/components/admin/AdminShell';
+import AgreementRowActions from '@/components/admin/AgreementRowActions';
 import AgreementRegisterActions from '@/components/admin/AgreementRegisterActions';
 import StatusBadge from '@/components/admin/StatusBadge';
 import { requireAdminPageSession } from '@/lib/admin/auth/require-admin';
@@ -56,9 +57,11 @@ export default async function AgreementsPage() {
                     </td>
                     <td>{agreement.sentAt ? agreement.sentAt.slice(0, 10) : 'Not sent'}</td>
                     <td className="admin-actions-cell" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                      <Link className="admin-link admin-link--view" href={`/admin/agreements/${agreement._id}`}>
-                        View
-                      </Link>
+                      <AgreementRowActions
+                        agreementId={agreement._id}
+                        hasSignedPdf={Boolean(agreement.signedPdfUrl)}
+                        status={agreement.status}
+                      />
                       {agreement.status === 'completed' && (
                         <a
                           className="admin-link admin-link--download"
