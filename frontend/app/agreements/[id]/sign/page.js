@@ -34,8 +34,10 @@ export default function SignAgreementPage() {
   // Fetch Initial Token Verification Context
   useEffect(() => {
     if (!agreementId || !token) {
-      setError('Invalid or expired signing link. Missing required token parameter.');
-      setLoading(false);
+      setTimeout(() => {
+        setError('Invalid or expired signing link. Missing required token parameter.');
+        setLoading(false);
+      }, 0);
       return;
     }
 
