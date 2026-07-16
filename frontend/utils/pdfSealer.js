@@ -19,7 +19,7 @@ function formatUtcDate(date) {
 
 /**
  * Seals the PDF document by overlaying both client and provider signatures/dates in a single pass.
- * Automatically handles drawn (PNG) or typed (Times Roman Italic font) signatures.
+ * Automatically handles stored signature PNGs for both drawn and typed signatures.
  * Clean up temporary signature files from storage after sealing.
  * 
  * @param {Buffer} originalPdfBuffer The unsigned PDF bytes
@@ -41,7 +41,7 @@ export async function sealAgreementPdf(originalPdfBuffer, agreement) {
   const clientCoords = coords.customerSign;
   const clientPage = pages[clientCoords.pageIndex];
   
-  if (agreement.clientSignature.signatureType === 'drawn' && agreement.clientSignature.signatureFileKey) {
+  if (agreement.clientSignature.signatureFileKey) {
     const { fetchBlobBufferByKey } = require('@/lib/storage/blob');
     const clientSigBuffer = await fetchBlobBufferByKey(agreement.clientSignature.signatureFileKey);
     const clientImage = await pdfDoc.embedPng(clientSigBuffer);
@@ -65,7 +65,7 @@ export async function sealAgreementPdf(originalPdfBuffer, agreement) {
   const providerCoords = coords.providerSign;
   const providerPage = pages[providerCoords.pageIndex];
   
-  if (agreement.providerSignature.signatureType === 'drawn' && agreement.providerSignature.signatureFileKey) {
+  if (agreement.providerSignature.signatureFileKey) {
     const { fetchBlobBufferByKey } = require('@/lib/storage/blob');
     const providerSigBuffer = await fetchBlobBufferByKey(agreement.providerSignature.signatureFileKey);
     const providerImage = await pdfDoc.embedPng(providerSigBuffer);

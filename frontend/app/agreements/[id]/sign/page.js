@@ -3,6 +3,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useParams } from 'next/navigation';
 
+const SIGNATURE_FONT_STACK = '"Brush Script MT", "Segoe Script", "Lucida Handwriting", cursive';
+
 export default function SignAgreementPage() {
   const params = useParams();
   const searchParams = useSearchParams();
@@ -30,6 +32,7 @@ export default function SignAgreementPage() {
 
   // Canvas Ref
   const canvasRef = useRef(null);
+  const typedCanvasRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
 
   // Fetch Initial Token Verification Context
@@ -189,6 +192,46 @@ export default function SignAgreementPage() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
 
+  const buildTypedSignatureImage = async (name) => {
+    const trimmedName = name.trim();
+    if (!trimmedName) {
+      return '';
+    }
+
+    if (typeof document !== 'undefined' && document.fonts?.ready) {
+      try {
+        await document.fonts.ready;
+      } catch {}
+    }
+
+    const canvas = typedCanvasRef.current || document.createElement('canvas');
+    const scale = 2;
+    const width = 560;
+    const height = 180;
+    canvas.width = width * scale;
+    canvas.height = height * scale;
+
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.scale(scale, scale);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = '#111827';
+    ctx.textBaseline = 'alphabetic';
+
+    let fontSize = 60;
+    ctx.font = `italic ${fontSize}px ${SIGNATURE_FONT_STACK}`;
+    while (ctx.measureText(trimmedName).width > width - 40 && fontSize > 34) {
+      fontSize -= 2;
+      ctx.font = `italic ${fontSize}px ${SIGNATURE_FONT_STACK}`;
+    }
+
+    ctx.fillText(trimmedName, 20, Math.round(height * 0.66));
+    return canvas.toDataURL('image/png');
+  };
+
   // Actions
   const handleRequestOtp = async () => {
     setLoading(true);
@@ -276,6 +319,8 @@ export default function SignAgreementPage() {
       if (!canvasRef.current) return;
       const canvas = canvasRef.current;
       signatureImage = canvas.toDataURL('image/png');
+    } else {
+      signatureImage = await buildTypedSignatureImage(signerName);
     }
 
     try {
@@ -513,6 +558,7 @@ export default function SignAgreementPage() {
               <div style={styles.typedPreview}>
                 {signerName || 'Signature Preview'}
               </div>
+              <canvas ref={typedCanvasRef} style={styles.hiddenCanvas} aria-hidden="true" />
             </div>
           )}
 
@@ -831,9 +877,16 @@ const styles = {
     color: '#0f172a',
     fontSize: '28px',
     fontStyle: 'italic',
-    fontFamily: '"Times New Roman", Times, serif',
+    fontFamily: SIGNATURE_FONT_STACK,
     textAlign: 'center',
     borderRadius: '8px',
     border: '1px solid #e2e8f0',
+    minHeight: '82px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  hiddenCanvas: {
+    display: 'none',
   }
 };

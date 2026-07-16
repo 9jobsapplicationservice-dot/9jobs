@@ -264,10 +264,11 @@ export async function POST(request, { params }) {
 
     let signatureFileKey = '';
 
-    // 3. Process Drawn Signature (PNG Image)
-    if (signatureType === 'drawn') {
+    // 3. Process submitted signature PNG when provided. Typed signatures may
+    // fall back to text-only for backward compatibility with direct API callers.
+    if (signatureType === 'drawn' || (signatureType === 'typed' && signatureImage)) {
       if (!signatureImage || !signatureImage.startsWith('data:image/png;base64,')) {
-        return NextResponse.json({ error: 'Invalid signature image. Drawn signature must be PNG.' }, { status: 400 });
+        return NextResponse.json({ error: 'Invalid signature image. Signature must be submitted as PNG.' }, { status: 400 });
       }
 
       const base64Data = signatureImage.substring(signatureImage.indexOf(',') + 1);
@@ -281,7 +282,7 @@ export async function POST(request, { params }) {
         return NextResponse.json({ error: `Signature validation failed: ${err.message}` }, { status: 400 });
       }
 
-      // Upload to private Vercel Blob storage
+      // Upload to private storage for final PDF sealing
       try {
         const upload = await uploadPrivatePdf({
           folder: `signatures/${agreement._id}`,
