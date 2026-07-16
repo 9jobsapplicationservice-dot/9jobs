@@ -20,7 +20,7 @@ export default function BlogDetailPage() {
       "name": "How long should a resume be in Australia for 2026?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "For professional roles, the standard length is two to three pages. This provides enough space to detail your career history, key projects, and technical skills while remaining concise enough for a recruiter to scan quickly."
+        "text": "For professional roles, the standard length is two to three pages. This provides enough space to detail your career history, key projects and technical skills while remaining concise enough for a recruiter to scan quickly."
       }
     },
     {
@@ -67,7 +67,7 @@ export default function BlogDetailPage() {
     }
   },
   "datePublished": "2026-06-04",
-  "description": "Discover the best resume format for Australia in 2026. Learn about ATS compliance, section ordering, page length, and key terms to stand out to recruiters."
+  "description": "Discover the best resume format for Australia in 2026. Learn about ATS compliance, section ordering, page length and key terms to stand out to recruiters."
 };
   const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -94,7 +94,7 @@ export default function BlogDetailPage() {
   ]
 };
 
-  const faqs = [["How long should a resume be in Australia for 2026?","For professional roles, the standard length is two to three pages. This provides enough space to detail your career history, key projects, and technical skills while remaining concise enough for a recruiter to scan quickly."],["Should I include a cover letter with my application?","Yes. Australian hiring managers appreciate cover letters that briefly explain why you are interested in their specific role and how your experience aligns with their requirements. We suggest keeping it to 3-4 paragraphs of highly tailored content."],["Do I need to list references on my resume?","No. You do not need to list your references' contact details on your resume. Simply write 'References available upon request' at the end of the document. Recruiters will ask for reference contact details after you pass the interview stages."],["Can I use a PDF format for my resume?","Yes, you can use PDF format, provided the document is text-searchable and has a clean, single-column layout. Avoid saving your resume as an image-based PDF, as ATS scanners cannot parse text from images."]];
+  const faqs = [["How long should a resume be in Australia for 2026?","For professional roles, the standard length is two to three pages. This provides enough space to detail your career history, key projects and technical skills while remaining concise enough for a recruiter to scan quickly."],["Should I include a cover letter with my application?","Yes. Australian hiring managers appreciate cover letters that briefly explain why you are interested in their specific role and how your experience aligns with their requirements. We suggest keeping it to 3-4 paragraphs of highly tailored content."],["Do I need to list references on my resume?","No. You do not need to list your references' contact details on your resume. Simply write 'References available upon request' at the end of the document. Recruiters will ask for reference contact details after you pass the interview stages."],["Can I use a PDF format for my resume?","Yes, you can use PDF format, provided the document is text-searchable and has a clean, single-column layout. Avoid saving your resume as an image-based PDF, as ATS scanners cannot parse text from images."]];
 
   return (
     <main className="site-main fj-page">
@@ -122,7 +122,7 @@ export default function BlogDetailPage() {
           </nav>
           <span className="fj-announcement"><span>Blog</span> Resume Optimization</span>
           <h1>Best Resume Format Australia 2026: Sourcing Guide</h1>
-          <p>Discover the best resume format for Australia in 2026. Learn about ATS compliance, section ordering, page length, and key terms to stand out to recruiters.</p>
+          <p>Discover the best resume format for Australia in 2026. Learn about ATS compliance, section ordering, page length and key terms to stand out to recruiters.</p>
           <div style={{ marginTop: "16px", fontSize: "0.9rem", color: "var(--muted)" }}>
             Published: 2026-06-04 â€¢ 10 min read
           </div>
@@ -131,19 +131,19 @@ export default function BlogDetailPage() {
 
       <section className="fj-section">
         <div className="fj-container" style={{ maxWidth: "800px", margin: "0 auto", color: "var(--muted)", lineHeight: "1.8", display: "flex", flexDirection: "column", gap: "24px" }}>
-          <p>The job market in Australia for 2026 has become increasingly digitized, competitive, and targeted. Recruiters in major corporate hubs like Sydney, Melbourne, Brisbane, Perth, and Adelaide receive hundreds of applications for every open position. To cope with this volume, employers rely heavily on Applicant Tracking Systems (ATS) to filter and rank candidates before a human even views the CV. Navigating this landscape requires a strategic understanding of how resumes are parsed and evaluated. Your resume is no longer just a list of your work history; it is a search engine optimization (SEO) landing page for your career. To secure interviews, you must format your resume according to local standards, target specific keywords, and focus on quantified achievements rather than basic duties. This guide outlines the best resume format for Australia in 2026 to help you pass automated screens and stand out to hiring managers.</p>
+          <p>The job market in Australia for 2026 has become increasingly digitized, competitive and targeted. Recruiters in major corporate hubs like Sydney, Melbourne, Brisbane, Perth and Adelaide receive hundreds of applications for every open position. To cope with this volume, employers rely heavily on Applicant Tracking Systems (ATS) to filter and rank candidates before a human even views the CV. Navigating this landscape requires a strategic understanding of how resumes are parsed and evaluated. Your resume is no longer just a list of your work history; it is a search engine optimization (SEO) landing page for your career. To secure interviews, you must format your resume according to local standards, target specific keywords and focus on quantified achievements rather than basic duties. This guide outlines the best resume format for Australia in 2026 to help you pass automated screens and stand out to hiring managers.</p>
 
           
           <h2>1. The Core Structure of an Australian Resume</h2>
-          <p>Unlike some international formats that prefer a single-page document, the standard Australian resume format is typically two to three pages long. This length provides enough space to detail your achievements, project scale, and technical stack without cluttering the page. The layout must be clean, chronological, and written in reverse-chronological order, starting with your most recent position. Employers value consistency and structure. Avoid decorative graphics, multi-column designs, tables, or progress bars for skills. These design elements scramble the text when processed by ATS engines, leading to automatic rejection. Keep your formatting simple: use standard margins, bullet points, and highly readable fonts like Arial, Calibri, or Inter. For professional styling that complies with these standards, you can leverage our <Link href="/services/resume-writing">Resume Writing Services Australia</Link> to build a high-performance CV.</p>
+          <p>Unlike some international formats that prefer a single-page document, the standard Australian resume format is typically two to three pages long. This length provides enough space to detail your achievements, project scale and technical stack without cluttering the page. The layout must be clean, chronological and written in reverse-chronological order, starting with your most recent position. Employers value consistency and structure. Avoid decorative graphics, multi-column designs, tables, or progress bars for skills. These design elements scramble the text when processed by ATS engines, leading to automatic rejection. Keep your formatting simple: use standard margins, bullet points and highly readable fonts like Arial, Calibri, or Inter. For professional styling that complies with these standards, you can leverage our <Link href="/services/resume-writing">Resume Writing Services Australia</Link> to build a high-performance CV.</p>
   
 
           <h2>2. Personal Details: What to Include and What to Exclude</h2>
-          <p>Australia has strict anti-discrimination and privacy laws. As a result, your resume must exclude personal details that could trigger unconscious bias. Do not include your photo, date of birth, gender, marital status, religion, or passport details. Including these is an immediate red flag and may cause HR teams to delete your application to avoid compliance issues. Instead, restrict your contact section to your full name, professional email address, Australian mobile number (starting with +61), LinkedIn URL, and your target location (e.g. Sydney NSW or Melbourne VIC). If you are currently overseas or in another state, listing your target location shows recruiters you are ready to transition. Additionally, clearly state your working rights or visa subclass (e.g., Permanent Resident, Subclass 485, Subclass 482) in your summary. This transparency immediately reassures local recruiters regarding your work eligibility.</p>
+          <p>Australia has strict anti-discrimination and privacy laws. As a result, your resume must exclude personal details that could trigger unconscious bias. Do not include your photo, date of birth, gender, marital status, religion, or passport details. Including these is an immediate red flag and may cause HR teams to delete your application to avoid compliance issues. Instead, restrict your contact section to your full name, professional email address, Australian mobile number (starting with +61), LinkedIn URL and your target location (e.g. Sydney NSW or Melbourne VIC). If you are currently overseas or in another state, listing your target location shows recruiters you are ready to transition. Additionally, clearly state your working rights or visa subclass (e.g., Permanent Resident, Subclass 485, Subclass 482) in your summary. This transparency immediately reassures local recruiters regarding your work eligibility.</p>
   
 
           <h2>3. Writing a High-Impact Professional Summary</h2>
-          <p>Your professional summary is the elevator pitch of your resume. Located at the top of the first page, it should be a concise paragraph of three to four sentences outlining your core expertise, years of experience, key achievements, and career goals. Avoid generic statements like 'hard-working professional seeking a challenging role.' Instead, use metrics-focused language: 'Senior Software Engineer with over 8 years of experience building scalable SaaS platforms in Melbourne. Proven track record of improving system latency by 40% and leading cross-functional teams of 10+ engineers. Expert in React, Node.js, and AWS, seeking to leverage technical leadership in a high-growth environment.' This summary instantly communicates your value proposition and encourages the hiring manager to keep reading.</p>
+          <p>Your professional summary is the elevator pitch of your resume. Located at the top of the first page, it should be a concise paragraph of three to four sentences outlining your core expertise, years of experience, key achievements and career goals. Avoid generic statements like 'hard-working professional seeking a challenging role.' Instead, use metrics-focused language: 'Senior Software Engineer with over 8 years of experience building scalable SaaS platforms in Melbourne. Proven track record of improving system latency by 40% and leading cross-functional teams of 10+ engineers. Expert in React, Node.js and AWS, seeking to leverage technical leadership in a high-growth environment.' This summary instantly communicates your value proposition and encourages the hiring manager to keep reading.</p>
   
 
           <h2>4. Showcasing Achievements Over Basic Duties</h2>
@@ -151,11 +151,11 @@ export default function BlogDetailPage() {
   
 
           <h2>5. Aligning with Australian Keywords and Terminology</h2>
-          <p>To clear the automated screening phase, your resume must align with the terminology used in local job descriptions. This means translating international terms into their Australian equivalents. For example, use 'superannuation' instead of '401k' or 'pension,' and refer to 'SEEK' rather than international job boards. Additionally, analyze the target job advertisement for recurring skills and certifications, and integrate them naturally into your professional history and skills sections. If a job description asks for experience in stakeholder management, ensure that exact phrase appears in your resume. Outsourcing your resume development to a service like <Link href="/services/resume-writing">9Jobs Resume Sourcing</Link> ensures your document uses the correct industry jargon and formatting rules to pass local ATS filters.</p>
+          <p>To clear the automated screening phase, your resume must align with the terminology used in local job descriptions. This means translating international terms into their Australian equivalents. For example, use 'superannuation' instead of '401k' or 'pension,' and refer to 'SEEK' rather than international job boards. Additionally, analyze the target job advertisement for recurring skills and certifications and integrate them naturally into your professional history and skills sections. If a job description asks for experience in stakeholder management, ensure that exact phrase appears in your resume. Outsourcing your resume development to a service like <Link href="/services/resume-writing">9Jobs Resume Sourcing</Link> ensures your document uses the correct industry jargon and formatting rules to pass local ATS filters.</p>
   
 
           <h2>6. Optimizing Your Digital Footprint: SEEK and LinkedIn</h2>
-          <p>In 2026, a resume does not exist in isolation. Local recruiters use candidate databases to actively source talent. If your resume does not match your online profiles, you will lose credibility. Ensure your LinkedIn profile matches your CV exactly in terms of job titles, employment dates, and key projects. Furthermore, your SEEK profile must be fully populated and set to standard visibility. Use our <Link href="/services/seek-profile-optimization">SEEK Profile Optimization</Link> and <Link href="/services/linkedin-optimization">LinkedIn Optimization Australia</Link> services to align your profiles, adjust your privacy and search settings, and increase your inbound recruiter inquiries.</p>
+          <p>In 2026, a resume does not exist in isolation. Local recruiters use candidate databases to actively source talent. If your resume does not match your online profiles, you will lose credibility. Ensure your LinkedIn profile matches your CV exactly in terms of job titles, employment dates and key projects. Furthermore, your SEEK profile must be fully populated and set to standard visibility. Use our <Link href="/services/seek-profile-optimization">SEEK Profile Optimization</Link> and <Link href="/services/linkedin-optimization">LinkedIn Optimization Australia</Link> services to align your profiles, adjust your privacy and search settings and increase your inbound recruiter inquiries.</p>
   
         </div>
       </section>
@@ -190,7 +190,7 @@ export default function BlogDetailPage() {
           <div className="fj-section-head">
             <span className="fj-label">Australian Cities Sourcing Guides</span>
             <h2>Local Sourcing Opportunities</h2>
-            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes, and networks.</p>
+            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes and networks.</p>
           </div>
           
           <div className="cities-marquee-wrapper">

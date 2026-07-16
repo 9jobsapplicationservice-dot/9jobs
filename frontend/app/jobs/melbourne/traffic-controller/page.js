@@ -21,15 +21,15 @@ const faqs = [
   ],
   [
     "What is the average hourly rate for traffic control in Melbourne?",
-    "Entry-level traffic control rates in Melbourne typically start between $30 to $35 per hour. Under major infrastructure union agreements (EBAs) on Victorian government projects, rates can exceed $45 to $55 per hour, plus night shift loadings, travel allowances, meal allowances, and weekend overtime benefits."
+    "Entry-level traffic control rates in Melbourne typically start between $30 to $35 per hour. Under major infrastructure union agreements (EBAs) on Victorian government projects, rates can exceed $45 to $55 per hour, plus night shift loadings, travel allowances, meal allowances and weekend overtime benefits."
   ],
   [
     "Do recruitment agencies hire traffic controllers directly?",
-    "Yes. Most traffic control work in Melbourne is managed through specialized labor-hire and traffic management recruitment agencies (e.g. AWX, MC Labour, Hoban, Core Staff, and JV Recruitment). Having your resume optimized specifically to list your active tickets and vehicle access is key to getting registered quickly."
+    "Yes. Most traffic control work in Melbourne is managed through specialized labor-hire and traffic management recruitment agencies (e.g. AWX, MC Labour, Hoban, Core Staff and JV Recruitment). Having your resume optimized specifically to list your active tickets and vehicle access is key to getting registered quickly."
   ],
   [
     "Can 9Jobs help me secure a traffic controller job?",
-    "Yes. We specialize in optimizing your resume to ensure your White Card, traffic tickets, and transport availability parse perfectly through labor-hire ATS filters. We also optimize your SEEK profile preferences to make you discoverable to agency recruiters and can apply for matching road roles on your behalf daily."
+    "Yes. We specialize in optimizing your resume to ensure your White Card, traffic tickets and transport availability parse perfectly through labor-hire ATS filters. We also optimize your SEEK profile preferences to make you discoverable to agency recruiters and can apply for matching road roles on your behalf daily."
   ]
 ];
 
@@ -51,7 +51,7 @@ export default function TrafficControllerJobsPage() {
     "@context": "https://schema.org",
     "@type": "JobPosting",
     "title": "Traffic Controller - Construction & Road Projects",
-    "description": "We are seeking qualified Traffic Controllers for major infrastructure and road construction projects across Melbourne, VIC. High hourly rates, travel allowance, and overtime benefits apply. Must hold valid traffic control tickets and a White Card.",
+    "description": "We are seeking qualified Traffic Controllers for major infrastructure and road construction projects across Melbourne, VIC. High hourly rates, travel allowance and overtime benefits apply. Must hold valid traffic control tickets and a White Card.",
     "datePosted": "2026-06-10",
     "validThrough": "2026-12-31",
     "employmentType": "CONTRACTOR",
@@ -91,7 +91,7 @@ export default function TrafficControllerJobsPage() {
     {
       href: "/services/resume-writing",
       title: "Resume Writing",
-      text: "List tickets, licences, PPE, availability, and site experience in an ATS-readable format.",
+      text: "List tickets, licences, PPE, availability and site experience in an ATS-readable format.",
     },
     {
       href: "/services/linkedin-optimization",
@@ -101,12 +101,12 @@ export default function TrafficControllerJobsPage() {
     {
       href: "/services/interview-coaching",
       title: "Interview Coaching",
-      text: "Prepare for agency screens covering tickets, transport, availability, safety, and site readiness.",
+      text: "Prepare for agency screens covering tickets, transport, availability, safety and site readiness.",
     },
     {
       href: "/jobs/melbourne/warehouse",
       title: "Warehouse Jobs Melbourne",
-      text: "Compare related Melbourne labour-hire roles across warehouse, logistics, and operations.",
+      text: "Compare related Melbourne labour-hire roles across warehouse, logistics and operations.",
     },
   ];
 
@@ -133,7 +133,7 @@ export default function TrafficControllerJobsPage() {
           </nav>
           <span className="fj-announcement"><span>Melbourne Sourcing</span> Local Infrastructure Roles</span>
           <h1>Traffic Controller Jobs <span className="heading-mark">Melbourne</span></h1>
-          <p>Get your tickets recognized, your CV ATS-aligned, and secure high-paying road and construction roles across Melbourne and regional Victoria.</p>
+          <p>Get your tickets recognized, your CV ATS-aligned and secure high-paying road and construction roles across Melbourne and regional Victoria.</p>
           <div className="fj-actions">
             <Link className="fj-button fj-button--ghost" href="/pricing">View plans</Link>
             <CalendlyLink className="fj-button fj-button--dark">Optimize my tickets CV</CalendlyLink>
@@ -147,10 +147,10 @@ export default function TrafficControllerJobsPage() {
             <span className="fj-label">Active VIC Projects</span>
             <h2>Capitalise on Melbourne's massive infrastructure boom</h2>
             <p>
-              Melbourne's civil construction sector is growing rapidly. Major state-backed projects—including the Suburban Rail Loop, West Gate Tunnel, and extensive level crossing removals—have created massive, ongoing demand for certified traffic control professionals.
+              Melbourne's civil construction sector is growing rapidly. Major state-backed projects—including the Suburban Rail Loop, West Gate Tunnel and extensive level crossing removals—have created massive, ongoing demand for certified traffic control professionals.
             </p>
             <p>
-              However, because labor-hire agencies receive hundreds of registrations daily, they use Applicant Tracking Systems (ATS) to filter applicants. If your resume does not explicitly list your accredited VicRoads training, white card numbers, driver's licence class, and vehicle ownership, you will be automatically archived. 9Jobs optimizes your CV to ensure you clear these filters and start receiving shift offers.
+              However, because labor-hire agencies receive hundreds of registrations daily, they use Applicant Tracking Systems (ATS) to filter applicants. If your resume does not explicitly list your accredited VicRoads training, white card numbers, driver's licence class and vehicle ownership, you will be automatically archived. 9Jobs optimizes your CV to ensure you clear these filters and start receiving shift offers.
             </p>
           </div>
           <div className="fj-ai-card">
@@ -196,10 +196,10 @@ export default function TrafficControllerJobsPage() {
             <span className="fj-label">Sourcing Strategy</span>
             <h2>How to land high-paying EBA traffic roles</h2>
             <p>
-              Not all traffic control jobs are paid the same. Standard residential site roles pay basic award rates, while commercial construction projects and government roadworks operate under Enterprise Bargaining Agreements (EBAs), offering significantly higher hourly wages, site allowances, travel pay, and overtime.
+              Not all traffic control jobs are paid the same. Standard residential site roles pay basic award rates, while commercial construction projects and government roadworks operate under Enterprise Bargaining Agreements (EBAs), offering significantly higher hourly wages, site allowances, travel pay and overtime.
             </p>
             <p>
-              To secure these premium positions, you need to target specialized civil labor-hire agencies in Victoria. 9Jobs helps you identify the leading labor companies, optimizes your SEEK profile with target keywords, and automates your applications daily to ensure you are among the first applicants when agencies need staff urgently.
+              To secure these premium positions, you need to target specialized civil labor-hire agencies in Victoria. 9Jobs helps you identify the leading labor companies, optimizes your SEEK profile with target keywords and automates your applications daily to ensure you are among the first applicants when agencies need staff urgently.
             </p>
           </div>
           <div className="fj-role-card">

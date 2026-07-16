@@ -18,6 +18,7 @@
     "@types/node": "^20.11.24",
     "@types/react": "^19.0.0",
     "@vercel/blob": "^2.5.0",
+    "9jobsservice": "file:..",
     "bcryptjs": "^3.0.3",
     "framer-motion": "^12.38.0",
     "lucide-react": "^1.14.0",

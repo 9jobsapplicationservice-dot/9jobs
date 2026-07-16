@@ -24,9 +24,9 @@ export default async function AdminLoginPage({ searchParams }) {
     <main className="admin-auth-shell">
       <div className="admin-auth-shell__panel">
         <p className="admin-auth-shell__label">9Jobs Agreement Console</p>
-        <h1>Secure contract creation, preview, and DocuSign delivery.</h1>
+        <h1>Secure contract creation, preview and DocuSign delivery.</h1>
         <p className="admin-auth-shell__text">
-          Sign in to one private admin workspace, generate the 9 Jobs Service Contract, review the exact PDF, and send the same file to clients through DocuSign.
+          Sign in to one private admin workspace, generate the 9 Jobs Service Contract, review the exact PDF and send the same file to clients through DocuSign.
         </p>
       </div>
       <AdminLoginForm nextPath={nextPath} />

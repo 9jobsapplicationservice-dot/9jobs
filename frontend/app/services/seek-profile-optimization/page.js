@@ -15,21 +15,21 @@ export const metadata = createSeoMetadata(routeSeo);
 const services = [
   ["SEEK Profile Rewrite", "Craft a compelling, localized personal summary and fill key experience areas using local keywords.", FileText],
   ["Search Status Setup", "Configure your privacy and search status to 'Active' so recruiters find you instantly.", Target],
-  ["Keyword Integration", "Incorporate target industry, tool, and role keywords that recruiters use to filter SEEK candidates.", Search],
-  ["Alert & Preferences Tuning", "Set up correct alerts, salary targets, and location tags matching your career objectives.", UserCheck],
+  ["Keyword Integration", "Incorporate target industry, tool and role keywords that recruiters use to filter SEEK candidates.", Search],
+  ["Alert & Preferences Tuning", "Set up correct alerts, salary targets and location tags matching your career objectives.", UserCheck],
 ];
 
 const checklist = [
   ["SEEK Profile Summary", "We write a professional summary tailored to pass SEEK's internal matching algorithms."],
   ["Active Sourcing Setup", "We guide you on setting up visibility settings so recruiters can contact you directly."],
   ["Resume Alignment", "We ensure the resume uploaded to your SEEK profile matches your search filters and keywords."],
-  ["Alert Preferences", "Tuning notifications, salary expectations, and job alert filters to capture the best roles."],
+  ["Alert Preferences", "Tuning notifications, salary expectations and job alert filters to capture the best roles."],
 ];
 
 const faqs = [
   [
     "Why is SEEK important for finding a job in Australia?",
-    "SEEK is the absolute leader in the Australian job market. Almost all companies, recruitment firms, and HR departments use SEEK to post jobs and search for candidates. Having an optimized SEEK profile is just as critical as having a good resume or LinkedIn profile because it allows recruiters to find you in their search queries."
+    "SEEK is the absolute leader in the Australian job market. Almost all companies, recruitment firms and HR departments use SEEK to post jobs and search for candidates. Having an optimized SEEK profile is just as critical as having a good resume or LinkedIn profile because it allows recruiters to find you in their search queries."
   ],
   [
     "What is the difference between a SEEK profile and a resume?",
@@ -37,15 +37,15 @@ const faqs = [
   ],
   [
     "How does the SEEK optimization service work?",
-    "We review your current profile, uploaded resume, and target roles in Australia. We then provide a document containing optimized copy for your SEEK summary, experience, skills, and settings. We also guide you on setting up search preferences and alert parameters."
+    "We review your current profile, uploaded resume and target roles in Australia. We then provide a document containing optimized copy for your SEEK summary, experience, skills and settings. We also guide you on setting up search preferences and alert parameters."
   ],
   [
     "Should my SEEK profile be set to 'Standard' or 'Limited' privacy?",
-    "We recommend setting your profile to 'Standard' (fully visible to recruiters) when actively looking for work. This allows registered employers and recruitment agencies to search for you, read your summary, view your uploaded resume, and contact you directly. We help you configure these settings safely."
+    "We recommend setting your profile to 'Standard' (fully visible to recruiters) when actively looking for work. This allows registered employers and recruitment agencies to search for you, read your summary, view your uploaded resume and contact you directly. We help you configure these settings safely."
   ],
   [
     "Can you help me set up SEEK job alerts?",
-    "Yes. We advise you on the best salary ranges, job classifications, and keywords to set up for your daily alerts to ensure you receive relevant, high-impact opportunities directly in your inbox."
+    "Yes. We advise you on the best salary ranges, job classifications and keywords to set up for your daily alerts to ensure you receive relevant, high-impact opportunities directly in your inbox."
   ]
 ];
 
@@ -153,7 +153,7 @@ export default function SeekOptimizationPage() {
                 <h1>Get Recruiter Inquiries with an Optimized <span className="heading-mark">SEEK Profile</span></h1>
               </StaggerItem>
               <StaggerItem as="div">
-                <p>We optimize your SEEK profile summary, experience tags, and search settings to help you stand out to Australian employers and recruitment agencies.</p>
+                <p>We optimize your SEEK profile summary, experience tags and search settings to help you stand out to Australian employers and recruitment agencies.</p>
               </StaggerItem>
               <StaggerItem as="div">
                 <div className="fj-actions">
@@ -172,10 +172,10 @@ export default function SeekOptimizationPage() {
                 <span className="fj-label">Optimize for Australia's Largest Job Site</span>
                 <h2>Why an optimized SEEK profile is essential for your job <span className="heading-mark">search</span></h2>
                 <p>
-                  In Australia, SEEK handles the majority of online recruitment activity. When companies have open roles, their talent sourcing teams do not just wait for applications to roll in. They actively search the SEEK candidate database using search queries based on role title, location, salary parameters, and key skill terms.
+                  In Australia, SEEK handles the majority of online recruitment activity. When companies have open roles, their talent sourcing teams do not just wait for applications to roll in. They actively search the SEEK candidate database using search queries based on role title, location, salary parameters and key skill terms.
                 </p>
                 <p>
-                  If your SEEK profile lacks a structured summary, has missing experiences, or is set to incorrect privacy modes, you miss out on a massive stream of potential recruiter outreach. 9Jobs specializes in configuring SEEK profiles to pass filtering checks, rank high in searches, and clearly communicate your value to hiring teams.
+                  If your SEEK profile lacks a structured summary, has missing experiences, or is set to incorrect privacy modes, you miss out on a massive stream of potential recruiter outreach. 9Jobs specializes in configuring SEEK profiles to pass filtering checks, rank high in searches and clearly communicate your value to hiring teams.
                 </p>
               </div>
             </Reveal>
@@ -189,7 +189,7 @@ export default function SeekOptimizationPage() {
                     </div>
                     <div className="fj-ai-note">
                       <span>Profile Completeness</span>
-                      <strong>Summary, roles, and skills tags check</strong>
+                      <strong>Summary, roles and skills tags check</strong>
                       <p>Excellent. Fully optimized profile data structure matching database indexing requirements.</p>
                     </div>
                     <div className="fj-ai-note">
@@ -287,10 +287,10 @@ export default function SeekOptimizationPage() {
             </Reveal>
             <div style={{ maxWidth: "800px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "24px", lineHeight: "1.8", color: "var(--muted)" }}>
               <p>
-                To get the most value out of SEEK, candidates must treat their profile as a dynamic landing page. The SEEK search algorithm index fields in a specific hierarchy: your current job title, your skills checklist, your profile summary, and your past roles. Leaving these fields blank or copying-pasting generic resumes limits your reach.
+                To get the most value out of SEEK, candidates must treat their profile as a dynamic landing page. The SEEK search algorithm index fields in a specific hierarchy: your current job title, your skills checklist, your profile summary and your past roles. Leaving these fields blank or copying-pasting generic resumes limits your reach.
               </p>
               <p>
-                The profile summary is particularly critical. This is a 150 to 200 word summary that recruiters see first in search results. It must state your core expertise, key achievements, years of experience, and location availability. If you are relocating or holding a visa with working rights, this summary is the perfect place to communicate that information to preemptively bypass location-based filtering.
+                The profile summary is particularly critical. This is a 150 to 200 word summary that recruiters see first in search results. It must state your core expertise, key achievements, years of experience and location availability. If you are relocating or holding a visa with working rights, this summary is the perfect place to communicate that information to preemptively bypass location-based filtering.
               </p>
               <p>
                 Another common mistake is setting incorrect location and salary preferences. Recruiters filter database searches strictly based on salary bounds. If your profile lists a target salary range that does not match local benchmarks or target role values, you will be excluded from recruiter dashboards. We review local salary indicators to configure these ranges correctly.

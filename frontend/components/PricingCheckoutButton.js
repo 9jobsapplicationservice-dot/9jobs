@@ -2,14 +2,29 @@
 
 import { CreditCard } from "lucide-react";
 
+export function resolveCheckoutApiBase({ hostname, configuredApiUrl }) {
+  const normalizedApiUrl = (configuredApiUrl || "").replace(/\/$/, "");
+  const isLocal = hostname === "localhost" || hostname === "127.0.0.1";
+
+  if (!isLocal) {
+    return "";
+  }
+
+  if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(normalizedApiUrl)) {
+    return normalizedApiUrl;
+  }
+
+  return "http://localhost:5000";
+}
+
 export default function PricingCheckoutButton({ plan, className }) {
   const handleCheckout = async () => {
     try {
-      // Use relative path in production to avoid CORS/mixed-content issues.
-      // In local development, fallback to the env var or localhost:5000.
-      const isLocal = typeof window !== 'undefined' && window.location.hostname === 'localhost';
-      const apiBase = isLocal ? (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000").replace(/\/$/, "") : "";
-      
+      const apiBase = resolveCheckoutApiBase({
+        hostname: typeof window !== "undefined" ? window.location.hostname : "",
+        configuredApiUrl: process.env.NEXT_PUBLIC_API_URL,
+      });
+
       const response = await fetch(`${apiBase}/api/create-checkout-session`, {
         method: "POST",
         headers: {

@@ -67,7 +67,7 @@ export default function BlogDetailPage() {
     }
   },
   "datePublished": "2026-06-04",
-  "description": "Discover the most common reasons why resumes get rejected in Australia. Learn about ATS formatting blocks, duty-based lists, and local terminology."
+  "description": "Discover the most common reasons why resumes get rejected in Australia. Learn about ATS formatting blocks, duty-based lists and local terminology."
 };
   const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -122,7 +122,7 @@ export default function BlogDetailPage() {
           </nav>
           <span className="fj-announcement"><span>Blog</span> Resume Optimization</span>
           <h1>Why Your Resume Gets Rejected in Australia</h1>
-          <p>Discover the most common reasons why resumes get rejected in Australia. Learn about ATS formatting blocks, duty-based lists, and local terminology.</p>
+          <p>Discover the most common reasons why resumes get rejected in Australia. Learn about ATS formatting blocks, duty-based lists and local terminology.</p>
           <div style={{ marginTop: "16px", fontSize: "0.9rem", color: "var(--muted)" }}>
             Published: 2026-06-04 â€¢ 10 min read
           </div>
@@ -131,11 +131,11 @@ export default function BlogDetailPage() {
 
       <section className="fj-section">
         <div className="fj-container" style={{ maxWidth: "800px", margin: "0 auto", color: "var(--muted)", lineHeight: "1.8", display: "flex", flexDirection: "column", gap: "24px" }}>
-          <p>Receiving rejection emails can be frustrating, especially when you feel qualified for the roles you are applying to. In the Australian job market, high application volumes mean recruiters in Sydney, Melbourne, Brisbane, Perth, and Adelaide use automated screening tools to filter candidate pools. If your resume does not pass these initial screens, it is archived before a hiring manager ever sees it. In most cases, rejections are not caused by a lack of capability; they are caused by structural errors in your application: formatting blocks, a lack of local context, or duty-based descriptions that fail to show impact. Understanding why your resume is getting rejected is the first step to fixing your job search. This guide outlines the most common reasons for resume rejection in Australia and provides actionable steps to fix them.</p>
+          <p>Receiving rejection emails can be frustrating, especially when you feel qualified for the roles you are applying to. In the Australian job market, high application volumes mean recruiters in Sydney, Melbourne, Brisbane, Perth and Adelaide use automated screening tools to filter candidate pools. If your resume does not pass these initial screens, it is archived before a hiring manager ever sees it. In most cases, rejections are not caused by a lack of capability; they are caused by structural errors in your application: formatting blocks, a lack of local context, or duty-based descriptions that fail to show impact. Understanding why your resume is getting rejected is the first step to fixing your job search. This guide outlines the most common reasons for resume rejection in Australia and provides actionable steps to fix them.</p>
 
           
           <h2>1. Formatting Blocks: Multi-Column Layouts and Graphics</h2>
-          <p>The most common reason for automatic resume rejection is formatting. Many job seekers use modern, creative templates with multiple columns, text boxes, tables, icons, and progress bars. While these layouts look attractive to the human eye, they parse poorly in Applicant Tracking Systems (ATS). ATS software strips formatting to read text in a linear order. When it encounters columns or tables, it scrambles the text, rendering your profile incomplete or unreadable. To pass these screens, use a clean, single-column chronological layout with standard fonts and headings. For professional drafting that complies with these standards, check out our <Link href="/services/resume-writing">Resume Writing Services Australia</Link> team.</p>
+          <p>The most common reason for automatic resume rejection is formatting. Many job seekers use modern, creative templates with multiple columns, text boxes, tables, icons and progress bars. While these layouts look attractive to the human eye, they parse poorly in Applicant Tracking Systems (ATS). ATS software strips formatting to read text in a linear order. When it encounters columns or tables, it scrambles the text, rendering your profile incomplete or unreadable. To pass these screens, use a clean, single-column chronological layout with standard fonts and headings. For professional drafting that complies with these standards, check out our <Link href="/services/resume-writing">Resume Writing Services Australia</Link> team.</p>
   
 
           <h2>2. The 'Lack of Local Context' Red Flag</h2>
@@ -143,15 +143,15 @@ export default function BlogDetailPage() {
   
 
           <h2>3. Duty-Based Lists Instead of Accomplishments</h2>
-          <p>Hiring managers want to see the business outcomes you delivered in your past roles, not just a list of your daily tasks. A resume that reads 'Responsible for compiling weekly reports' is far less compelling than 'Compiled weekly financial reports for executive leadership in Melbourne, identifying $15k in monthly cost savings.' For every position, focus on demonstrating your impact using metrics, budgets, and project scales. Frame your achievements using the STAR method (Situation, Task, Action, Result) to prove your value to potential employers.</p>
+          <p>Hiring managers want to see the business outcomes you delivered in your past roles, not just a list of your daily tasks. A resume that reads 'Responsible for compiling weekly reports' is far less compelling than 'Compiled weekly financial reports for executive leadership in Melbourne, identifying $15k in monthly cost savings.' For every position, focus on demonstrating your impact using metrics, budgets and project scales. Frame your achievements using the STAR method (Situation, Task, Action, Result) to prove your value to potential employers.</p>
   
 
           <h2>4. Missing Keywords and Target Skills</h2>
-          <p>Recruiters search candidate databases using specific keywords from the job description. If your resume does not contain these exact terms, you will not rank high enough to be reviewed. Analyze target job advertisements for recurring skills and certifications, and integrate them naturally into your professional history and skills sections. If a job advertisement asks for experience in 'stakeholder engagement,' ensure that exact phrase appears in your document.</p>
+          <p>Recruiters search candidate databases using specific keywords from the job description. If your resume does not contain these exact terms, you will not rank high enough to be reviewed. Analyze target job advertisements for recurring skills and certifications and integrate them naturally into your professional history and skills sections. If a job advertisement asks for experience in 'stakeholder engagement,' ensure that exact phrase appears in your document.</p>
   
 
           <h2>5. Maintaining Sourcing and Application Momentum</h2>
-          <p>Even with an optimized resume, maintaining a consistent application volume is critical to job search success. Recruitment cycles move fast, and applying early gives you a significant advantage. 9Jobs offers a professional <Link href="/services/job-application-automation">Job Application Service Australia</Link> where our team monitors local job boards daily, tailors your applications, and submits them on your behalf, ensuring you never miss a sourcing window.</p>
+          <p>Even with an optimized resume, maintaining a consistent application volume is critical to job search success. Recruitment cycles move fast and applying early gives you a significant advantage. 9Jobs offers a professional <Link href="/services/job-application-automation">Job Application Service Australia</Link> where our team monitors local job boards daily, tailors your applications and submits them on your behalf, ensuring you never miss a sourcing window.</p>
   
         </div>
       </section>
@@ -186,7 +186,7 @@ export default function BlogDetailPage() {
           <div className="fj-section-head">
             <span className="fj-label">Australian Cities Sourcing Guides</span>
             <h2>Local Sourcing Opportunities</h2>
-            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes, and networks.</p>
+            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes and networks.</p>
           </div>
           
           <div className="cities-marquee-wrapper">

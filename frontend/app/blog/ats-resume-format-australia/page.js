@@ -12,7 +12,7 @@ export const metadata = createSeoMetadata(routeSeo);
 const faqs = [
   [
     "What is the best layout for an ATS resume in Australia?",
-    "The best layout is a single-column, reverse-chronological format using standard, web-safe fonts like Arial, Calibri, or Helvetica. Avoid text boxes, tables, columns, charts, and graphics, as they can prevent the scanner from reading your experience correctly."
+    "The best layout is a single-column, reverse-chronological format using standard, web-safe fonts like Arial, Calibri, or Helvetica. Avoid text boxes, tables, columns, charts and graphics, as they can prevent the scanner from reading your experience correctly."
   ],
   [
     "Should I put my photo on my resume in Australia?",
@@ -20,7 +20,7 @@ const faqs = [
   ],
   [
     "How do I identify keywords to add to my resume?",
-    "Read target job listings in your sector and highlight repeating skills, systems, tools, and methodologies. Integrate these exact terms naturally into your professional summary and experience sections."
+    "Read target job listings in your sector and highlight repeating skills, systems, tools and methodologies. Integrate these exact terms naturally into your professional summary and experience sections."
   ],
   [
     "What is the ideal resume length for Australian employers?",
@@ -107,7 +107,7 @@ export default function AtsResumeFormatPage() {
         <div className="fj-container">
           <span className="fj-announcement"><span>Blog</span> Resume Strategy</span>
           <h1>Best ATS Resume Format for Australian <span className="heading-mark">Recruiters</span></h1>
-          <p>Learn how to format and optimize your resume to pass automated screens, align with local benchmarks, and secure callbacks.</p>
+          <p>Learn how to format and optimize your resume to pass automated screens, align with local benchmarks and secure callbacks.</p>
           <div style={{ marginTop: "16px", fontSize: "0.9rem", color: "var(--muted)" }}>
             Published: June 3, 2026 â€¢ 7 min read
           </div>
@@ -118,7 +118,7 @@ export default function AtsResumeFormatPage() {
         <div className="fj-container" style={{ maxWidth: "800px", margin: "0 auto", color: "var(--muted)", lineHeight: "1.8", display: "flex", flexDirection: "column", gap: "24px" }}>
           <h2>Why ATS Compatibility is the First Gate to Clear</h2>
           <p>
-            When you apply for a job on SEEK, Jora, or LinkedIn, your resume rarely goes straight to a human hiring manager. Instead, it is processed by an Applicant Tracking System (ATS). This is especially true in highly competitive markets like <Link href="/jobs/sydney">Sydney</Link>, <Link href="/jobs/melbourne">Melbourne</Link>, <Link href="/jobs/brisbane">Brisbane</Link>, <Link href="/jobs/perth">Perth</Link>, and <Link href="/jobs/adelaide">Adelaide</Link> where recruiters process hundreds of applications per role.
+            When you apply for a job on SEEK, Jora, or LinkedIn, your resume rarely goes straight to a human hiring manager. Instead, it is processed by an Applicant Tracking System (ATS). This is especially true in highly competitive markets like <Link href="/jobs/sydney">Sydney</Link>, <Link href="/jobs/melbourne">Melbourne</Link>, <Link href="/jobs/brisbane">Brisbane</Link>, <Link href="/jobs/perth">Perth</Link> and <Link href="/jobs/adelaide">Adelaide</Link> where recruiters process hundreds of applications per role.
           </p>
           <p>
             If your file uses a layout that cannot be read by these scanners, your text becomes scrambled or unreadable, leading to an automatic rejection. To land interviews, your resume must be designed to pass the digital screen first.
@@ -140,11 +140,11 @@ export default function AtsResumeFormatPage() {
             Australian hiring managers expect resumes to follow a logical structure:
           </p>
           <ol>
-            <li><strong>Contact Details:</strong> Your name, phone number, professional email, LinkedIn link, and location (City, State, e.g. Sydney, NSW). Do not include personal details like photos, date of birth, marital status, or full street addresses.</li>
-            <li><strong>Professional Summary:</strong> A 3-4 sentence paragraph summarizing your career achievements, target role, and visa status.</li>
+            <li><strong>Contact Details:</strong> Your name, phone number, professional email, LinkedIn link and location (City, State, e.g. Sydney, NSW). Do not include personal details like photos, date of birth, marital status, or full street addresses.</li>
+            <li><strong>Professional Summary:</strong> A 3-4 sentence paragraph summarizing your career achievements, target role and visa status.</li>
             <li><strong>Key Skills Checklist:</strong> A 9-12 item grid of target skills, systems, or technical tools matching your industry.</li>
-            <li><strong>Professional Experience:</strong> Chronological listing of your roles, company names, dates, achievements, and responsibilities.</li>
-            <li><strong>Education & Certifications:</strong> Degree name, institution, and year of completion.</li>
+            <li><strong>Professional Experience:</strong> Chronological listing of your roles, company names, dates, achievements and responsibilities.</li>
+            <li><strong>Education & Certifications:</strong> Degree name, institution and year of completion.</li>
           </ol>
 
           <div style={{ background: "var(--surface)", border: "1px solid var(--line)", padding: "24px", borderRadius: "8px", margin: "24px 0" }}>
@@ -160,7 +160,7 @@ export default function AtsResumeFormatPage() {
             The ranking score calculated by the ATS relies heavily on keyword matching. Recruiters enter search criteria (e.g. &quot;React Developer&quot;, &quot;Agile&quot;, &quot;SaaS&quot;) and the system shows profiles that contain those terms.
           </p>
           <p>
-            Review the job description of roles you want, find repeating industry terms, and integrate them naturally. Avoid &quot;keyword stuffing&quot;â€”listing terms without contextâ€”as human recruiters will immediately notice. Instead, weave them into accomplishment statements: &quot;Implemented React and Node.js solutions to automate internal data sync, reducing processing time by 20%.&quot;
+            Review the job description of roles you want, find repeating industry terms and integrate them naturally. Avoid &quot;keyword stuffing&quot;â€”listing terms without contextâ€”as human recruiters will immediately notice. Instead, weave them into accomplishment statements: &quot;Implemented React and Node.js solutions to automate internal data sync, reducing processing time by 20%.&quot;
           </p>
 
           <h2>Achievement-Focused Writing vs. Task Listing</h2>
@@ -168,7 +168,7 @@ export default function AtsResumeFormatPage() {
             Hiring managers are not interested in reading a list of your daily tasks. They want to see the outcomes you delivered. Change passive descriptions into active success statements.
           </p>
           <p>
-            Instead of writing &quot;Responsible for managing customer calls,&quot; write: &quot;Managed a pipeline of 80+ customer inquiries daily, achieving a 95% satisfaction rating and reducing response latency by 2 hours.&quot; Frame your experiences around Situation, Task, Action, and Result (STAR) metrics to prove your capability.
+            Instead of writing &quot;Responsible for managing customer calls,&quot; write: &quot;Managed a pipeline of 80+ customer inquiries daily, achieving a 95% satisfaction rating and reducing response latency by 2 hours.&quot; Frame your experiences around Situation, Task, Action and Result (STAR) metrics to prove your capability.
           </p>
         </div>
       </section>
@@ -203,7 +203,7 @@ export default function AtsResumeFormatPage() {
           <div className="fj-section-head">
             <span className="fj-label">Australian Cities Sourcing Guides</span>
             <h2>Local Sourcing Opportunities</h2>
-            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes, and networks.</p>
+            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes and networks.</p>
           </div>
           
           <div className="cities-marquee-wrapper">

@@ -16,7 +16,7 @@ const faqs = [
   ],
   [
     "Where are the best places to search for jobs in Australia?",
-    "SEEK is the absolute market leader for job vacancies in Australia. Jora and Indeed are also highly active. For professional, corporate, and tech sectors, LinkedIn is critical, as many recruiters use LinkedIn Recruiter to source candidates directly without posting public listings."
+    "SEEK is the absolute market leader for job vacancies in Australia. Jora and Indeed are also highly active. For professional, corporate and tech sectors, LinkedIn is critical, as many recruiters use LinkedIn Recruiter to source candidates directly without posting public listings."
   ],
   [
     "Do I need an local phone number and address?",
@@ -60,7 +60,7 @@ export default function HowToGetJobPage() {
       }
     },
     "datePublished": "2026-06-03",
-    "description": "A comprehensive, step-by-step guide to navigating the recruitment process, optimizing profiles, and landing job offers in Australia."
+    "description": "A comprehensive, step-by-step guide to navigating the recruitment process, optimizing profiles and landing job offers in Australia."
   };
 
   const breadcrumbSchema = {
@@ -107,7 +107,7 @@ export default function HowToGetJobPage() {
         <div className="fj-container">
           <span className="fj-announcement"><span>Blog</span> Job Search Strategy</span>
           <h1>How to Get a Job in Australia: The Definitive <span className="heading-mark">Guide</span></h1>
-          <p>Navigating the local job search landscape, passing recruiter screens, and securing employment offers.</p>
+          <p>Navigating the local job search landscape, passing recruiter screens and securing employment offers.</p>
           <div style={{ marginTop: "16px", fontSize: "0.9rem", color: "var(--muted)" }}>
             Published: June 3, 2026 â€¢ 8 min read
           </div>
@@ -118,7 +118,7 @@ export default function HowToGetJobPage() {
         <div className="fj-container" style={{ maxWidth: "800px", margin: "0 auto", color: "var(--muted)", lineHeight: "1.8", display: "flex", flexDirection: "column", gap: "24px" }}>
           <h2>Introduction: The Reality of the Australian Job Search</h2>
           <p>
-            Relocating or transitioning to a new role in Australia is an exciting career milestone. However, many candidates approach the local market with global strategies that do not align with local employer expectations. The recruitment market in <Link href="/jobs/sydney">Sydney</Link>, <Link href="/jobs/melbourne">Melbourne</Link>, <Link href="/jobs/brisbane">Brisbane</Link>, <Link href="/jobs/perth">Perth</Link>, and <Link href="/jobs/adelaide">Adelaide</Link> is characterized by structured processes, high digital filtering, and specific cultural preferences.
+            Relocating or transitioning to a new role in Australia is an exciting career milestone. However, many candidates approach the local market with global strategies that do not align with local employer expectations. The recruitment market in <Link href="/jobs/sydney">Sydney</Link>, <Link href="/jobs/melbourne">Melbourne</Link>, <Link href="/jobs/brisbane">Brisbane</Link>, <Link href="/jobs/perth">Perth</Link> and <Link href="/jobs/adelaide">Adelaide</Link> is characterized by structured processes, high digital filtering and specific cultural preferences.
           </p>
           <p>
             Whether you are a local professional looking for your next challenge or an international candidate planning a relocation, understanding these rules is the difference between sending hundreds of ignored applications and receiving consistent interview calls. This guide outlines the key steps to navigate the hiring process successfully.
@@ -134,10 +134,10 @@ export default function HowToGetJobPage() {
 
           <h2>Step 2: Craft an ATS-Friendly Resume for Local Standards</h2>
           <p>
-            Applicant Tracking Systems (ATS) are widely used by mid-to-large companies in Australia to screen resumes. These tools scan files for specific keywords, education history, and job titles. If your resume contains complex elements like columns, text boxes, tables, icons, or headers, the parsing software will scramble the text, automatically classifying your profile as incomplete or unqualified.
+            Applicant Tracking Systems (ATS) are widely used by mid-to-large companies in Australia to screen resumes. These tools scan files for specific keywords, education history and job titles. If your resume contains complex elements like columns, text boxes, tables, icons, or headers, the parsing software will scramble the text, automatically classifying your profile as incomplete or unqualified.
           </p>
           <p>
-            To pass these filters, your resume must follow clean formatting rules: a single-column layout, standard fonts, and reverse-chronological order. It must also avoid personal details like photos, dates of birth, or marital status due to anti-discrimination laws. For a complete guide on writing an optimized, localized resume, check our <Link href="/services/resume-writing">Resume Writing Services Australia</Link> guide.
+            To pass these filters, your resume must follow clean formatting rules: a single-column layout, standard fonts and reverse-chronological order. It must also avoid personal details like photos, dates of birth, or marital status due to anti-discrimination laws. For a complete guide on writing an optimized, localized resume, check our <Link href="/services/resume-writing">Resume Writing Services Australia</Link> guide.
           </p>
 
           <div style={{ background: "var(--surface)", border: "1px solid var(--line)", padding: "24px", borderRadius: "8px", margin: "24px 0" }}>
@@ -153,7 +153,7 @@ export default function HowToGetJobPage() {
             In Australia, SEEK is the dominant job board. Recruiters use it to post ads and search the database for talent. If you do not have an optimized SEEK profile, you are missing out on a massive portion of the job market.
           </p>
           <p>
-            Ensure your SEEK profile summary is complete, lists your target role titles, specifies your location, and targets appropriate salary ranges. Set your profile visibility to 'Standard' so local recruiters can discover your profile when sourcing candidates. Read our <Link href="/services/seek-profile-optimization">SEEK Profile Optimization</Link> tips to learn how to configure your settings to attract search inquiries.
+            Ensure your SEEK profile summary is complete, lists your target role titles, specifies your location and targets appropriate salary ranges. Set your profile visibility to 'Standard' so local recruiters can discover your profile when sourcing candidates. Read our <Link href="/services/seek-profile-optimization">SEEK Profile Optimization</Link> tips to learn how to configure your settings to attract search inquiries.
           </p>
 
           <h2>Step 4: Align Your LinkedIn Profile with Local Sourcing Keywords</h2>
@@ -169,15 +169,15 @@ export default function HowToGetJobPage() {
             Securing a job requires active, consistent application workflows. Many vacancies are filled quickly, often within a week of listing. Checking job boards once a week means you apply after recruiters have already compiled their interview shortlists.
           </p>
           <p>
-            Checking job search platforms daily, reviewing requirements, tailoring applications, and submitting covers letters takes hours of daily work. 9Jobs offers a professional <Link href="/services/job-application-automation">Job Application Service</Link> where our team actively researches and submits applications on your behalf daily, ensuring you never miss an opportunity.
+            Checking job search platforms daily, reviewing requirements, tailoring applications and submitting covers letters takes hours of daily work. 9Jobs offers a professional <Link href="/services/job-application-automation">Job Application Service</Link> where our team actively researches and submits applications on your behalf daily, ensuring you never miss an opportunity.
           </p>
 
           <h2>Step 6: Master the Local Interview Process</h2>
           <p>
-            Once your applications start converting, you will receive phone screening calls. Sourcing teams use these 10-15 minute conversations to confirm your working rights, salary benchmarks, and communication skills. Be ready to explain your background in a structured manner.
+            Once your applications start converting, you will receive phone screening calls. Sourcing teams use these 10-15 minute conversations to confirm your working rights, salary benchmarks and communication skills. Be ready to explain your background in a structured manner.
           </p>
           <p>
-            Australian hiring managers rely heavily on behavioral interviews. They want to hear real examples of how you resolved problems in past roles using the STAR method (Situation, Task, Action, Result). For mock interview practice, salary negotiation, and local communication coaching, check our <Link href="/services/interview-coaching">Interview Support Australia</Link> program.
+            Australian hiring managers rely heavily on behavioral interviews. They want to hear real examples of how you resolved problems in past roles using the STAR method (Situation, Task, Action, Result). For mock interview practice, salary negotiation and local communication coaching, check our <Link href="/services/interview-coaching">Interview Support Australia</Link> program.
           </p>
         </div>
       </section>
@@ -212,7 +212,7 @@ export default function HowToGetJobPage() {
           <div className="fj-section-head">
             <span className="fj-label">Australian Cities Sourcing Guides</span>
             <h2>Local Sourcing Opportunities</h2>
-            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes, and networks.</p>
+            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes and networks.</p>
           </div>
           
           <div className="cities-marquee-wrapper">

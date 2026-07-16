@@ -11,8 +11,8 @@ export const metadata = createSeoMetadata(routeSeo);
 
 const stats = [
   { value: 4.8, decimals: 1, suffix: "/5", label: "Average Client Rating", icon: Star },
-  { value: 1200, decimals: 0, suffix: "+", label: "Interviews Arranged", icon: CalendarCheck },
-  { value: 450, decimals: 0, suffix: "+", label: "Successful Placements", icon: ShieldCheck },
+  { value: 50, decimals: 0, suffix: "+", label: "Interviews Arranged", icon: CalendarCheck },
+  { value: 40, decimals: 0, suffix: "+", label: "Successful Placements", icon: ShieldCheck },
   { value: 92, decimals: 0, suffix: "%", label: "Repeat Clients", icon: UsersRound }
 ];
 
@@ -67,14 +67,14 @@ export default function SuccessStories() {
                   role: "Senior Full Stack Engineer",
                   story: "We were struggling to find a developer who understood both Node.js and AWS infrastructure. 9Jobs not only sent us a curated list of top-tier candidates within 48 hours, but they also handled the initial technical screening. The candidate we hired has already optimized our backend, saving us 20% on cloud costs. We'll definitely use 9Jobs again.",
                   rating: 5,
-                  image: "/framer/story-ops.jpg"
+                  image: "/framer/contact-panel-team.jpg"
                 },
                 {
                   client: "Bluebird Financial",
                   role: "VP of Product",
                   story: "Hiring for leadership is always tough. The 9Jobs team was incredibly professional and maintained consistent communication throughout the search. They arranged 5 high-quality interviews and the final placement exceeded our expectations. The platform made it so easy to track the pipeline.",
                   rating: 5,
-                  image: "/framer/story-ops.jpg"
+                  image: "/brand/about-candidate-story.jpg"
                 }
               ].map((story, idx) => (
                 <StaggerItem as="div" key={idx}>
@@ -102,10 +102,10 @@ export default function SuccessStories() {
         {/* We reuse the existing Testimonials component here */}
         <Testimonials />
 
-        <section className="fj-section fj-section--tight">
+        <section className="fj-section fj-section--tight fj-success-cta-section">
           <div className="fj-container">
             <Reveal direction="up" distance={24}>
-              <div className="fj-final-cta">
+              <div className="fj-final-cta fj-success-final-cta">
                 <span>Ready to hire?</span>
                 <h2>Find your next <span className="heading-mark">star.</span></h2>
                 <div className="fj-actions">

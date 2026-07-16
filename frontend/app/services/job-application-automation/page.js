@@ -11,14 +11,14 @@ const routeSeo = getRouteSeo("/services/job-application-automation");
 export const metadata = createSeoMetadata(routeSeo);
 
 const services = [
-  ["Done-for-You Applications", "We research, identify, and submit high-quality job applications on your behalf, maintaining a daily pipeline.", ClipboardCheck],
-  ["Role & Skill Matching", "We analyze role requirements, tech stacks, and seniority levels to ensure we only apply to suitable positions.", Target],
-  ["SEEK & Jora Pipelines", "We run job application workflows across major local platforms including SEEK, Jora, LinkedIn, and direct portals.", Search],
-  ["Daily Progress Reports", "Get detailed updates on which roles were applied to, company names, titles, and application status.", UserCheck],
+  ["Done-for-You Applications", "We research, identify and submit high-quality job applications on your behalf, maintaining a daily pipeline.", ClipboardCheck],
+  ["Role & Skill Matching", "We analyze role requirements, tech stacks and seniority levels to ensure we only apply to suitable positions.", Target],
+  ["SEEK & Jora Pipelines", "We run job application workflows across major local platforms including SEEK, Jora, LinkedIn and direct portals.", Search],
+  ["Daily Progress Reports", "Get detailed updates on which roles were applied to, company names, titles and application status.", UserCheck],
 ];
 
 const checklist = [
-  ["Target Parameters Setting", "We map out your desired roles, target salary benchmarks, locations, and working formats (remote/hybrid/onsite)."],
+  ["Target Parameters Setting", "We map out your desired roles, target salary benchmarks, locations and working formats (remote/hybrid/onsite)."],
   ["ATS Compliance Reviews", "We review every target description to ensure your resume matches high-impact keyword expectations before applying."],
   ["Application Submissions", "Our team submits daily applications on your behalf, answering application questionnaires with approved answers."],
   ["Recruiter Notes Logging", "Detailed tracking logs of all submitted roles, enabling easy follow-up tracking and interview preparation."],
@@ -27,11 +27,11 @@ const checklist = [
 const faqs = [
   [
     "How does the job application service work?",
-    "We start by aligning on your career goals, target role titles, locations, and salary parameters. We then use your optimized resume and online profiles to actively search for matching positions across SEEK, Jora, and LinkedIn. We submit applications on your behalf, answers standard questionnaire forms based on your background, and provide daily logs of all applications so you stay fully informed."
+    "We start by aligning on your career goals, target role titles, locations and salary parameters. We then use your optimized resume and online profiles to actively search for matching positions across SEEK, Jora and LinkedIn. We submit applications on your behalf, answers standard questionnaire forms based on your background and provide daily logs of all applications so you stay fully informed."
   ],
   [
     "How many jobs will you apply to on my behalf?",
-    "The application volume depends on your target market, industry, and the number of active, matching listings available. We focus on quality and relevancy rather than spamming. Typically, we submit between 10 to 25 highly targeted applications per week depending on the active listings matching your parameters."
+    "The application volume depends on your target market, industry and the number of active, matching listings available. We focus on quality and relevancy rather than spamming. Typically, we submit between 10 to 25 highly targeted applications per week depending on the active listings matching your parameters."
   ],
   [
     "Do you customize cover letters for each application?",
@@ -39,11 +39,11 @@ const faqs = [
   ],
   [
     "What platforms do you use to apply for jobs?",
-    "We primarily use SEEK, Jora, and LinkedIn, as they cover over 90% of the active professional vacancies in Australia. If appropriate, we also submit applications directly through company HR portals (e.g. Workday, SuccessFactors)."
+    "We primarily use SEEK, Jora and LinkedIn, as they cover over 90% of the active professional vacancies in Australia. If appropriate, we also submit applications directly through company HR portals (e.g. Workday, SuccessFactors)."
   ],
   [
     "How do I track which jobs have been applied to?",
-    "We provide a shared tracking dashboard where you can see all applications in real-time: company name, job title, platform used, application date, and links to the original postings. This keeps your search fully organized."
+    "We provide a shared tracking dashboard where you can see all applications in real-time: company name, job title, platform used, application date and links to the original postings. This keeps your search fully organized."
   ]
 ];
 
@@ -151,7 +151,7 @@ export default function JobApplicationServicesPage() {
                 <h1>We Apply for Jobs in Australia on Your <span className="heading-mark">Behalf</span></h1>
               </StaggerItem>
               <StaggerItem as="div">
-                <p>Save time, maintain consistency, and land more interviews. 9Jobs manages your daily application workflow from matching to submission.</p>
+                <p>Save time, maintain consistency and land more interviews. 9Jobs manages your daily application workflow from matching to submission.</p>
               </StaggerItem>
               <StaggerItem as="div">
                 <div className="fj-actions">
@@ -173,7 +173,7 @@ export default function JobApplicationServicesPage() {
                   Looking for a job is a full-time job. To secure interviews in a competitive market like Australia, you must remain consistent. Most candidates apply to roles in erratic batches—sending 20 applications in one weekend and then none for a fortnight. This approach means you miss out on high-impact roles that get filled within 48 hours of posting.
                 </p>
                 <p>
-                  Applying for jobs manually is tedious. Searching platforms, tailoring resumes, filling out long HR questionnaires, and tracking deadlines takes hours. 9Jobs solves this problem by handling the busywork for you. We search, filter, and submit high-relevancy applications daily, ensuring you never miss a match while freeing you up to focus on interview preparation.
+                  Applying for jobs manually is tedious. Searching platforms, tailoring resumes, filling out long HR questionnaires and tracking deadlines takes hours. 9Jobs solves this problem by handling the busywork for you. We search, filter and submit high-relevancy applications daily, ensuring you never miss a match while freeing you up to focus on interview preparation.
                 </p>
               </div>
             </Reveal>
@@ -285,16 +285,16 @@ export default function JobApplicationServicesPage() {
             </Reveal>
             <div style={{ maxWidth: "800px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "24px", lineHeight: "1.8", color: "var(--muted)" }}>
               <p>
-                In Australia, recruitment cycles are fast, especially for professional, commercial, and technical vacancies. When a recruiter posts an ad on SEEK or Jora, they receive an initial surge of applications within the first 48 hours. Sourcing teams typically begin reviewing, screening, and contacting candidates almost immediately. If you apply 5 days after the posting, the role may already be in the final interview stage.
+                In Australia, recruitment cycles are fast, especially for professional, commercial and technical vacancies. When a recruiter posts an ad on SEEK or Jora, they receive an initial surge of applications within the first 48 hours. Sourcing teams typically begin reviewing, screening and contacting candidates almost immediately. If you apply 5 days after the posting, the role may already be in the final interview stage.
               </p>
               <p>
-                This fast cycle makes daily application checks essential. A successful strategy requires monitoring alerts, identifying matching roles, verifying that your profile matches requirements, and submitting the application immediately. If you are doing this manually, it is easy to burn out or miss matching roles.
+                This fast cycle makes daily application checks essential. A successful strategy requires monitoring alerts, identifying matching roles, verifying that your profile matches requirements and submitting the application immediately. If you are doing this manually, it is easy to burn out or miss matching roles.
               </p>
               <p>
                 Additionally, many corporate application portals require candidates to navigate lengthy registration forms and answer behavioral questions during the submission process. We manage all of these steps for you. By leveraging your pre-approved answers and professional background, we submit high-quality applications that represent you professionally while maintaining the daily consistency required to capture new vacancies.
               </p>
               <p>
-                Most importantly, we keep your job search organized. When you receive a screening call from an agency or employer, the first question they ask is: &quot;Why are you interested in this role?&quot; If you have applied to hundreds of jobs randomly, you won't remember the details of that specific company. Our shared dashboard ensures you can instantly view the company's description, the job ad, and the version of the resume submitted, so you show up prepared for every initial conversation.
+                Most importantly, we keep your job search organized. When you receive a screening call from an agency or employer, the first question they ask is: &quot;Why are you interested in this role?&quot; If you have applied to hundreds of jobs randomly, you won't remember the details of that specific company. Our shared dashboard ensures you can instantly view the company's description, the job ad and the version of the resume submitted, so you show up prepared for every initial conversation.
               </p>
             </div>
           </div>

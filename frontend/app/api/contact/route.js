@@ -51,7 +51,7 @@ export async function POST(request) {
     console.error('Email Error:', error);
     // Return a more user-friendly error but log the technical one
     return NextResponse.json({ 
-      error: `Failed to send message. Please check if the credentials in .env are correct. (Error: ${error.message})` 
+      error: `Failed to send message. Please check if the credentials in.env are correct. (Error: ${error.message})` 
     }, { status: 500 });
   }
 }

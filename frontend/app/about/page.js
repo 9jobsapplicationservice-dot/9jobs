@@ -18,21 +18,21 @@ import {
 import { Reveal, StaggerContainer, StaggerItem, HoverCard, PageTransition } from "../../components/homepage/HomeMotion";
 
 const process = [
-  ["Discover", "We understand your target roles, experience, location, salary goals, and hiring timeline.", SearchCheck],
-  ["Prepare", "Your resume, LinkedIn profile, and portfolio signals are tightened for recruiter review.", FileCheck2],
-  ["Match", "Relevant IT and non-IT opportunities are filtered by skill fit, seniority, and career direction.", Target],
-  ["Apply & follow up", "Applications, messages, interview notes, and follow-ups stay organized in one clear pipeline.", ClipboardCheck],
+  ["Discover", "We understand your target roles, experience, location, salary goals and hiring timeline.", SearchCheck],
+  ["Prepare", "Your resume, LinkedIn profile and portfolio signals are tightened for recruiter review.", FileCheck2],
+  ["Match", "Relevant IT and non-IT opportunities are filtered by skill fit, seniority and career direction.", Target],
+  ["Apply & follow up", "Applications, messages, interview notes and follow-ups stay organized in one clear pipeline.", ClipboardCheck],
 ];
 
 const roleGroups = [
   ["IT roles", "Support for candidates across modern technology teams.", Cpu, ["Software developer", "Data analyst", "Cloud engineer", "QA tester"]],
-  ["Non-IT roles", "Practical guidance for operational, business, and frontline career paths.", Factory, ["Sales executive", "HR coordinator", "Finance associate", "Operations manager"]],
+  ["Non-IT roles", "Practical guidance for operational, business and frontline career paths.", Factory, ["Sales executive", "HR coordinator", "Finance associate", "Operations manager"]],
 ];
 
 const supportAreas = [
-  ["Australia-ready profile", "Resume, LinkedIn, and application content shaped for Australian hiring expectations.", BriefcaseBusiness],
-  ["Targeted job applying", "We focus applications around your skills, location, experience level, and role fit.", Target],
-  ["Follow-up support", "Messages, interview notes, and next steps stay organized so no opportunity gets lost.", ClipboardCheck],
+  ["Australia-ready profile", "Resume, LinkedIn and application content shaped for Australian hiring expectations.", BriefcaseBusiness],
+  ["Targeted job applying", "We focus applications around your skills, location, experience level and role fit.", Target],
+  ["Follow-up support", "Messages, interview notes and next steps stay organized so no opportunity gets lost.", ClipboardCheck],
 ];
 
 const routeSeo = getRouteSeo("/about");
@@ -59,7 +59,7 @@ export default function About() {
                 <h1>9Jobs helps IT and non-IT talent find the right <span className="heading-mark">opportunities.</span></h1>
               </StaggerItem>
               <StaggerItem as="div">
-                <p>We combine practical career support, professional content, and organized application workflows so candidates can move from search to interview with more clarity.</p>
+                <p>We combine practical career support, professional content and organized application workflows so candidates can move from search to interview with more clarity.</p>
               </StaggerItem>
             </StaggerContainer>
           </div>
@@ -71,7 +71,7 @@ export default function About() {
               <div className="fj-copy-block">
                 <span className="fj-label">Our story</span>
                 <h2>Connecting skilled people with companies that need <span className="heading-mark">them.</span></h2>
-                <p>9Jobs was created for candidates who know they can contribute, but need a sharper way to present skills, choose the right roles, and stay consistent through applications.</p>
+                <p>9Jobs was created for candidates who know they can contribute, but need a sharper way to present skills, choose the right roles and stay consistent through applications.</p>
                 <p>9jobs, also known as 9 Jobs, helps professionals across Australia improve resumes, optimize LinkedIn profiles and secure interviews.</p>
               </div>
             </Reveal>
@@ -89,7 +89,7 @@ export default function About() {
               <div className="fj-quote-panel">
                 <HeartHandshake size={30} />
                 <h2>We remove the invisible barriers between talent and <span className="heading-mark">opportunity.</span></h2>
-                <p>Our work is simple: help candidates show up clearly, apply with purpose, and stay ready when the right conversation begins.</p>
+                <p>Our work is simple: help candidates show up clearly, apply with purpose and stay ready when the right conversation begins.</p>
               </div>
             </Reveal>
           </div>

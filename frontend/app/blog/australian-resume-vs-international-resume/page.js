@@ -28,7 +28,7 @@ export default function BlogDetailPage() {
       "name": "Should I include my GPA or high school details?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. Unless you are a recent graduate applying for graduate programs, exclude your high school details and university GPA. Focus on listing your degree, institution, graduation year, and professional experience."
+        "text": "No. Unless you are a recent graduate applying for graduate programs, exclude your high school details and university GPA. Focus on listing your degree, institution, graduation year and professional experience."
       }
     },
     {
@@ -44,7 +44,7 @@ export default function BlogDetailPage() {
       "name": "How do I present my overseas experience?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Present your overseas experience by highlighting transferable skills, project scales, global frameworks, and translating company descriptions to help local recruiters understand the context of your achievements."
+        "text": "Present your overseas experience by highlighting transferable skills, project scales, global frameworks and translating company descriptions to help local recruiters understand the context of your achievements."
       }
     }
   ]
@@ -67,7 +67,7 @@ export default function BlogDetailPage() {
     }
   },
   "datePublished": "2026-06-04",
-  "description": "Understand the key differences between Australian resumes and international formats. Discover length rules, personal data exclusions, and localization tips."
+  "description": "Understand the key differences between Australian resumes and international formats. Discover length rules, personal data exclusions and localization tips."
 };
   const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -94,7 +94,7 @@ export default function BlogDetailPage() {
   ]
 };
 
-  const faqs = [["Is it called a CV or a Resume in Australia?","In Australia, the terms 'CV' (Curriculum Vitae) and 'Resume' are used interchangeably to refer to the same 2-3 page document used to apply for professional roles."],["Should I include my GPA or high school details?","No. Unless you are a recent graduate applying for graduate programs, exclude your high school details and university GPA. Focus on listing your degree, institution, graduation year, and professional experience."],["Should I include a reference list on my resume?","No. You do not need to list reference contact details on your resume. Simply write 'References available upon request' at the end of the document."],["How do I present my overseas experience?","Present your overseas experience by highlighting transferable skills, project scales, global frameworks, and translating company descriptions to help local recruiters understand the context of your achievements."]];
+  const faqs = [["Is it called a CV or a Resume in Australia?","In Australia, the terms 'CV' (Curriculum Vitae) and 'Resume' are used interchangeably to refer to the same 2-3 page document used to apply for professional roles."],["Should I include my GPA or high school details?","No. Unless you are a recent graduate applying for graduate programs, exclude your high school details and university GPA. Focus on listing your degree, institution, graduation year and professional experience."],["Should I include a reference list on my resume?","No. You do not need to list reference contact details on your resume. Simply write 'References available upon request' at the end of the document."],["How do I present my overseas experience?","Present your overseas experience by highlighting transferable skills, project scales, global frameworks and translating company descriptions to help local recruiters understand the context of your achievements."]];
 
   return (
     <main className="site-main fj-page">
@@ -122,7 +122,7 @@ export default function BlogDetailPage() {
           </nav>
           <span className="fj-announcement"><span>Blog</span> Resume Optimization</span>
           <h1>Australian Resume vs International Resume</h1>
-          <p>Understand the key differences between Australian resumes and international formats. Discover length rules, personal data exclusions, and localization tips.</p>
+          <p>Understand the key differences between Australian resumes and international formats. Discover length rules, personal data exclusions and localization tips.</p>
           <div style={{ marginTop: "16px", fontSize: "0.9rem", color: "var(--muted)" }}>
             Published: 2026-06-04 â€¢ 10 min read
           </div>
@@ -131,15 +131,15 @@ export default function BlogDetailPage() {
 
       <section className="fj-section">
         <div className="fj-container" style={{ maxWidth: "800px", margin: "0 auto", color: "var(--muted)", lineHeight: "1.8", display: "flex", flexDirection: "column", gap: "24px" }}>
-          <p>If you are targeting professional roles in Australia, you cannot use a generic resume designed for other global markets. Resume writing conventions and recruitment standards differ significantly across regions. While US employers prefer a single-page document and some European markets expect a photo and personal details, the Australian market has strict rules regarding length, formatting, personal privacy, and terminology. Recruiters in Sydney, Melbourne, Brisbane, Perth, and Adelaide use automated screening software that matches resumes against these local standards. Using an incorrect format can lead to automatic rejection before a human ever reviews your application. This guide outlines the key differences between an Australian resume and international formats, helping you adapt your profile to secure more interviews.</p>
+          <p>If you are targeting professional roles in Australia, you cannot use a generic resume designed for other global markets. Resume writing conventions and recruitment standards differ significantly across regions. While US employers prefer a single-page document and some European markets expect a photo and personal details, the Australian market has strict rules regarding length, formatting, personal privacy and terminology. Recruiters in Sydney, Melbourne, Brisbane, Perth and Adelaide use automated screening software that matches resumes against these local standards. Using an incorrect format can lead to automatic rejection before a human ever reviews your application. This guide outlines the key differences between an Australian resume and international formats, helping you adapt your profile to secure more interviews.</p>
 
           
           <h2>1. Page Length Rules: 1 Page vs 2-3 Pages</h2>
-          <p>The most notable difference is page length. In the US and parts of Europe, candidates are encouraged to condense their career history onto a single page. In Australia, a single-page resume is often considered incomplete for mid-to-senior professional roles. The standard Australian resume is two to three pages long. This length provides enough space to detail your career achievements, project scale, technical stack, and education history without cluttering the page. For professional layout drafting that complies with these length standards, you can leverage our <Link href="/services/resume-writing">Resume Writing Services Australia</Link> team.</p>
+          <p>The most notable difference is page length. In the US and parts of Europe, candidates are encouraged to condense their career history onto a single page. In Australia, a single-page resume is often considered incomplete for mid-to-senior professional roles. The standard Australian resume is two to three pages long. This length provides enough space to detail your career achievements, project scale, technical stack and education history without cluttering the page. For professional layout drafting that complies with these length standards, you can leverage our <Link href="/services/resume-writing">Resume Writing Services Australia</Link> team.</p>
   
 
           <h2>2. Personal Privacy: Excluding Photos and Personal Data</h2>
-          <p>In many Asian, European, and Middle Eastern markets, it is customary to include a photo, date of birth, marital status, gender, and sometimes even your health status or religion on your resume. In Australia, including this information is a major mistake. Due to strict anti-discrimination and privacy laws, employers avoid reviewing resumes containing personal details to prevent compliance risks. Restrict your contact section to your full name, professional email address, Australian mobile number (starting with +61), LinkedIn URL, and your target location (e.g. Sydney NSW or Melbourne VIC). If you are relocating, update these details across platforms using our <Link href="/services/linkedin-optimization">LinkedIn Optimization Australia</Link> and <Link href="/services/seek-profile-optimization">SEEK Profile Optimization</Link> programs.</p>
+          <p>In many Asian, European and Middle Eastern markets, it is customary to include a photo, date of birth, marital status, gender and sometimes even your health status or religion on your resume. In Australia, including this information is a major mistake. Due to strict anti-discrimination and privacy laws, employers avoid reviewing resumes containing personal details to prevent compliance risks. Restrict your contact section to your full name, professional email address, Australian mobile number (starting with +61), LinkedIn URL and your target location (e.g. Sydney NSW or Melbourne VIC). If you are relocating, update these details across platforms using our <Link href="/services/linkedin-optimization">LinkedIn Optimization Australia</Link> and <Link href="/services/seek-profile-optimization">SEEK Profile Optimization</Link> programs.</p>
   
 
           <h2>3. Achievement Focus vs Duty Descriptions</h2>
@@ -147,7 +147,7 @@ export default function BlogDetailPage() {
   
 
           <h2>4. Outsourcing the Job Application Process</h2>
-          <p>Adapting your resume to local standards and maintaining a consistent application volume is time-consuming. Because recruiters fill roles quickly, applying early gives you a significant advantage. 9Jobs offers a professional <Link href="/services/job-application-automation">Job Application Service Australia</Link> where our team monitors local job boards daily, tailors your applications, and submits them on your behalf, allowing you to maintain a consistent application volume without the stress.</p>
+          <p>Adapting your resume to local standards and maintaining a consistent application volume is time-consuming. Because recruiters fill roles quickly, applying early gives you a significant advantage. 9Jobs offers a professional <Link href="/services/job-application-automation">Job Application Service Australia</Link> where our team monitors local job boards daily, tailors your applications and submits them on your behalf, allowing you to maintain a consistent application volume without the stress.</p>
   
 
           <h2>5. Preparing for local Structured Interviews</h2>
@@ -186,7 +186,7 @@ export default function BlogDetailPage() {
           <div className="fj-section-head">
             <span className="fj-label">Australian Cities Sourcing Guides</span>
             <h2>Local Sourcing Opportunities</h2>
-            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes, and networks.</p>
+            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes and networks.</p>
           </div>
           
           <div className="cities-marquee-wrapper">

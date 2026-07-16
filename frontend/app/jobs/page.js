@@ -11,11 +11,11 @@ export const metadata = createSeoMetadata(routeSeo);
 const faqs = [
   [
     "How does the 9Jobs location targeting work?",
-    "We tailor your resume, LinkedIn, and SEEK profiles with hyper-local keywords, suburbs, and industry terms specific to your target Australian city (e.g., Sydney, Melbourne, Brisbane). This ensures you rank higher when local recruiters search databases."
+    "We tailor your resume, LinkedIn and SEEK profiles with hyper-local keywords, suburbs and industry terms specific to your target Australian city (e.g., Sydney, Melbourne, Brisbane). This ensures you rank higher when local recruiters search databases."
   ],
   [
     "Do you support regional job seekers in Australia?",
-    "Yes. In addition to capital cities, we support regional hubs like Geelong, regional Victoria, and other locations with tailored regional job search and profile optimization strategy."
+    "Yes. In addition to capital cities, we support regional hubs like Geelong, regional Victoria and other locations with tailored regional job search and profile optimization strategy."
   ],
   [
     "Can you apply to jobs for me in my target city?",
@@ -93,7 +93,7 @@ export default function JobsHubPage() {
           </nav>
           <span className="fj-announcement"><span>Job Sourcing</span> Active Hubs across Australia</span>
           <h1>Find Jobs & Accelerate Your Career in <span className="heading-mark">Australia</span></h1>
-          <p>Direct access to regional hiring markets, recruiter networks, and local application support across major Australian cities.</p>
+          <p>Direct access to regional hiring markets, recruiter networks and local application support across major Australian cities.</p>
           <div className="fj-actions">
             <Link className="fj-button fj-button--ghost" href="/pricing" prefetch={false}>View plans</Link>
             <CalendlyLink className="fj-button fj-button--dark">Book a consulting call</CalendlyLink>
@@ -107,7 +107,7 @@ export default function JobsHubPage() {
           <div className="fj-section-head">
             <span className="fj-label">Regional Hubs</span>
             <h2>Explore Opportunities in Major Cities</h2>
-            <p>Select your target city to learn about local industry demand, suburbs served, and tailored search strategies.</p>
+            <p>Select your target city to learn about local industry demand, suburbs served and tailored search strategies.</p>
           </div>
 
           <div className="fj-card-grid fj-card-grid--three" style={{ marginTop: "40px" }}>
@@ -160,7 +160,7 @@ export default function JobsHubPage() {
           <div className="fj-faq-intro">
             <span className="fj-label">FAQs</span>
             <h2>Hiring practices in <span className="heading-mark">Australia</span></h2>
-            <p>Understand how locations, databases, and local recruiters affect candidate selection.</p>
+            <p>Understand how locations, databases and local recruiters affect candidate selection.</p>
             <CalendlyLink className="fj-button fj-button--dark">
               Talk to us <ArrowRight size={17} />
             </CalendlyLink>

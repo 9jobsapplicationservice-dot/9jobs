@@ -31,30 +31,84 @@ export async function POST(request, { params }) {
 
   const agreement = await getAgreementById(agreementId);
   const pdfBuffer = await getAgreementPdfBuffer(agreement, 'generated');
-  try {
-    const envelope = await createDocuSignEnvelope({
-      agreement,
-      pdfBuffer,
-    });
+  
+  const useDocuSign = process.env.ESIGN_PROVIDER === 'docusign';
 
-    agreementDocument.docuSignEnvelopeId = envelope.envelopeId;
-    agreementDocument.status = 'sent';
+  if (useDocuSign) {
+    try {
+      const envelope = await createDocuSignEnvelope({
+        agreement,
+        pdfBuffer,
+      });
+
+      agreementDocument.docuSignEnvelopeId = envelope.envelopeId;
+      agreementDocument.status = 'sent';
+      agreementDocument.sentAt = new Date();
+      agreementDocument.esignProvider = 'docusign';
+      agreementDocument.envelopeEvents.push({
+        status: 'sent',
+        payload: envelope,
+      });
+      await agreementDocument.save();
+
+      return NextResponse.json({
+        success: true,
+        envelopeId: envelope.envelopeId,
+      });
+    } catch (error) {
+      console.error('Unable to send agreement via DocuSign:', error);
+      agreementDocument.status = 'send_failed';
+      agreementDocument.esignError = error instanceof Error ? error.message : 'DocuSign sending failed';
+      await agreementDocument.save();
+      return NextResponse.json(
+        {
+          error: error instanceof Error ? error.message : 'Unable to send agreement via DocuSign.',
+        },
+        { status: 500 }
+      );
+    }
+  }
+
+  // Internal E-Signature Workflow
+  try {
+    const { hashPdf, generateSecureToken, hashToken } = require('@/utils/cryptoUtils');
+    const { sendClientSigningInvite } = require('@/lib/agreements/email');
+
+    const originalPdfSha256 = hashPdf(pdfBuffer);
+    const clientToken = generateSecureToken();
+    const clientTokenHash = hashToken(clientToken);
+
+    // Save tokens and PDF hashes in document
+    agreementDocument.esignProvider = 'internal';
+    agreementDocument.originalPdfSha256 = originalPdfSha256;
+    agreementDocument.originalPdfUrl = agreementDocument.generatedPdfUrl;
+    agreementDocument.originalPdfStorageKey = agreementDocument.generatedPdfPath;
+
+    agreementDocument.clientSigningTokenHash = clientTokenHash;
+    agreementDocument.clientTokenExpiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000); // 48 hours
+    agreementDocument.clientTokenUsedAt = null;
+    
+    agreementDocument.status = 'sent_to_client';
     agreementDocument.sentAt = new Date();
-    agreementDocument.envelopeEvents.push({
-      status: 'sent',
-      payload: envelope,
-    });
+    agreementDocument.clientInvitationSentAt = new Date();
+    
     await agreementDocument.save();
+
+    // Send email invitation containing the raw token
+    await sendClientSigningInvite(agreementDocument, clientToken);
 
     return NextResponse.json({
       success: true,
-      envelopeId: envelope.envelopeId,
+      message: 'Agreement sent to client successfully.',
     });
   } catch (error) {
-    console.error('Unable to send agreement via DocuSign:', error);
+    console.error('Unable to send agreement internally:', error);
+    agreementDocument.status = 'send_failed';
+    agreementDocument.esignError = error instanceof Error ? error.message : 'Internal sending failed';
+    await agreementDocument.save();
     return NextResponse.json(
       {
-        error: error instanceof Error ? error.message : 'Unable to send agreement via DocuSign.',
+        error: error instanceof Error ? error.message : 'Failed to initialize electronic signature request.',
       },
       { status: 500 }
     );

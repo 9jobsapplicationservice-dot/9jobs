@@ -11,15 +11,15 @@ const routeSeo = getRouteSeo("/services/resume-writing");
 export const metadata = createSeoMetadata(routeSeo);
 
 const services = [
-  ["ATS Compliance", "Optimized structure, fonts, and keywords to pass major Applicant Tracking Systems used by Australian employers.", FileText],
-  ["Australian Style Format", "Correct layout, chronological structure, length (2-3 pages max), and local language preferences.", Target],
-  ["Accomplishment Focused", "We frame your experience around measurable outcomes, metrics, and business value rather than just daily tasks.", UserCheck],
+  ["ATS Compliance", "Optimized structure, fonts and keywords to pass major Applicant Tracking Systems used by Australian employers.", FileText],
+  ["Australian Style Format", "Correct layout, chronological structure, length (2-3 pages max) and local language preferences.", Target],
+  ["Accomplishment Focused", "We frame your experience around measurable outcomes, metrics and business value rather than just daily tasks.", UserCheck],
   ["Keyword Targeting", "Inclusion of high-impact industry keywords based on job descriptions in your specific target sector.", Search],
 ];
 
 const checklist = [
   ["Visually Clean Layout", "We use modern, minimal designs that focus on readability rather than complex graphics that block ATS systems."],
-  ["ATS Scanner Friendly", "We write text from scratch ensuring compatibility with scanners like Workday, Taleo, and SuccessFactors."],
+  ["ATS Scanner Friendly", "We write text from scratch ensuring compatibility with scanners like Workday, Taleo and SuccessFactors."],
   ["Australia-aligned Terms", "Translation of terminology into local expectations (e.g. visa states, superannuation info where needed)."],
   ["Achievement Highlighting", "We rewrite boring description lines into powerful success actions using strong verb structures."],
 ];
@@ -27,7 +27,7 @@ const checklist = [
 const faqs = [
   [
     "Why do I need a specific resume format for Australia?",
-    "Australian recruiters and hiring managers expect resumes to follow specific conventions: a length of 2 to 3 pages, reverse-chronological order, a concise professional summary, and key achievements clearly highlighted with metrics. In addition, almost all mid-to-large companies in Australia use Applicant Tracking Systems (ATS) to filter resumes before human eyes see them. A general global resume might fail these local systems due to formatting errors or lack of localized keywords."
+    "Australian recruiters and hiring managers expect resumes to follow specific conventions: a length of 2 to 3 pages, reverse-chronological order, a concise professional summary and key achievements clearly highlighted with metrics. In addition, almost all mid-to-large companies in Australia use Applicant Tracking Systems (ATS) to filter resumes before human eyes see them. A general global resume might fail these local systems due to formatting errors or lack of localized keywords."
   ],
   [
     "What is an ATS-friendly resume?",
@@ -35,11 +35,11 @@ const faqs = [
   ],
   [
     "How long does the resume writing process take?",
-    "Once we receive your current resume and gather information about your target roles in Australia, our writing team drafts a complete ATS-optimized resume. The first draft is typically delivered within 3 to 5 business days. We then work with you through a review process to incorporate feedback, finalize the wording, and get it ready for active job applications."
+    "Once we receive your current resume and gather information about your target roles in Australia, our writing team drafts a complete ATS-optimized resume. The first draft is typically delivered within 3 to 5 business days. We then work with you through a review process to incorporate feedback, finalize the wording and get it ready for active job applications."
   ],
   [
     "Do you write resumes for technical IT and non-technical roles?",
-    "Yes. Our writing team has extensive experience across both sectors. For IT professionals (Developers, Data Analysts, Cloud Engineers), we emphasize technical stacks, systems, and methodologies. For non-IT professionals (Sales, Operations, HR, Finance), we focus on business values, leadership, process improvement, and local client service experience."
+    "Yes. Our writing team has extensive experience across both sectors. For IT professionals (Developers, Data Analysts, Cloud Engineers), we emphasize technical stacks, systems and methodologies. For non-IT professionals (Sales, Operations, HR, Finance), we focus on business values, leadership, process improvement and local client service experience."
   ],
   [
     "Do you provide cover letters alongside the resume?",
@@ -151,7 +151,7 @@ export default function ResumeServicesPage() {
                 <h1>Get an ATS-Optimized Resume Built for <span className="heading-mark">Australia</span></h1>
               </StaggerItem>
               <StaggerItem as="div">
-                <p>We rewrite and format your resume to pass applicant tracking systems, highlight your key professional outcomes, and capture attention from Australian recruiters.</p>
+                <p>We rewrite and format your resume to pass applicant tracking systems, highlight your key professional outcomes and capture attention from Australian recruiters.</p>
               </StaggerItem>
               <StaggerItem as="div">
                 <div className="fj-actions">
@@ -173,7 +173,7 @@ export default function ResumeServicesPage() {
                   Applying for jobs in Australia is a highly competitive process. Every advertised position on platforms like SEEK or Jora receives dozens or even hundreds of applications. To manage this volume, recruiters rely on digital scanners (Applicant Tracking Systems) to automatically filter out up to 75% of candidates before a human recruiter even views a file.
                 </p>
                 <p>
-                  A resume that has too much graphics, uses multi-column tables, or fails to list localized keywords gets automatically scrambled or classified as irrelevant. 9Jobs understands how local hiring workflows operate. We rewrite your resume to clear the digital hurdles, focus on localized requirements, and present your profile in a format Australian employers expect.
+                  A resume that has too much graphics, uses multi-column tables, or fails to list localized keywords gets automatically scrambled or classified as irrelevant. 9Jobs understands how local hiring workflows operate. We rewrite your resume to clear the digital hurdles, focus on localized requirements and present your profile in a format Australian employers expect.
                 </p>
               </div>
             </Reveal>
@@ -284,7 +284,7 @@ export default function ResumeServicesPage() {
             </Reveal>
             <div style={{ maxWidth: "800px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "24px", lineHeight: "1.8", color: "var(--muted)" }}>
               <p>
-                When applying for roles in Sydney, Melbourne, Brisbane, or other Australian cities, writing a resume is not just about translating your work history into bullet points. It requires matching the local employer expectations. In Australia, hiring teams expect to see a clear list of target skills, a concise professional summary that states your eligibility/visa status clearly, a summary of your career milestones, and a clear education history.
+                When applying for roles in Sydney, Melbourne, Brisbane, or other Australian cities, writing a resume is not just about translating your work history into bullet points. It requires matching the local employer expectations. In Australia, hiring teams expect to see a clear list of target skills, a concise professional summary that states your eligibility/visa status clearly, a summary of your career milestones and a clear education history.
               </p>
               <p>
                 One of the biggest mistakes international applicants make is using a CV format that is too long or contains details like date of birth, marital status, or a profile photo. In Australia, due to anti-discrimination laws, recruiters actively dislike seeing personal details or photos on a resume. A standard, highly-focused document of 2 to 3 pages is the golden standard.

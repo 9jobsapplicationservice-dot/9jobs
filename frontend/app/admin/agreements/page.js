@@ -14,12 +14,12 @@ export default async function AgreementsPage() {
   const agreements = await listAgreements();
 
   return (
-    <AdminShell eyebrow="Preview, send, and download agreements" title="Agreements">
+    <AdminShell eyebrow="Preview, send and download agreements" title="Agreements">
       <section className="admin-panel">
         <div className="admin-panel__header">
           <div>
             <h2>Agreement Register</h2>
-            <p>Track agreement status across generation, delivery, signing, and download.</p>
+            <p>Track agreement status across generation, delivery, signing and download.</p>
           </div>
           <AgreementRegisterActions hasAgreements={agreements.length > 0} />
         </div>

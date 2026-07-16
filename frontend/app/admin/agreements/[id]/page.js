@@ -49,7 +49,7 @@ export default async function AgreementDetailPage({ params }) {
   }
 
   return (
-    <AdminShell eyebrow="Generate, preview, send, and download" title={agreement.clientName}>
+    <AdminShell eyebrow="Generate, preview, send and download" title={agreement.clientName}>
       <section className="admin-panel">
         <div className="admin-panel__header">
           <div>

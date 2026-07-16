@@ -24,15 +24,15 @@ const landingKeywords = [
 const faqs = [
   [
     "What is 9 Jobs?",
-    "9 Jobs is the alternate brand phrasing for 9jobs. Both names refer to the same Australian career support service for resumes, LinkedIn optimization, ATS resume upgrades, and job application services.",
+    "9 Jobs is the alternate brand phrasing for 9jobs. Both names refer to the same Australian career support service for resumes, LinkedIn optimization, ATS resume upgrades and job application services.",
   ],
   [
     "Does 9 Jobs Australia provide resume writing?",
-    "Yes. 9 Jobs Australia offers Resume Writing Australia support focused on ATS resume structure, recruiter clarity, and stronger interview conversion.",
+    "Yes. 9 Jobs Australia offers Resume Writing Australia support focused on ATS resume structure, recruiter clarity and stronger interview conversion.",
   ],
   [
     "Can 9 Jobs help with LinkedIn optimization?",
-    "Yes. 9jobs improves headlines, About sections, skills, experience summaries, and keyword alignment for stronger LinkedIn recruiter visibility.",
+    "Yes. 9jobs improves headlines, About sections, skills, experience summaries and keyword alignment for stronger LinkedIn recruiter visibility.",
   ],
   [
     "Is 9 Jobs a recruitment agency?",
@@ -43,7 +43,7 @@ const faqs = [
 const supportCards = [
   {
     title: "9 Jobs resume writing",
-    text: "Structured ATS Resume writing tailored for Australian employers, recruiters, and hiring managers.",
+    text: "Structured ATS Resume writing tailored for Australian employers, recruiters and hiring managers.",
     href: "/services/resume-writing",
     icon: FileText,
   },
@@ -55,7 +55,7 @@ const supportCards = [
   },
   {
     title: "9 Jobs career support",
-    text: "End-to-end Job Application Services, shortlist support, and interview preparation for Australia Jobs.",
+    text: "End-to-end Job Application Services, shortlist support and interview preparation for Australia Jobs.",
     href: "/services/job-application-automation",
     icon: Briefcase,
   },
@@ -80,7 +80,7 @@ export default function NineJobsLandingPage() {
           <h1>{landingTitle}</h1>
           <p>
             9jobs, also searched as 9 Jobs, helps professionals across Australia with Resume Writing Australia,
-            LinkedIn Optimization, ATS Resume improvements, and Job Application Services.
+            LinkedIn Optimization, ATS Resume improvements and Job Application Services.
           </p>
           <p>
             These target phrases guide this page: {landingKeywords.join(" | ")}.
@@ -96,9 +96,9 @@ export default function NineJobsLandingPage() {
         <div className="fj-container">
           <div className="fj-section-head">
             <span className="fj-label">Brand clarity</span>
-            <h2>Why Google should connect 9 Jobs, 9jobs, and 9jobs.co</h2>
+            <h2>Why Google should connect 9 Jobs, 9jobs and 9jobs.co</h2>
             <p>
-              9jobs is the core brand, 9 Jobs is the spaced keyword variation, and 9jobs.co is the official website.
+              9jobs is the core brand, 9 Jobs is the spaced keyword variation and 9jobs.co is the official website.
               This page makes that relationship explicit for users and search engines looking for Australia Jobs support.
             </p>
           </div>
@@ -127,7 +127,7 @@ export default function NineJobsLandingPage() {
             <h2>Built for interviews, not just impressions</h2>
             <p>
               If you searched for 9 jobs australia, 9 jobs resume writing, or 9 jobs linkedin optimization,
-              this is the same 9jobs brand that helps improve documents, profiles, and application quality.
+              this is the same 9jobs brand that helps improve documents, profiles and application quality.
             </p>
             <div className="fj-chip-list">
               <span><CheckCircle2 size={15} /> ATS Resume strategy</span>

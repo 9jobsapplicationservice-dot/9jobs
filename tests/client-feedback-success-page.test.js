@@ -45,7 +45,7 @@ describe('client service feedback success page', () => {
 
     expect(source).toContain('Explore More with 9Jobs');
     expect(source).toContain(
-      'Visit the official 9Jobs website to discover recruitment solutions, staffing services, employer resources, workforce management support, and career opportunities across Australia.'
+      'Visit the official 9Jobs website to discover recruitment solutions, staffing services, employer resources, workforce management support and career opportunities across Australia.'
     );
     expect(source).toContain('Visit 9Jobs Website');
     expect(source).toContain('feedback-success-shell');

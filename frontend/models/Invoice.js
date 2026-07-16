@@ -1,0 +1,36 @@
+import mongoose from 'mongoose';
+import { LOCKED_INVOICE_PAYMENT_DETAILS } from '@/lib/invoices/defaults';
+
+const InvoiceSchema = new mongoose.Schema(
+  {
+    invoiceNumber: { type: String, required: true, trim: true },
+    invoiceDate: { type: String, required: true, trim: true },
+    billedToName: { type: String, required: true, trim: true },
+    billedToEmail: { type: String, required: true, trim: true },
+    billedToPhone: { type: String, required: true, trim: true },
+    weekLabel: { type: String, required: true, trim: true },
+    issuedDate: { type: String, required: true, trim: true },
+    validUntil: { type: String, required: true, trim: true },
+    dueDate: { type: String, required: true, trim: true },
+    description: { type: String, required: true, trim: true },
+    duration: { type: String, required: true, trim: true },
+    total: { type: String, required: true, trim: true },
+    accountName: { type: String, required: true, trim: true, default: LOCKED_INVOICE_PAYMENT_DETAILS.accountName },
+    bankName: { type: String, required: true, trim: true, default: LOCKED_INVOICE_PAYMENT_DETAILS.bankName },
+    accountNumber: { type: String, required: true, trim: true, default: LOCKED_INVOICE_PAYMENT_DETAILS.accountNumber },
+    bsb: { type: String, required: true, trim: true, default: LOCKED_INVOICE_PAYMENT_DETAILS.bsb },
+    generatedPdfUrl: { type: String, default: '' },
+    generatedPdfPath: { type: String, default: '' },
+    status: {
+      type: String,
+      enum: ['draft', 'previewed', 'sent'],
+      default: 'draft',
+    },
+    sentAt: { type: Date, default: null },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export default mongoose.models.Invoice || mongoose.model('Invoice', InvoiceSchema);

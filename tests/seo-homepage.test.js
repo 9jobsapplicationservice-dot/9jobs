@@ -86,7 +86,7 @@ describe("homepage technical SEO contract", () => {
     expect(page).toContain("/services/job-application-automation");
     expect(page).toContain("/services/interview-coaching");
     expect(page).toContain("/9-jobs");
-    expect(navbar).toContain('href: "/9-jobs"');
+    expect(navbar).not.toContain('href: "/9-jobs"');
   });
 
   test("adds homepage webpage schema aligned with the brand entity", () => {

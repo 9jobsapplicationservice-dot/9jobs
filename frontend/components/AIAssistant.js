@@ -26,7 +26,7 @@ export default function AIAssistant() {
 
   const getAIResponse = (query) => {
     const q = query.toLowerCase();
-    if (q.includes('job')) return "We have many jobs available in IT, Marketing, and Sales. What's your field?";
+    if (q.includes('job')) return "We have many jobs available in IT, Marketing and Sales. What's your field?";
     if (q.includes('contact')) return "You can reach us at contact@9jobs.co or via the contact form on our website.";
     if (q.includes('about')) return "9JOBS is a leading career platform dedicated to connecting talent with opportunity.";
     return "That's interesting! Could you tell me more about what you're looking for?";

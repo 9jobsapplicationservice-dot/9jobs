@@ -14,12 +14,12 @@ import {
 } from "lucide-react";
 
 const platformFeatures = [
-  ["Resume review and editing", "Improve structure, clarity, keywords, formatting, and ATS readiness.", FileCheck2],
+  ["Resume review and editing", "Improve structure, clarity, keywords, formatting and ATS readiness.", FileCheck2],
   ["LinkedIn optimization", "Turn your profile into a stronger signal for recruiters and hiring managers.", BookUser],
-  ["Application targeting", "Focus on roles that match your profile, location, level, and goals.", SearchCheck],
-  ["Follow-up workflows", "Keep follow-ups, recruiter notes, and application status in one clean view.", MailCheck],
+  ["Application targeting", "Focus on roles that match your profile, location, level and goals.", SearchCheck],
+  ["Follow-up workflows", "Keep follow-ups, recruiter notes and application status in one clean view.", MailCheck],
   ["Automation assist", "Use smart support for repetitive job search tasks while you approve key decisions.", Bot],
-  ["Progress reporting", "See what moved forward, what needs review, and what is ready next.", Gauge],
+  ["Progress reporting", "See what moved forward, what needs review and what is ready next.", Gauge],
 ];
 
 const workflow = [
@@ -31,7 +31,7 @@ const workflow = [
 
 export const metadata = {
   title: "Features | 9 Jobs (9jobs)",
-  description: "Explore 9 Jobs (9jobs) features for resumes, LinkedIn, applications, automation, and job search tracking.",
+  description: "Explore 9 Jobs (9jobs) features for resumes, LinkedIn, applications, automation and job search tracking.",
   alternates: {
     canonical: "/features",
   },
@@ -44,7 +44,7 @@ export default function FeaturePage() {
         <div className="fj-container">
           <span className="fj-announcement"><span>Feature</span> All the moving parts in one place</span>
           <h1>A cleaner operating system for job <span className="heading-mark">applying.</span></h1>
-          <p>9Jobs brings documents, profile work, job targeting, follow-ups, and reporting into a simple workflow that stays easy to scan.</p>
+          <p>9Jobs brings documents, profile work, job targeting, follow-ups and reporting into a simple workflow that stays easy to scan.</p>
         </div>
       </section>
 
@@ -66,7 +66,7 @@ export default function FeaturePage() {
           <div className="fj-copy-block">
             <span className="fj-label">Built for repeated action</span>
             <h2>Less scattered work. More forward <span className="heading-mark">motion.</span></h2>
-            <p>The reference experience is intentionally calm: big readable sections, focused cards, and enough visual context to understand what is happening without digging.</p>
+            <p>The reference experience is intentionally calm: big readable sections, focused cards and enough visual context to understand what is happening without digging.</p>
             <div className="fj-list-grid">
               {[
                 [BriefcaseBusiness, "Role-focused support"],

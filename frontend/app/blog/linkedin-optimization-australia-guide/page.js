@@ -12,7 +12,7 @@ export const metadata = createSeoMetadata(routeSeo);
 const faqs = [
   [
     "How does the LinkedIn Recruiter search work?",
-    "LinkedIn Recruiter is a backend search tool used by sourcing teams. Recruiters enter parameters like target job titles, specific skills tags, and location. Profiles matching these parameters rank higher. Optimization is about aligning your profile fields with these search queries."
+    "LinkedIn Recruiter is a backend search tool used by sourcing teams. Recruiters enter parameters like target job titles, specific skills tags and location. Profiles matching these parameters rank higher. Optimization is about aligning your profile fields with these search queries."
   ],
   [
     "What settings are critical for candidates outside Australia?",
@@ -20,11 +20,11 @@ const faqs = [
   ],
   [
     "Should my headline contain my current company name?",
-    "It is usually better to focus your headline on key roles, skills, and industry terms (e.g. 'Project Manager | Agile, Scrum | Software Delivery') rather than company names, as recruiters rarely search for company names when sourcing candidates."
+    "It is usually better to focus your headline on key roles, skills and industry terms (e.g. 'Project Manager | Agile, Scrum | Software Delivery') rather than company names, as recruiters rarely search for company names when sourcing candidates."
   ],
   [
     "How often should I update my profile settings?",
-    "Keep your settings updated dynamically: target locations, skills lists, and status updates. Sourcing tools prioritize active profiles, so minor updates keep your profile fresh in search indexes."
+    "Keep your settings updated dynamically: target locations, skills lists and status updates. Sourcing tools prioritize active profiles, so minor updates keep your profile fresh in search indexes."
   ]
 ];
 
@@ -60,7 +60,7 @@ export default function LinkedInGuidePage() {
       }
     },
     "datePublished": "2026-06-03",
-    "description": "An expert guide detailing headlines, summaries, and settings to optimize LinkedIn profiles for the Australian job market."
+    "description": "An expert guide detailing headlines, summaries and settings to optimize LinkedIn profiles for the Australian job market."
   };
 
   const breadcrumbSchema = {
@@ -107,7 +107,7 @@ export default function LinkedInGuidePage() {
         <div className="fj-container">
           <span className="fj-announcement"><span>Blog</span> Profile Strategy</span>
           <h1>LinkedIn Optimization Guide for Job Seekers in <span className="heading-mark">Australia</span></h1>
-          <p>Learn how to optimize your LinkedIn headline, summary, skills tags, and backend settings to get found by Australian talent acquisition teams.</p>
+          <p>Learn how to optimize your LinkedIn headline, summary, skills tags and backend settings to get found by Australian talent acquisition teams.</p>
           <div style={{ marginTop: "16px", fontSize: "0.9rem", color: "var(--muted)" }}>
             Published: June 3, 2026 â€¢ 8 min read
           </div>
@@ -121,7 +121,7 @@ export default function LinkedInGuidePage() {
             In the modern Australian recruitment landscape, a resume is no longer the only document that matters. When a recruiter finds your resume on SEEK or receives an application, their first action is to search for your name on LinkedIn.
           </p>
           <p>
-            Additionally, agencies and corporate sourcing teams in <Link href="/jobs/sydney">Sydney</Link>, <Link href="/jobs/melbourne">Melbourne</Link>, <Link href="/jobs/brisbane">Brisbane</Link>, <Link href="/jobs/perth">Perth</Link>, and <Link href="/jobs/adelaide">Adelaide</Link> use LinkedIn Recruiter to find matching candidates before posting ads. If your profile is empty, lacks relevant keywords, or is set to incorrect search settings, you are invisible in these queries. Optimizing your profile ensures you receive inbound sourcing messages directly in your inbox.
+            Additionally, agencies and corporate sourcing teams in <Link href="/jobs/sydney">Sydney</Link>, <Link href="/jobs/melbourne">Melbourne</Link>, <Link href="/jobs/brisbane">Brisbane</Link>, <Link href="/jobs/perth">Perth</Link> and <Link href="/jobs/adelaide">Adelaide</Link> use LinkedIn Recruiter to find matching candidates before posting ads. If your profile is empty, lacks relevant keywords, or is set to incorrect search settings, you are invisible in these queries. Optimizing your profile ensures you receive inbound sourcing messages directly in your inbox.
           </p>
 
           <h2>Headline Formula: How to Pass Sourcing Queries</h2>
@@ -139,10 +139,10 @@ export default function LinkedInGuidePage() {
 
           <h2>Crafting Your Professional Summary (About Section)</h2>
           <p>
-            The 'About' section is where you tell your story. Avoid writing a boring list of tasks. Frame it around your achievements, years of experience, and location availability.
+            The 'About' section is where you tell your story. Avoid writing a boring list of tasks. Frame it around your achievements, years of experience and location availability.
           </p>
           <p>
-            Begin with a strong introductory hook, summarize your core expertise, outline your tech stack or methodologies, and include a clear statement about your location eligibility:
+            Begin with a strong introductory hook, summarize your core expertise, outline your tech stack or methodologies and include a clear statement about your location eligibility:
             <br />
             <em>&quot;Based in Sydney, holding full working rights (PR Subclass 189). Availability for new roles starts immediately.&quot;</em>
             Clearly stating your eligibility prevents recruiters from skipping your profile due to visa compliance uncertainty.
@@ -158,10 +158,10 @@ export default function LinkedInGuidePage() {
 
           <h2>Aligning Your Skills and Endorsements Sections</h2>
           <p>
-            LinkedIn allows you to list up to 50 skills, and recruiters filter candidate lists strictly based on these exact tags. Having them listed in your experience text is not enough; they must be explicitly added to the skills section.
+            LinkedIn allows you to list up to 50 skills and recruiters filter candidate lists strictly based on these exact tags. Having them listed in your experience text is not enough; they must be explicitly added to the skills section.
           </p>
           <p>
-            Review local job listings in your sector, identify the repeating systems, tools, or soft skills requested, and add them to your profile. Keep this list highly focused and encourage past colleagues to endorse you for your top skills to build social trust.
+            Review local job listings in your sector, identify the repeating systems, tools, or soft skills requested and add them to your profile. Keep this list highly focused and encourage past colleagues to endorse you for your top skills to build social trust.
           </p>
 
           <h2>Key Settings to Adjust for an Australian Job Search</h2>
@@ -170,7 +170,7 @@ export default function LinkedInGuidePage() {
           </p>
           <ul>
             <li><strong>Update Target Location:</strong> If you are planning a relocation, change your target location to your desired city in Australia (e.g. Sydney, NSW) to appear in local search results.</li>
-            <li><strong>Open to Work Notes:</strong> Use the Open to Work settings to write brief notes to recruiters, specifying your target job titles, location preferences, and visa eligibility.</li>
+            <li><strong>Open to Work Notes:</strong> Use the Open to Work settings to write brief notes to recruiters, specifying your target job titles, location preferences and visa eligibility.</li>
             <li><strong>Profile Visibility:</strong> Ensure your profile settings are set to public and your custom URL is set to a clean, professional format (e.g. `linkedin.com/in/yourname`).</li>
           </ul>
         </div>
@@ -206,7 +206,7 @@ export default function LinkedInGuidePage() {
           <div className="fj-section-head">
             <span className="fj-label">Australian Cities Sourcing Guides</span>
             <h2>Local Sourcing Opportunities</h2>
-            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes, and networks.</p>
+            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes and networks.</p>
           </div>
           
           <div className="cities-marquee-wrapper">

@@ -1,0 +1,160 @@
+import nodemailer from 'nodemailer';
+
+const ADMIN_MAILBOX = '9jobsapplicationservice@gmail.com';
+
+/**
+ * Returns a configured nodemailer transporter using Gmail SMTP.
+ */
+function getTransporter() {
+  const gmailPass = process.env.GMAIL_PASS;
+  if (!gmailPass) {
+    throw new Error('Email delivery cannot proceed: GMAIL_PASS is not configured.');
+  }
+
+  return nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: ADMIN_MAILBOX,
+      pass: gmailPass,
+    },
+  });
+}
+
+/**
+ * Sends a six-digit OTP to the signer.
+ */
+export async function sendOtpEmail({ email, name, otp }) {
+  const transporter = getTransporter();
+  const mailOptions = {
+    from: '"9Jobs Agreement Service" <' + ADMIN_MAILBOX + '>',
+    to: email,
+    subject: '9Jobs Verification Code: ' + otp,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+        <div style="background-color: #0f172a; padding: 15px; border-radius: 6px; text-align: center; margin-bottom: 20px;">
+          <h2 style="color: #ffffff; margin: 0; font-size: 20px;">9Jobs Agreement Portal</h2>
+        </div>
+        <p style="font-size: 16px; color: #334155; line-height: 1.5;">Hello ${name},</p>
+        <p style="font-size: 16px; color: #334155; line-height: 1.5;">To access the signing session for your 9Jobs agreement, please use the following 6-digit verification code:</p>
+        <div style="text-align: center; margin: 30px 0;">
+          <span style="font-size: 32px; font-weight: bold; letter-spacing: 5px; color: #0f172a; background-color: #f1f5f9; padding: 10px 25px; border-radius: 6px; border: 1px dashed #cbd5e1;">${otp}</span>
+        </div>
+        <p style="font-size: 14px; color: #64748b; line-height: 1.5;">This code will expire in 10 minutes. If you did not request this code, please ignore this email or contact support.</p>
+        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
+        <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 0;">© 2026 9Jobs Pty Ltd. All rights reserved.</p>
+      </div>
+    `
+  };
+  await transporter.sendMail(mailOptions);
+}
+
+/**
+ * Sends a signing invitation link to the client.
+ */
+export async function sendClientSigningInvite(agreement, rawToken) {
+  const transporter = getTransporter();
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const signingUrl = `${baseUrl}/agreements/${agreement._id}/sign?token=${rawToken}`;
+
+  const mailOptions = {
+    from: '"9Jobs Agreement Service" <' + ADMIN_MAILBOX + '>',
+    to: agreement.clientEmail,
+    subject: 'Signature Required: Your 9Jobs Agreement',
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+        <div style="background-color: #0f172a; padding: 15px; border-radius: 6px; text-align: center; margin-bottom: 20px;">
+          <h2 style="color: #ffffff; margin: 0; font-size: 20px;">9Jobs Agreement Portal</h2>
+        </div>
+        <p style="font-size: 16px; color: #334155; line-height: 1.5;">Dear ${agreement.clientName},</p>
+        <p style="font-size: 16px; color: #334155; line-height: 1.5;">You have been sent an agreement from 9Jobs for your review and signature. Please click the button below to verify your identity and sign the document.</p>
+        <div style="text-align: center; margin: 35px 0;">
+          <a href="${signingUrl}" style="background-color: #2563eb; color: #ffffff; text-decoration: none; padding: 12px 30px; font-size: 16px; font-weight: bold; border-radius: 6px; display: inline-block;">Review and Sign Agreement</a>
+        </div>
+        <p style="font-size: 14px; color: #64748b; line-height: 1.5;">For security reasons, this signing link is unique to your email and will expire in 48 hours.</p>
+        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
+        <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 0;">© 2026 9Jobs Pty Ltd. All rights reserved.</p>
+      </div>
+    `
+  };
+  await transporter.sendMail(mailOptions);
+}
+
+/**
+ * Sends a signing invitation link to the provider.
+ */
+export async function sendProviderSigningInvite(agreement, rawToken) {
+  const transporter = getTransporter();
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const signingUrl = `${baseUrl}/agreements/${agreement._id}/sign?token=${rawToken}`;
+
+  const mailOptions = {
+    from: '"9Jobs Agreement Service" <' + ADMIN_MAILBOX + '>',
+    to: agreement.providerEmail,
+    subject: 'Signature Required: 9Jobs Agreement (' + agreement.clientName + ')',
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+        <div style="background-color: #0f172a; padding: 15px; border-radius: 6px; text-align: center; margin-bottom: 20px;">
+          <h2 style="color: #ffffff; margin: 0; font-size: 20px;">9Jobs Agreement Portal</h2>
+        </div>
+        <p style="font-size: 16px; color: #334155; line-height: 1.5;">Dear ${agreement.providerSignatureName},</p>
+        <p style="font-size: 16px; color: #334155; line-height: 1.5;">The client <strong>${agreement.clientName}</strong> has successfully signed the agreement. Please click the button below to verify your identity and countersign the document.</p>
+        <div style="text-align: center; margin: 35px 0;">
+          <a href="${signingUrl}" style="background-color: #2563eb; color: #ffffff; text-decoration: none; padding: 12px 30px; font-size: 16px; font-weight: bold; border-radius: 6px; display: inline-block;">Review and Countersign</a>
+        </div>
+        <p style="font-size: 14px; color: #64748b; line-height: 1.5;">This signing link is secure and will expire in 48 hours.</p>
+        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
+        <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 0;">© 2026 9Jobs Pty Ltd. All rights reserved.</p>
+      </div>
+    `
+  };
+  await transporter.sendMail(mailOptions);
+}
+
+export async function sendAgreementCompletedEmail({ email, name, agreement, pdfBuffer, downloadToken }) {
+  const transporter = getTransporter();
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  
+  const downloadUrl = downloadToken
+    ? `${baseUrl}/api/agreements/${agreement._id}/download?token=${downloadToken}`
+    : `${baseUrl}/api/docusign/download/${agreement._id}`;
+
+  const mailOptions = {
+    from: '"9Jobs Agreement Service" <' + ADMIN_MAILBOX + '>',
+    to: email,
+    subject: 'Agreement Completed: 9Jobs & ' + agreement.clientName,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+        <div style="background-color: #0f172a; padding: 15px; border-radius: 6px; text-align: center; margin-bottom: 20px;">
+          <h2 style="color: #ffffff; margin: 0; font-size: 20px;">9Jobs Agreement Portal</h2>
+        </div>
+        <p style="font-size: 16px; color: #334155; line-height: 1.5;">Hello ${name},</p>
+        <p style="font-size: 16px; color: #334155; line-height: 1.5;">The agreement between 9Jobs and <strong>${agreement.clientName}</strong> is now fully signed by both parties.</p>
+        ${
+          pdfBuffer.length > 20 * 1024 * 1024 
+            ? `<p style="font-size: 16px; color: #334155; line-height: 1.5;">Because the document size exceeds the email attachment limit, you can securely download your copy here:</p>
+               <div style="text-align: center; margin: 25px 0;">
+                 <a href="${downloadUrl}" style="background-color: #10b981; color: #ffffff; text-decoration: none; padding: 10px 20px; font-weight: bold; border-radius: 6px; display: inline-block;">Download Completed Agreement</a>
+               </div>`
+            : `<p style="font-size: 16px; color: #334155; line-height: 1.5;">A copy of the completed signed PDF is attached to this email for your records.</p>`
+        }
+        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
+        <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 0;">© 2026 9Jobs Pty Ltd. All rights reserved.</p>
+      </div>
+    `
+  };
+
+  // Only attach the PDF if it is under the 20MB Gmail attachment size limit
+  if (pdfBuffer.length <= 20 * 1024 * 1024) {
+    mailOptions.attachments = [
+      {
+        filename: `9jobs-signed-agreement-${agreement._id}.pdf`,
+        content: pdfBuffer,
+        contentType: 'application/pdf'
+      }
+    ];
+  }
+
+  await transporter.sendMail(mailOptions);
+}

@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
 const posts = [
   [
     "How to Get a Job in Australia: The Definitive Guide",
-    "A comprehensive, step-by-step guide to navigating the recruitment process, profile setups, and landing job offers in Australia.",
+    "A comprehensive, step-by-step guide to navigating the recruitment process, profile setups and landing job offers in Australia.",
     "Job Search",
     Briefcase,
     "/blog/how-to-get-a-job-in-australia"
@@ -29,14 +29,14 @@ const posts = [
   ],
   [
     "LinkedIn Optimization Guide for Job Seekers in Australia",
-    "Unlock the power of LinkedIn Recruiter searches in Australia. Headline formulas, summaries, and settings adjustments.",
+    "Unlock the power of LinkedIn Recruiter searches in Australia. Headline formulas, summaries and settings adjustments.",
     "LinkedIn",
     BookUser,
     "/blog/linkedin-optimization-australia-guide"
   ],
   [
     "SEEK Profile Optimization: Top Sourcing Tips for Australia",
-    "Make your SEEK profile stand out to recruiters. Settings, summaries, alerts, and formatting tips to maximize callbacks.",
+    "Make your SEEK profile stand out to recruiters. Settings, summaries, alerts and formatting tips to maximize callbacks.",
     "SEEK",
     Search,
     "/blog/seek-profile-optimization-tips"
@@ -50,70 +50,70 @@ const posts = [
   ],
   [
     "Best Resume Format Australia 2026",
-    "Discover the best resume format for Australia in 2026. Learn about ATS compliance, section ordering, page length, and key terms to stand out to recruiters.",
+    "Discover the best resume format for Australia in 2026. Learn about ATS compliance, section ordering, page length and key terms to stand out to recruiters.",
     "Resume",
     FileText,
     "/blog/best-resume-format-australia-2026"
   ],
   [
     "How ATS Systems Work in Australia",
-    "Learn how Applicant Tracking Systems (ATS) scan, parse, and rank resumes in Australia. Discover formatting rules and keyword strategies to clear automated screens.",
+    "Learn how Applicant Tracking Systems (ATS) scan, parse and rank resumes in Australia. Discover formatting rules and keyword strategies to clear automated screens.",
     "Resume",
     FileText,
     "/blog/how-ats-systems-work-in-australia"
   ],
   [
     "How to Get More Interviews in Melbourne",
-    "Get more interview invitations in Melbourne's competitive job market. Discover local hiring trends, recruiter preferences, and profile optimization strategies.",
+    "Get more interview invitations in Melbourne's competitive job market. Discover local hiring trends, recruiter preferences and profile optimization strategies.",
     "Job Search",
     Briefcase,
     "/blog/how-to-get-more-interviews-in-melbourne"
   ],
   [
     "How to Get More Interviews in Sydney",
-    "Navigate Sydney's corporate job market successfully. Learn about recruiter preferences, key hiring hubs, and profile strategies to get more interviews.",
+    "Navigate Sydney's corporate job market successfully. Learn about recruiter preferences, key hiring hubs and profile strategies to get more interviews.",
     "Job Search",
     Briefcase,
     "/blog/how-to-get-more-interviews-in-sydney"
   ],
   [
     "Top LinkedIn Mistakes Job Seekers Make",
-    "Avoid the most common LinkedIn mistakes that keep you invisible to recruiters. Learn how to optimize your headline, summary, and settings for recruitment searches.",
+    "Avoid the most common LinkedIn mistakes that keep you invisible to recruiters. Learn how to optimize your headline, summary and settings for recruitment searches.",
     "LinkedIn",
     BookUser,
     "/blog/top-linkedin-mistakes-job-seekers-make"
   ],
   [
     "SEEK Profile Optimization Checklist",
-    "Optimize your SEEK profile to attract Australian recruiters. Discover settings configurations, summary writing tips, and sitemap indexing tricks.",
+    "Optimize your SEEK profile to attract Australian recruiters. Discover settings configurations, summary writing tips and sitemap indexing tricks.",
     "SEEK",
     Search,
     "/blog/seek-profile-optimization-checklist"
   ],
   [
     "How Recruiters Find Candidates on LinkedIn",
-    "Understand the backend search mechanics of LinkedIn Recruiter. Learn how boolean search, location filters, and profile completeness affect your rankings.",
+    "Understand the backend search mechanics of LinkedIn Recruiter. Learn how boolean search, location filters and profile completeness affect your rankings.",
     "LinkedIn",
     BookUser,
     "/blog/how-recruiters-find-candidates-on-linkedin"
   ],
   [
     "Why Your Resume Gets Rejected in Australia",
-    "Discover the most common reasons why resumes get rejected in Australia. Learn about ATS formatting blocks, duty-based lists, and local terminology.",
+    "Discover the most common reasons why resumes get rejected in Australia. Learn about ATS formatting blocks, duty-based lists and local terminology.",
     "Resume",
     FileText,
     "/blog/why-your-resume-gets-rejected-in-australia"
   ],
   [
     "Jobs in Australia for New Migrants",
-    "A comprehensive career guide for new migrants seeking jobs in Australia. Learn about work rights, resume localization, and local interview nuances.",
+    "A comprehensive career guide for new migrants seeking jobs in Australia. Learn about work rights, resume localization and local interview nuances.",
     "Job Search",
     Briefcase,
     "/blog/jobs-in-australia-for-new-migrants"
   ],
   [
     "Australian Resume vs International Resume",
-    "Understand the key differences between Australian resumes and international formats. Discover length rules, personal data exclusions, and localization tips.",
+    "Understand the key differences between Australian resumes and international formats. Discover length rules, personal data exclusions and localization tips.",
     "Resume",
     FileText,
     "/blog/australian-resume-vs-international-resume"
@@ -208,7 +208,7 @@ export default async function BlogPage() {
         <div className="fj-container">
           <span className="fj-announcement"><span>Blog</span> Career notes that stay practical</span>
           <h1>Small improvements that make applications <span className="heading-mark">stronger.</span></h1>
-          <p>Clean advice for resumes, LinkedIn, interviews, targeting, and the habits that keep a job search moving.</p>
+          <p>Clean advice for resumes, LinkedIn, interviews, targeting and the habits that keep a job search moving.</p>
         </div>
       </section>
 
@@ -289,7 +289,7 @@ export default async function BlogPage() {
           <div className="fj-section-head">
             <span className="fj-label">Australian Cities Sourcing Guides</span>
             <h2>Local Sourcing Opportunities</h2>
-            <p>Target localized job markets across Australia&apos;s major hubs with tailored profiles, resumes, and networks.</p>
+            <p>Target localized job markets across Australia&apos;s major hubs with tailored profiles, resumes and networks.</p>
           </div>
           
           <div className="cities-marquee-wrapper">
@@ -325,7 +325,7 @@ export default async function BlogPage() {
           <div className="fj-section-head">
             <span className="fj-label">Turn advice into action</span>
             <h2>Explore 9Jobs career services</h2>
-            <p>Use the blog guides with hands-on help for resumes, profiles, applications, and interviews.</p>
+            <p>Use the blog guides with hands-on help for resumes, profiles, applications and interviews.</p>
           </div>
           <div className="fj-card-grid fj-card-grid--four">
             {serviceLinks.map(([href, title, text]) => (

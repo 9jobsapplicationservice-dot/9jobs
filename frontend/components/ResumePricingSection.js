@@ -38,7 +38,7 @@ const resumePlans = [
     badge: "Most Popular",
     price: "$89",
     period: "one-time",
-    description: "Complete professional branding to boost your Resume, LinkedIn, and SEEK profile visibility.",
+    description: "Complete professional branding to boost your Resume, LinkedIn and SEEK profile visibility.",
     items: [
       "Everything in Resume Makeover",
       "LinkedIn profile optimization",

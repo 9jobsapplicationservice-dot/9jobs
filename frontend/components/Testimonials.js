@@ -8,7 +8,7 @@ const defaultTestimonials = [
   {
     name: "Nafisa",
     role: "Verified Client",
-    quote: "Great experience with 9Jobs. The team is professional, responsive, and truly supportive. I highly recommend their services",
+    quote: "Great experience with 9Jobs. The team is professional, responsive and truly supportive. I highly recommend their services",
     rating: 4,
   },
   {
@@ -26,7 +26,7 @@ const defaultTestimonials = [
   {
     name: "Oliver",
     role: "Verified Client",
-    quote: "Highly recommend their LinkedIn and Seek profile optimization services. They polished my profiles, added the right keywords, and made them look incredibly professional. I've had multiple recruiters reach out to me directly.",
+    quote: "Highly recommend their LinkedIn and Seek profile optimization services. They polished my profiles, added the right keywords and made them look incredibly professional. I've had multiple recruiters reach out to me directly.",
     rating: 5,
   },
   {
@@ -114,22 +114,13 @@ export default function Testimonials() {
           </div>
         </Reveal>
 
-        {/* Desktop gets a premium marquee; mobile falls back to scroll-snap cards. */}
         <div className="fj-testimonial-marquee">
-          <Marquee className="fj-home-marquee-shell" itemClassName="fj-testimonial-marquee__item" speed="30s" mobileStatic>
+          <Marquee className="fj-home-marquee-shell" itemClassName="fj-testimonial-marquee__item" speed="30s">
             {filledList.map((testimonial) => (
               <TestimonialCard key={`desktop-${testimonial.name}-${testimonial.quote.slice(0, 18)}`} testimonial={testimonial} />
             ))}
           </Marquee>
         </div>
-
-        <StaggerContainer as="div" className="fj-testimonial-scrollsnap" stagger={0.12} delayChildren={0.06}>
-          {listToUse.map((testimonial) => (
-            <StaggerItem as="div" key={`mobile-${testimonial.name}`}>
-              <TestimonialCard testimonial={testimonial} />
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
       </div>
     </section>
   );

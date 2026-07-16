@@ -24,7 +24,7 @@ const faqs = [
   ],
   [
     "Should I follow up with recruiters after applying?",
-    "Yes. A brief, professional follow-up call or email 3-4 days after applying can help you stand out. Sourcing teams handle large volumes of applications, and a polite inquiry demonstrates active interest."
+    "Yes. A brief, professional follow-up call or email 3-4 days after applying can help you stand out. Sourcing teams handle large volumes of applications and a polite inquiry demonstrates active interest."
   ]
 ];
 
@@ -107,7 +107,7 @@ export default function WhyNoInterviewsPage() {
         <div className="fj-container">
           <span className="fj-announcement"><span>Blog</span> Career Support</span>
           <h1>Not Getting Job Interviews in Australia? Here is Why & How to <span className="heading-mark">Fix It</span></h1>
-          <p>Analyze your application funnel, identify common rejection triggers, and learn how to configure your resume and profiles for success.</p>
+          <p>Analyze your application funnel, identify common rejection triggers and learn how to configure your resume and profiles for success.</p>
           <div style={{ marginTop: "16px", fontSize: "0.9rem", color: "var(--muted)" }}>
             Published: June 3, 2026 â€¢ 8 min read
           </div>
@@ -129,7 +129,7 @@ export default function WhyNoInterviewsPage() {
             Over 75% of resumes submitted online are filtered out automatically by Applicant Tracking Systems (ATS). If your file uses design templates (with columns, text boxes, tables, or graphs), the parser will scramble the text.
           </p>
           <p>
-            To fix this, rebuild your resume using a clean, single-column format. Remove graphics, charts, and non-standard fonts. Read our <Link href="/services/resume-writing">Resume Writing Services</Link> guide to learn how to structure an ATS-friendly layout.
+            To fix this, rebuild your resume using a clean, single-column format. Remove graphics, charts and non-standard fonts. Read our <Link href="/services/resume-writing">Resume Writing Services</Link> guide to learn how to structure an ATS-friendly layout.
           </p>
 
           <h2>Reason 2: You Lack Relevant Sourcing Keywords</h2>
@@ -137,12 +137,12 @@ export default function WhyNoInterviewsPage() {
             Recruiters use search filters to query candidate databases on platforms like SEEK or LinkedIn. If your profile lacks target industry terms and skill tags, you will be excluded from search queries before you apply.
           </p>
           <p>
-            Review local job listings, identify repeating technical terms, tools, or certifications in your field, and add them to your resume and digital profiles. Read our <Link href="/services/linkedin-optimization">LinkedIn Optimization</Link> and <Link href="/services/seek-profile-optimization">SEEK Optimization</Link> guides to configure your keywords correctly.
+            Review local job listings, identify repeating technical terms, tools, or certifications in your field and add them to your resume and digital profiles. Read our <Link href="/services/linkedin-optimization">LinkedIn Optimization</Link> and <Link href="/services/seek-profile-optimization">SEEK Optimization</Link> guides to configure your keywords correctly.
           </p>
 
           <div style={{ background: "var(--surface)", border: "1px solid var(--line)", padding: "24px", borderRadius: "8px", margin: "24px 0" }}>
             <h3>Get an Interview Audit</h3>
-            <p>We analyze your resume, SEEK, and LinkedIn profiles to pinpoint why you are missing out on interviews and write optimized versions for you.</p>
+            <p>We analyze your resume, SEEK and LinkedIn profiles to pinpoint why you are missing out on interviews and write optimized versions for you.</p>
             <Link href="/pricing" className="fj-button fj-button--dark">
               Explore Our Packages <ArrowRight size={16} />
             </Link>
@@ -166,7 +166,7 @@ export default function WhyNoInterviewsPage() {
 
           <h2>Reason 5: Weak Phone Screen Performance</h2>
           <p>
-            If you pass the initial screen, you will receive phone screening calls. Sourcing teams use these conversations to verify basic parameters. If you cannot explain your background, working rights, and salary expectations clearly, you will be filtered out.
+            If you pass the initial screen, you will receive phone screening calls. Sourcing teams use these conversations to verify basic parameters. If you cannot explain your background, working rights and salary expectations clearly, you will be filtered out.
           </p>
           <p>
             Prepare for screening calls by structuring your achievements using the STAR method. For mock interview practice and communication coaching, check our <Link href="/services/interview-coaching">Interview Support</Link> program.
@@ -204,7 +204,7 @@ export default function WhyNoInterviewsPage() {
           <div className="fj-section-head">
             <span className="fj-label">Australian Cities Sourcing Guides</span>
             <h2>Local Sourcing Opportunities</h2>
-            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes, and networks.</p>
+            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes and networks.</p>
           </div>
           
           <div className="cities-marquee-wrapper">

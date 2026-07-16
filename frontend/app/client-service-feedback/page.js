@@ -7,10 +7,10 @@ const successDescription =
   "Your feedback has been submitted successfully. We appreciate your partnership with 9Jobs and value your input in helping us improve our recruitment and staffing services.";
 
 const socialDescription =
-  "Visit and connect with us on Instagram, LinkedIn, and Facebook for hiring updates, recruitment insights, workforce solutions, career opportunities, and business growth tips.";
+  "Visit and connect with us on Instagram, LinkedIn and Facebook for hiring updates, recruitment insights, workforce solutions, career opportunities and business growth tips.";
 
 const websitePromoText =
-  "Visit the official 9Jobs website to discover recruitment solutions, staffing services, employer resources, workforce management support, and career opportunities across Australia.";
+  "Visit the official 9Jobs website to discover recruitment solutions, staffing services, employer resources, workforce management support and career opportunities across Australia.";
 
 const socialLinks = [
   {
@@ -358,7 +358,7 @@ export default function ClientServiceFeedback() {
                     required 
                     name="experience_message" 
                     rows="5" 
-                    placeholder="How has your experience been with our recruitment services, support, and candidate quality?"
+                    placeholder="How has your experience been with our recruitment services, support and candidate quality?"
                     value={formData.experience_message} 
                     onChange={handleChange} 
                     style={{ padding: "12px", borderRadius: "8px", border: "1px solid var(--line)", fontFamily: "inherit", resize: "vertical" }} 

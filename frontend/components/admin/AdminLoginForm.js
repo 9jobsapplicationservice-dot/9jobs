@@ -54,7 +54,7 @@ export default function AdminLoginForm({ nextPath = '/admin/dashboard' }) {
         <p className="admin-auth-card__eyebrow">Secure Access</p>
         <h2>Admin Login</h2>
         <p className="admin-auth-card__text">
-          Protected sign-in for creating agreements, reviewing the contract PDF, and sending the final file through DocuSign.
+          Protected sign-in for creating agreements, reviewing the contract PDF and sending the final file through DocuSign.
         </p>
       </div>
 

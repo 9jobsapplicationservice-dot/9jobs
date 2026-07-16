@@ -26,7 +26,7 @@
       "destination": "/frontend/api/contact"
     },
     {
-      "source": "/api/:path((?!cron|admin|agreements|client-service-feedback|docusign|interview-feedback|contact|newsletter).*)",
+      "source": "/api/:path((?!cron/import-social-posts|admin|agreements|invoices|client-service-feedback|docusign|interview-feedback|contact|newsletter).*)",
       "destination": "/api/index.js"
     }
   ]

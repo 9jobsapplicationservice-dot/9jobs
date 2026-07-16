@@ -43,7 +43,7 @@ export default async function AdminDashboardPage() {
         <div className="admin-panel__header">
           <div>
             <h2>Latest Agreements</h2>
-            <p>Recent drafts, previews, and signed contracts.</p>
+            <p>Recent drafts, previews and signed contracts.</p>
           </div>
           <Link className="admin-ghost-button admin-ghost-button--link" href="/admin/agreements">
             View all

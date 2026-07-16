@@ -4,7 +4,7 @@ import styles from "./page.module.css";
 
 export const metadata = {
   title: "Privacy Policy | 9 Jobs (9jobs)",
-  description: "Learn about how 9 Jobs (9jobs) Application Services collects, uses, and protects your information.",
+  description: "Learn about how 9 Jobs (9jobs) Application Services collects, uses and protects your information.",
   alternates: {
     canonical: "/privacy-policy",
   },
@@ -33,10 +33,10 @@ export default function PrivacyPolicy() {
                 <Eye size={24} /> Information We Collect
               </h2>
               <p>
-                9Jobs Application Services collects information submitted through our website, social media lead forms, email, phone calls, WhatsApp, and other communication channels for the purpose of providing job search support, career guidance, recruitment-related services, and customer support.
+                9Jobs Application Services collects information submitted through our website, social media lead forms, email, phone calls, WhatsApp and other communication channels for the purpose of providing job search support, career guidance, recruitment-related services and customer support.
               </p>
               <p>
-                The information we collect may include your name, email address, phone number, resume, visa status, employment history, and other information you choose to provide.
+                The information we collect may include your name, email address, phone number, resume, visa status, employment history and other information you choose to provide.
               </p>
             </div>
 

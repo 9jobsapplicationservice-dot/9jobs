@@ -20,7 +20,7 @@ export default function BlogDetailPage() {
       "name": "How does LinkedIn Recruiter search differ from regular search?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "LinkedIn Recruiter provides advanced filters like years of experience, current company, past company, education, location radiuses, and boolean query fields, allowing sourcing teams to build highly targeted candidate lists."
+        "text": "LinkedIn Recruiter provides advanced filters like years of experience, current company, past company, education, location radiuses and boolean query fields, allowing sourcing teams to build highly targeted candidate lists."
       }
     },
     {
@@ -28,7 +28,7 @@ export default function BlogDetailPage() {
       "name": "How does profile activity affect search rankings?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The LinkedIn search algorithm prioritizes active profiles. Regularly sharing industry updates, connecting with professionals, and engaging with content signals that your profile is active, which can boost your search ranking."
+        "text": "The LinkedIn search algorithm prioritizes active profiles. Regularly sharing industry updates, connecting with professionals and engaging with content signals that your profile is active, which can boost your search ranking."
       }
     },
     {
@@ -44,7 +44,7 @@ export default function BlogDetailPage() {
       "name": "How can I hide my job search from my current employer?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Configure your 'Open to Work' settings to 'Recruiters Only.' While LinkedIn takes steps to prevent recruiters at your current company from seeing this flag, it is not 100% guaranteed, though it is generally secure."
+        "text": "Configure your 'Open to Work' settings to 'Recruiters Only.' While LinkedIn takes steps to prevent recruiters at your current company from seeing this flag, it is not 100% promised, though it is generally secure."
       }
     }
   ]
@@ -67,7 +67,7 @@ export default function BlogDetailPage() {
     }
   },
   "datePublished": "2026-06-04",
-  "description": "Understand the backend search mechanics of LinkedIn Recruiter. Learn how boolean search, location filters, and profile completeness affect your rankings."
+  "description": "Understand the backend search mechanics of LinkedIn Recruiter. Learn how boolean search, location filters and profile completeness affect your rankings."
 };
   const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -94,7 +94,7 @@ export default function BlogDetailPage() {
   ]
 };
 
-  const faqs = [["How does LinkedIn Recruiter search differ from regular search?","LinkedIn Recruiter provides advanced filters like years of experience, current company, past company, education, location radiuses, and boolean query fields, allowing sourcing teams to build highly targeted candidate lists."],["How does profile activity affect search rankings?","The LinkedIn search algorithm prioritizes active profiles. Regularly sharing industry updates, connecting with professionals, and engaging with content signals that your profile is active, which can boost your search ranking."],["Should I accept every connection request from recruiters?","Yes. Connecting with recruiters expands your professional network and makes your profile more visible to their colleagues, increasing your chances of being discovered for unadvertised roles."],["How can I hide my job search from my current employer?","Configure your 'Open to Work' settings to 'Recruiters Only.' While LinkedIn takes steps to prevent recruiters at your current company from seeing this flag, it is not 100% guaranteed, though it is generally secure."]];
+  const faqs = [["How does LinkedIn Recruiter search differ from regular search?","LinkedIn Recruiter provides advanced filters like years of experience, current company, past company, education, location radiuses and boolean query fields, allowing sourcing teams to build highly targeted candidate lists."],["How does profile activity affect search rankings?","The LinkedIn search algorithm prioritizes active profiles. Regularly sharing industry updates, connecting with professionals and engaging with content signals that your profile is active, which can boost your search ranking."],["Should I accept every connection request from recruiters?","Yes. Connecting with recruiters expands your professional network and makes your profile more visible to their colleagues, increasing your chances of being discovered for unadvertised roles."],["How can I hide my job search from my current employer?","Configure your 'Open to Work' settings to 'Recruiters Only.' While LinkedIn takes steps to prevent recruiters at your current company from seeing this flag, it is not 100% promised, though it is generally secure."]];
 
   return (
     <main className="site-main fj-page">
@@ -122,7 +122,7 @@ export default function BlogDetailPage() {
           </nav>
           <span className="fj-announcement"><span>Blog</span> LinkedIn Optimization</span>
           <h1>How Recruiters Find Candidates on LinkedIn</h1>
-          <p>Understand the backend search mechanics of LinkedIn Recruiter. Learn how boolean search, location filters, and profile completeness affect your rankings.</p>
+          <p>Understand the backend search mechanics of LinkedIn Recruiter. Learn how boolean search, location filters and profile completeness affect your rankings.</p>
           <div style={{ marginTop: "16px", fontSize: "0.9rem", color: "var(--muted)" }}>
             Published: 2026-06-04 â€¢ 10 min read
           </div>
@@ -131,11 +131,11 @@ export default function BlogDetailPage() {
 
       <section className="fj-section">
         <div className="fj-container" style={{ maxWidth: "800px", margin: "0 auto", color: "var(--muted)", lineHeight: "1.8", display: "flex", flexDirection: "column", gap: "24px" }}>
-          <p>To optimize your LinkedIn profile successfully, you must understand how the other side operates. Recruiters and sourcing professionals do not browse LinkedIn the way regular users do. Sourcing teams use a specialized interface called LinkedIn Recruiter. This interface allows them to run advanced search queries, apply filters, build pipelines, and manage candidate communications. The profiles that appear on the first page of their search results are not there by accident; they are ranked by an algorithm that rewards specific keyword densities, locations, and settings configurations. If you are not appearing on the first page of recruiter searches in Sydney, Melbourne, Brisbane, Perth, or Adelaide, your profile remains invisible. This guide reveals the backend mechanics of LinkedIn Recruiter and outlines how to optimize your profile to rank higher in searches.</p>
+          <p>To optimize your LinkedIn profile successfully, you must understand how the other side operates. Recruiters and sourcing professionals do not browse LinkedIn the way regular users do. Sourcing teams use a specialized interface called LinkedIn Recruiter. This interface allows them to run advanced search queries, apply filters, build pipelines and manage candidate communications. The profiles that appear on the first page of their search results are not there by accident; they are ranked by an algorithm that rewards specific keyword densities, locations and settings configurations. If you are not appearing on the first page of recruiter searches in Sydney, Melbourne, Brisbane, Perth, or Adelaide, your profile remains invisible. This guide reveals the backend mechanics of LinkedIn Recruiter and outlines how to optimize your profile to rank higher in searches.</p>
 
           
           <h2>1. Boolean Searches: How Keywords are Combined</h2>
-          <p>Recruiters build candidate lists by running boolean search queries in LinkedIn Recruiter. These queries combine job titles, technical skills, and certifications using operators like AND, OR, and NOT (e.g. 'Software Engineer' AND 'React' AND ('Node.js' OR 'TypeScript')). If your profile does not contain the exact combination of terms the recruiter is searching for, your name will not appear in the results. To improve your rankings, analyze target job descriptions in your industry and ensure those specific key terms are integrated throughout your headline, summary, and experience sections. For expert help in keyword alignment, check our <Link href="/services/linkedin-optimization">LinkedIn Optimization Australia</Link> service.</p>
+          <p>Recruiters build candidate lists by running boolean search queries in LinkedIn Recruiter. These queries combine job titles, technical skills and certifications using operators like AND, OR and NOT (e.g. 'Software Engineer' AND 'React' AND ('Node.js' OR 'TypeScript')). If your profile does not contain the exact combination of terms the recruiter is searching for, your name will not appear in the results. To improve your rankings, analyze target job descriptions in your industry and ensure those specific key terms are integrated throughout your headline, summary and experience sections. For expert help in keyword alignment, check our <Link href="/services/linkedin-optimization">LinkedIn Optimization Australia</Link> service.</p>
   
 
           <h2>2. The Location and Working Rights Filter</h2>
@@ -143,15 +143,15 @@ export default function BlogDetailPage() {
   
 
           <h2>3. The Profile Completeness Score</h2>
-          <p>LinkedIn's algorithm ranks profiles with high completeness scores higher in search results. A complete profile requires a professional photo, an optimized headline, a detailed summary, work history with detailed bullet points, education history, and at least 5 relevant skills. Leaving sections blank signals to the algorithm that your profile is inactive, causing your ranking to drop. Ensure every section of your profile is complete, and align your work history details with your resume using our <Link href="/services/resume-writing">Resume Writing Services Australia</Link> team.</p>
+          <p>LinkedIn's algorithm ranks profiles with high completeness scores higher in search results. A complete profile requires a professional photo, an optimized headline, a detailed summary, work history with detailed bullet points, education history and at least 5 relevant skills. Leaving sections blank signals to the algorithm that your profile is inactive, causing your ranking to drop. Ensure every section of your profile is complete and align your work history details with your resume using our <Link href="/services/resume-writing">Resume Writing Services Australia</Link> team.</p>
   
 
           <h2>4. The 'Open to Work' Backend Flag</h2>
-          <p>LinkedIn Recruiter has a dedicated filter that allows sourcing teams to prioritize candidates who are actively seeking new opportunities. Sourcing professionals use this filter because 'open' candidates are more likely to respond to messages. Enable the 'Open to Work' feature in your privacy settings, selecting target job titles, locations, and employment types. If you want to keep your search confidential, configure the settings so this flag is only visible to users with a LinkedIn Recruiter license, keeping it hidden from your current employer.</p>
+          <p>LinkedIn Recruiter has a dedicated filter that allows sourcing teams to prioritize candidates who are actively seeking new opportunities. Sourcing professionals use this filter because 'open' candidates are more likely to respond to messages. Enable the 'Open to Work' feature in your privacy settings, selecting target job titles, locations and employment types. If you want to keep your search confidential, configure the settings so this flag is only visible to users with a LinkedIn Recruiter license, keeping it hidden from your current employer.</p>
   
 
           <h2>5. Maintaining Sourcing and Application Momentum</h2>
-          <p>While optimization increases inbound headhunting inquiries, you must also maintain a consistent volume of active job applications. The Australian job market moves fast, and applying early gives you a significant advantage. 9Jobs offers a comprehensive <Link href="/services/job-application-automation">Job Application Service Australia</Link> where our team manages your applications daily, tailoring cover letters and submitting resume packages to ensure you maintain a strong pipeline of opportunities.</p>
+          <p>While optimization increases inbound headhunting inquiries, you must also maintain a consistent volume of active job applications. The Australian job market moves fast and applying early gives you a significant advantage. 9Jobs offers a comprehensive <Link href="/services/job-application-automation">Job Application Service Australia</Link> where our team manages your applications daily, tailoring cover letters and submitting resume packages to ensure you maintain a strong pipeline of opportunities.</p>
   
         </div>
       </section>
@@ -186,7 +186,7 @@ export default function BlogDetailPage() {
           <div className="fj-section-head">
             <span className="fj-label">Australian Cities Sourcing Guides</span>
             <h2>Local Sourcing Opportunities</h2>
-            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes, and networks.</p>
+            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes and networks.</p>
           </div>
           
           <div className="cities-marquee-wrapper">

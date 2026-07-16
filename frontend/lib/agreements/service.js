@@ -168,13 +168,36 @@ export async function generateAndStoreAgreementPdf(agreementDocument) {
 }
 
 export async function getAgreementPdfBuffer(agreement, variant = 'generated') {
-  const url = variant === 'signed' ? agreement.signedPdfUrl : agreement.generatedPdfUrl;
+  const { fetchBlobBufferByKey } = require('@/lib/storage/blob');
 
+  if (variant === 'signed') {
+    if (agreement.signedPdfStorageKey) {
+      return fetchBlobBufferByKey(agreement.signedPdfStorageKey);
+    }
+    if (agreement.signedPdfUrl) {
+      const url = agreement.signedPdfUrl;
+      if (url.startsWith('data:application/pdf;base64,')) {
+        const base64Data = url.substring(url.indexOf(',') + 1);
+        return Buffer.from(base64Data, 'base64');
+      }
+      return fetchBlobBuffer(url);
+    }
+    return null;
+  }
+
+  // Unsigned / Generated variant
+  if (agreement.originalPdfStorageKey) {
+    return fetchBlobBufferByKey(agreement.originalPdfStorageKey);
+  }
+  if (agreement.generatedPdfPath) {
+    return fetchBlobBufferByKey(agreement.generatedPdfPath);
+  }
+  
+  const url = agreement.generatedPdfUrl;
   if (!url) {
     return null;
   }
 
-  // Parse direct base64 data URLs from database fallback
   if (url.startsWith('data:application/pdf;base64,')) {
     const base64Data = url.substring(url.indexOf(',') + 1);
     return Buffer.from(base64Data, 'base64');

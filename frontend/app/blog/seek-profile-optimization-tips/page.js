@@ -12,7 +12,7 @@ export const metadata = createSeoMetadata(routeSeo);
 const faqs = [
   [
     "Should my SEEK profile be set to 'Standard' privacy?",
-    "Yes. Setting your SEEK profile to 'Standard' is highly recommended when looking for a job. This allows registered employers and recruitment agencies to search for you, read your summary, view your uploaded resume, and contact you directly. If set to 'Limited' or 'Hidden', you will not show up in database searches."
+    "Yes. Setting your SEEK profile to 'Standard' is highly recommended when looking for a job. This allows registered employers and recruitment agencies to search for you, read your summary, view your uploaded resume and contact you directly. If set to 'Limited' or 'Hidden', you will not show up in database searches."
   ],
   [
     "How does the SEEK matching score work?",
@@ -107,7 +107,7 @@ export default function SeekTipsPage() {
         <div className="fj-container">
           <span className="fj-announcement"><span>Blog</span> SEEK Strategy</span>
           <h1>SEEK Profile Optimization: Top Sourcing Tips for <span className="heading-mark">Australia</span></h1>
-          <p>Learn how to configure your SEEK profile summary, experience tags, and search settings to help you stand out to Australian employers.</p>
+          <p>Learn how to configure your SEEK profile summary, experience tags and search settings to help you stand out to Australian employers.</p>
           <div style={{ marginTop: "16px", fontSize: "0.9rem", color: "var(--muted)" }}>
             Published: June 3, 2026 â€¢ 7 min read
           </div>
@@ -118,7 +118,7 @@ export default function SeekTipsPage() {
         <div className="fj-container" style={{ maxWidth: "800px", margin: "0 auto", color: "var(--muted)", lineHeight: "1.8", display: "flex", flexDirection: "column", gap: "24px" }}>
           <h2>Why SEEK is the Gateway to the Australian Market</h2>
           <p>
-            While LinkedIn is vital for international networking and professional branding, SEEK remains the absolute leader for active job transactions in Australia. Every year, millions of job advertisements are posted on the platform, and recruitment firms search the backend candidate database to fill roles before advertising them.
+            While LinkedIn is vital for international networking and professional branding, SEEK remains the absolute leader for active job transactions in Australia. Every year, millions of job advertisements are posted on the platform and recruitment firms search the backend candidate database to fill roles before advertising them.
           </p>
           <p>
             If you only use SEEK to submit applications without optimizing your digital profile, you miss out on a massive stream of recruiter outreach. Sourcing teams use database searches to find matches. This guide outlines the key tips to optimize your profile.
@@ -126,18 +126,18 @@ export default function SeekTipsPage() {
 
           <h2>Step 1: Set Your Profile Visibility to 'Standard'</h2>
           <p>
-            SEEK offers three privacy levels for candidates: Standard, Limited, and Hidden. Many candidates set their privacy to Limited or Hidden out of privacy concerns. However, this means you will not show up in recruiter searches.
+            SEEK offers three privacy levels for candidates: Standard, Limited and Hidden. Many candidates set their privacy to Limited or Hidden out of privacy concerns. However, this means you will not show up in recruiter searches.
           </p>
           <p>
-            When actively looking for work, set your visibility to Standard. This allows registered employers and agencies to search for you, read your summary, view your past experiences, see your target salary and location parameters, and contact you directly.
+            When actively looking for work, set your visibility to Standard. This allows registered employers and agencies to search for you, read your summary, view your past experiences, see your target salary and location parameters and contact you directly.
           </p>
 
           <h2>Step 2: Write a Specialized SEEK Summary</h2>
           <p>
-            Your SEEK profile summary is a 150 to 200 word summary that recruiters see first in search results. It must state your core expertise, key achievements, years of experience, and location availability.
+            Your SEEK profile summary is a 150 to 200 word summary that recruiters see first in search results. It must state your core expertise, key achievements, years of experience and location availability.
           </p>
           <p>
-            Keep this section highly focused. Mention your target role title, specify your industry experience, list key tools or methodologies, and include a clear statement about your working rights. If you are relocating to Australia, state your relocation timeline and visa status clearly.
+            Keep this section highly focused. Mention your target role title, specify your industry experience, list key tools or methodologies and include a clear statement about your working rights. If you are relocating to Australia, state your relocation timeline and visa status clearly.
           </p>
 
           <div style={{ background: "var(--surface)", border: "1px solid var(--line)", padding: "24px", borderRadius: "8px", margin: "24px 0" }}>
@@ -153,7 +153,7 @@ export default function SeekTipsPage() {
             Recruiters filter candidate lists based on salary boundaries and location constraints. If your target salary is set to incorrect benchmarks, you will be excluded from recruiter queries.
           </p>
           <p>
-            Research local industry benchmarks for your level. Set your target salary to a realistic range matching your target role values. Specify your preferred work arrangements (hybrid/remote/onsite) and target cities like <Link href="/jobs/sydney">Sydney</Link>, <Link href="/jobs/melbourne">Melbourne</Link>, <Link href="/jobs/brisbane">Brisbane</Link>, <Link href="/jobs/perth">Perth</Link>, and <Link href="/jobs/adelaide">Adelaide</Link> to ensure you show up in relevant search lists.
+            Research local industry benchmarks for your level. Set your target salary to a realistic range matching your target role values. Specify your preferred work arrangements (hybrid/remote/onsite) and target cities like <Link href="/jobs/sydney">Sydney</Link>, <Link href="/jobs/melbourne">Melbourne</Link>, <Link href="/jobs/brisbane">Brisbane</Link>, <Link href="/jobs/perth">Perth</Link> and <Link href="/jobs/adelaide">Adelaide</Link> to ensure you show up in relevant search lists.
           </p>
 
           <h2>Step 4: Update Your Skills and Experience Tags</h2>
@@ -161,7 +161,7 @@ export default function SeekTipsPage() {
             Ensure your SEEK profile contains your full employment history and relevant skills tags. Recruiter search tools look for these exact tags to match profiles.
           </p>
           <p>
-            List your tools, technologies, and certifications in the skills section. A complete profile data structure ensures a high compatibility ranking in SEEK's matching algorithm, boosting your search appearances.
+            List your tools, technologies and certifications in the skills section. A complete profile data structure ensures a high compatibility ranking in SEEK's matching algorithm, boosting your search appearances.
           </p>
         </div>
       </section>
@@ -196,7 +196,7 @@ export default function SeekTipsPage() {
           <div className="fj-section-head">
             <span className="fj-label">Australian Cities Sourcing Guides</span>
             <h2>Local Sourcing Opportunities</h2>
-            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes, and networks.</p>
+            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes and networks.</p>
           </div>
           
           <div className="cities-marquee-wrapper">

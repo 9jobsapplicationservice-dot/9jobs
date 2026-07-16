@@ -36,7 +36,7 @@ export default function BlogDetailPage() {
       "name": "How do recruiters use keywords to search for candidates?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Recruiters use boolean queries to combine job titles, technical skills, certifications, and geographic locations to find candidates who match their job specifications."
+        "text": "Recruiters use boolean queries to combine job titles, technical skills, certifications and geographic locations to find candidates who match their job specifications."
       }
     },
     {
@@ -44,7 +44,7 @@ export default function BlogDetailPage() {
       "name": "How can I check if my resume is ATS-compliant?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Ensure your resume uses a single-column layout, standard fonts, clear section headings, and contains no images or tables. You can also test parsing by copying and pasting the text into a plain text editor to see if the structure remains intact."
+        "text": "Ensure your resume uses a single-column layout, standard fonts, clear section headings and contains no images or tables. You can also test parsing by copying and pasting the text into a plain text editor to see if the structure remains intact."
       }
     }
   ]
@@ -67,7 +67,7 @@ export default function BlogDetailPage() {
     }
   },
   "datePublished": "2026-06-04",
-  "description": "Learn how Applicant Tracking Systems (ATS) scan, parse, and rank resumes in Australia. Discover formatting rules and keyword strategies to clear automated screens."
+  "description": "Learn how Applicant Tracking Systems (ATS) scan, parse and rank resumes in Australia. Discover formatting rules and keyword strategies to clear automated screens."
 };
   const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -94,7 +94,7 @@ export default function BlogDetailPage() {
   ]
 };
 
-  const faqs = [["Can ATS parse tables and text boxes?","No. Most standard ATS systems cannot parse text located inside tables, text boxes, or graphics. The text is either skipped entirely or scrambled, leading to an incomplete candidate profile."],["Is it better to submit a Word document or a PDF?","Both formats are acceptable, but Word (.docx) is generally safer for older ATS systems as it parses more reliably. However, a text-searchable PDF is perfectly fine for modern platforms."],["How do recruiters use keywords to search for candidates?","Recruiters use boolean queries to combine job titles, technical skills, certifications, and geographic locations to find candidates who match their job specifications."],["How can I check if my resume is ATS-compliant?","Ensure your resume uses a single-column layout, standard fonts, clear section headings, and contains no images or tables. You can also test parsing by copying and pasting the text into a plain text editor to see if the structure remains intact."]];
+  const faqs = [["Can ATS parse tables and text boxes?","No. Most standard ATS systems cannot parse text located inside tables, text boxes, or graphics. The text is either skipped entirely or scrambled, leading to an incomplete candidate profile."],["Is it better to submit a Word document or a PDF?","Both formats are acceptable, but Word (.docx) is generally safer for older ATS systems as it parses more reliably. However, a text-searchable PDF is perfectly fine for modern platforms."],["How do recruiters use keywords to search for candidates?","Recruiters use boolean queries to combine job titles, technical skills, certifications and geographic locations to find candidates who match their job specifications."],["How can I check if my resume is ATS-compliant?","Ensure your resume uses a single-column layout, standard fonts, clear section headings and contains no images or tables. You can also test parsing by copying and pasting the text into a plain text editor to see if the structure remains intact."]];
 
   return (
     <main className="site-main fj-page">
@@ -122,7 +122,7 @@ export default function BlogDetailPage() {
           </nav>
           <span className="fj-announcement"><span>Blog</span> Resume Optimization</span>
           <h1>How ATS Systems Work in Australia: A Job Seeker's Guide</h1>
-          <p>Learn how Applicant Tracking Systems (ATS) scan, parse, and rank resumes in Australia. Discover formatting rules and keyword strategies to clear automated screens.</p>
+          <p>Learn how Applicant Tracking Systems (ATS) scan, parse and rank resumes in Australia. Discover formatting rules and keyword strategies to clear automated screens.</p>
           <div style={{ marginTop: "16px", fontSize: "0.9rem", color: "var(--muted)" }}>
             Published: 2026-06-04 â€¢ 10 min read
           </div>
@@ -131,15 +131,15 @@ export default function BlogDetailPage() {
 
       <section className="fj-section">
         <div className="fj-container" style={{ maxWidth: "800px", margin: "0 auto", color: "var(--muted)", lineHeight: "1.8", display: "flex", flexDirection: "column", gap: "24px" }}>
-          <p>Modern recruitment in Australia relies heavily on automation. When you apply for a job on SEEK, LinkedIn, or an employer's career site, your application is processed by an Applicant Tracking System (ATS). Large employers and recruitment agencies in Sydney, Melbourne, Brisbane, Perth, and Adelaide handle thousands of applications weekly. To manage this volume, software packages like Workday, Taleo, SuccessFactors, and Bullhorn are used to automatically screen and rank candidates based on match percentages. If your resume is not formatted to be ATS-friendly, or if it lacks the correct keywords, it may be automatically archived without a human ever seeing it. Understanding how these systems work is critical to securing interview callbacks. This guide breaks down the technology behind ATS systems in Australia and provides actionable tips to optimize your resume for automated screening.</p>
+          <p>Modern recruitment in Australia relies heavily on automation. When you apply for a job on SEEK, LinkedIn, or an employer's career site, your application is processed by an Applicant Tracking System (ATS). Large employers and recruitment agencies in Sydney, Melbourne, Brisbane, Perth and Adelaide handle thousands of applications weekly. To manage this volume, software packages like Workday, Taleo, SuccessFactors and Bullhorn are used to automatically screen and rank candidates based on match percentages. If your resume is not formatted to be ATS-friendly, or if it lacks the correct keywords, it may be automatically archived without a human ever seeing it. Understanding how these systems work is critical to securing interview callbacks. This guide breaks down the technology behind ATS systems in Australia and provides actionable tips to optimize your resume for automated screening.</p>
 
           
           <h2>1. The Parsing Process: How Resumes are Scanned</h2>
-          <p>The first step an ATS takes is parsing your resume. The software strips away all formatting to extract text, organizing it into categories like contact info, work experience, education, and skills. If the software encounters complex layout elementsâ€”such as multiple columns, tables, text boxes, images, or non-standard fontsâ€”it cannot read the text in order. This results in scrambled data, making your profile appear incomplete or unqualified. To ensure your resume parses perfectly, use a clean, single-column layout with standard fonts (Calibri, Arial, Inter) and clear headings (e.g. 'Professional Experience' instead of 'My Career Journey'). Keeping formatting simple ensures that the ATS extracts your career history accurately.</p>
+          <p>The first step an ATS takes is parsing your resume. The software strips away all formatting to extract text, organizing it into categories like contact info, work experience, education and skills. If the software encounters complex layout elementsâ€”such as multiple columns, tables, text boxes, images, or non-standard fontsâ€”it cannot read the text in order. This results in scrambled data, making your profile appear incomplete or unqualified. To ensure your resume parses perfectly, use a clean, single-column layout with standard fonts (Calibri, Arial, Inter) and clear headings (e.g. 'Professional Experience' instead of 'My Career Journey'). Keeping formatting simple ensures that the ATS extracts your career history accurately.</p>
   
 
           <h2>2. Keyword Matching and Boolean Search Queries</h2>
-          <p>Once the ATS has parsed your resume, it indexes the content in a searchable database. Recruiters do not read every resume; instead, they run keyword searches to find matching candidates. These searches use boolean logic (AND, OR, NOT) to combine skills, job titles, and locations (e.g. 'Project Manager AND Agile AND Sydney'). If your resume does not contain the exact keywords the recruiter is searching for, your profile will not appear in the search results. To overcome this, carefully analyze the job description for recurring terms and ensure they are integrated naturally into your CV. If the job description asks for 'stakeholder management' and 'budget tracking,' use those exact phrases.</p>
+          <p>Once the ATS has parsed your resume, it indexes the content in a searchable database. Recruiters do not read every resume; instead, they run keyword searches to find matching candidates. These searches use boolean logic (AND, OR, NOT) to combine skills, job titles and locations (e.g. 'Project Manager AND Agile AND Sydney'). If your resume does not contain the exact keywords the recruiter is searching for, your profile will not appear in the search results. To overcome this, carefully analyze the job description for recurring terms and ensure they are integrated naturally into your CV. If the job description asks for 'stakeholder management' and 'budget tracking,' use those exact phrases.</p>
   
 
           <h2>3. Location and Working Rights Filtering</h2>
@@ -147,11 +147,11 @@ export default function BlogDetailPage() {
   
 
           <h2>4. The Match Score and Ranking Algorithms</h2>
-          <p>Many ATS platforms calculate a match score for each applicant, ranking them from highest to lowest based on how well their resume matches the job description. Sourcing teams typically only review the top 10% to 20% of ranked candidates. To maximize your match score, your resume must align with the job description's structure, keyword density, and experience requirements. Avoid using keyword stuffing (listing keywords repeatedly in tiny fonts), as modern ATS algorithms detect and flag this behavior. Instead, write detail-oriented accomplishment statements that integrate keywords contextually. For expert help in building an ATS-ready document, you can consult our <Link href="/services/resume-writing">Resume Writing Services Australia</Link> team.</p>
+          <p>Many ATS platforms calculate a match score for each applicant, ranking them from highest to lowest based on how well their resume matches the job description. Sourcing teams typically only review the top 10% to 20% of ranked candidates. To maximize your match score, your resume must align with the job description's structure, keyword density and experience requirements. Avoid using keyword stuffing (listing keywords repeatedly in tiny fonts), as modern ATS algorithms detect and flag this behavior. Instead, write detail-oriented accomplishment statements that integrate keywords contextually. For expert help in building an ATS-ready document, you can consult our <Link href="/services/resume-writing">Resume Writing Services Australia</Link> team.</p>
   
 
           <h2>5. Outsourcing the Application Funnel</h2>
-          <p>Navigating the technical requirements of ATS systems and maintaining a consistent volume of applications is time-consuming. Because recruiters fill roles quickly, applying early gives you a significant advantage. 9Jobs offers a comprehensive <Link href="/services/job-application-automation">Job Application Service Australia</Link> where our team monitors local job boards, tailors your ATS-optimized resume for matching roles, and submits applications on your behalf daily, ensuring you never miss a sourcing window in Sydney, Melbourne, or other major cities.</p>
+          <p>Navigating the technical requirements of ATS systems and maintaining a consistent volume of applications is time-consuming. Because recruiters fill roles quickly, applying early gives you a significant advantage. 9Jobs offers a comprehensive <Link href="/services/job-application-automation">Job Application Service Australia</Link> where our team monitors local job boards, tailors your ATS-optimized resume for matching roles and submits applications on your behalf daily, ensuring you never miss a sourcing window in Sydney, Melbourne, or other major cities.</p>
   
         </div>
       </section>
@@ -186,7 +186,7 @@ export default function BlogDetailPage() {
           <div className="fj-section-head">
             <span className="fj-label">Australian Cities Sourcing Guides</span>
             <h2>Local Sourcing Opportunities</h2>
-            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes, and networks.</p>
+            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes and networks.</p>
           </div>
           
           <div className="cities-marquee-wrapper">

@@ -14,7 +14,7 @@ export async function uploadPrivatePdf({ folder, fileName, buffer }) {
   const safeFolder = folder.replace(/^\/+|\/+$/g, '');
   const blobPath = `${safeFolder}/${crypto.randomUUID()}-${fileName}`;
   const result = await put(blobPath, buffer, {
-    access: 'public',
+    access: 'private',
     addRandomSuffix: false,
     contentType: 'application/pdf',
     cacheControlMaxAge: 0,
@@ -37,3 +37,30 @@ export async function fetchBlobBuffer(url) {
 
   return Buffer.from(await response.arrayBuffer());
 }
+
+/**
+ * Resolves a private Vercel Blob URL dynamically by storage key/pathname
+ * and downloads its content into a Buffer.
+ * 
+ * @param {string} key The Vercel Blob pathname / storage key
+ * @returns {Promise<Buffer>}
+ */
+export async function fetchBlobBufferByKey(key) {
+  ensureBlobConfig();
+  
+  if (!key) {
+    throw new Error('Storage key is required to retrieve blob buffer.');
+  }
+
+  const { list } = require('@vercel/blob');
+  const { blobs } = await list({ prefix: key });
+  
+  if (!blobs || blobs.length === 0) {
+    throw new Error(`Private blob asset not found for key: ${key}`);
+  }
+
+  // Find exact match or first matching blob
+  const targetBlob = blobs.find(b => b.pathname === key) || blobs[0];
+  return fetchBlobBuffer(targetBlob.url);
+}
+

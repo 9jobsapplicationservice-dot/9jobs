@@ -99,7 +99,7 @@ export default function SocialCaption({ content, publishedAt, platform }) {
         >
           <div style={{ flex: '1' }}>
             <h4 className="font-bold text-gray-900 mb-1 text-sm md:text-base" style={{ fontWeight: 800, color: '#0f172a', margin: '0 0 4px 0' }}>Need career guidance in Australia?</h4>
-            <p className="text-xs md:text-sm text-gray-600 leading-relaxed" style={{ fontSize: '0.875rem', color: '#475569', margin: 0, lineHeight: '1.5' }}>Let 9Jobs help strengthen your resume, optimize your profiles, and support your job search.</p>
+            <p className="text-xs md:text-sm text-gray-600 leading-relaxed" style={{ fontSize: '0.875rem', color: '#475569', margin: 0, lineHeight: '1.5' }}>Let 9Jobs help strengthen your resume, optimize your profiles and support your job search.</p>
           </div>
           <Link 
             href="/contact"

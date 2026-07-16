@@ -20,7 +20,7 @@ export default function BlogDetailPage() {
       "name": "What is standard visibility on SEEK?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Standard visibility allows employers and recruiters who subscribe to SEEK's database to search for your profile, view your work history, download your resume, and contact you directly with opportunities."
+        "text": "Standard visibility allows employers and recruiters who subscribe to SEEK's database to search for your profile, view your work history, download your resume and contact you directly with opportunities."
       }
     },
     {
@@ -36,7 +36,7 @@ export default function BlogDetailPage() {
       "name": "How do recruiters search the SEEK Candidate Search database?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Recruiters search the database using filters such as job title, key skills, salary, location, and availability, matching candidate profiles against their client requirements."
+        "text": "Recruiters search the database using filters such as job title, key skills, salary, location and availability, matching candidate profiles against their client requirements."
       }
     },
     {
@@ -67,7 +67,7 @@ export default function BlogDetailPage() {
     }
   },
   "datePublished": "2026-06-04",
-  "description": "Optimize your SEEK profile to attract Australian recruiters. Discover settings configurations, summary writing tips, and sitemap indexing tricks."
+  "description": "Optimize your SEEK profile to attract Australian recruiters. Discover settings configurations, summary writing tips and sitemap indexing tricks."
 };
   const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -94,7 +94,7 @@ export default function BlogDetailPage() {
   ]
 };
 
-  const faqs = [["What is standard visibility on SEEK?","Standard visibility allows employers and recruiters who subscribe to SEEK's database to search for your profile, view your work history, download your resume, and contact you directly with opportunities."],["Should I specify my target salary on my SEEK profile?","Yes. Specifying your target salary range helps filters out roles that do not match your expectations, ensuring you are contacted for opportunities that align with your financial goals."],["How do recruiters search the SEEK Candidate Search database?","Recruiters search the database using filters such as job title, key skills, salary, location, and availability, matching candidate profiles against their client requirements."],["Can I have multiple resumes uploaded on SEEK?","You can store up to 10 resumes in your SEEK account, but you must select one as your primary resume which is displayed on your SEEK profile for candidate search."]];
+  const faqs = [["What is standard visibility on SEEK?","Standard visibility allows employers and recruiters who subscribe to SEEK's database to search for your profile, view your work history, download your resume and contact you directly with opportunities."],["Should I specify my target salary on my SEEK profile?","Yes. Specifying your target salary range helps filters out roles that do not match your expectations, ensuring you are contacted for opportunities that align with your financial goals."],["How do recruiters search the SEEK Candidate Search database?","Recruiters search the database using filters such as job title, key skills, salary, location and availability, matching candidate profiles against their client requirements."],["Can I have multiple resumes uploaded on SEEK?","You can store up to 10 resumes in your SEEK account, but you must select one as your primary resume which is displayed on your SEEK profile for candidate search."]];
 
   return (
     <main className="site-main fj-page">
@@ -122,7 +122,7 @@ export default function BlogDetailPage() {
           </nav>
           <span className="fj-announcement"><span>Blog</span> SEEK Optimization</span>
           <h1>SEEK Profile Optimization Checklist</h1>
-          <p>Optimize your SEEK profile to attract Australian recruiters. Discover settings configurations, summary writing tips, and sitemap indexing tricks.</p>
+          <p>Optimize your SEEK profile to attract Australian recruiters. Discover settings configurations, summary writing tips and sitemap indexing tricks.</p>
           <div style={{ marginTop: "16px", fontSize: "0.9rem", color: "var(--muted)" }}>
             Published: 2026-06-04 â€¢ 10 min read
           </div>
@@ -131,11 +131,11 @@ export default function BlogDetailPage() {
 
       <section className="fj-section">
         <div className="fj-container" style={{ maxWidth: "800px", margin: "0 auto", color: "var(--muted)", lineHeight: "1.8", display: "flex", flexDirection: "column", gap: "24px" }}>
-          <p>SEEK is the absolute market leader for recruitment and job postings in Australia. The vast majority of employers and agencies in Sydney, Melbourne, Brisbane, Perth, and Adelaide use SEEK to advertise vacancies and search the SEEK Candidate Search database for talent. If your SEEK profile is incomplete, set to private, or lacks target keywords, you are missing out on a massive portion of the job market. Sourcing teams use the database to identify candidates for unadvertised roles and contract opportunities. To help you maximize your visibility and secure more callbacks, we have compiled the ultimate SEEK Profile Optimization Checklist. Follow these steps to align your profile with recruiter search patterns.</p>
+          <p>SEEK is the absolute market leader for recruitment and job postings in Australia. The vast majority of employers and agencies in Sydney, Melbourne, Brisbane, Perth and Adelaide use SEEK to advertise vacancies and search the SEEK Candidate Search database for talent. If your SEEK profile is incomplete, set to private, or lacks target keywords, you are missing out on a massive portion of the job market. Sourcing teams use the database to identify candidates for unadvertised roles and contract opportunities. To help you maximize your visibility and secure more callbacks, we have compiled the ultimate SEEK Profile Optimization Checklist. Follow these steps to align your profile with recruiter search patterns.</p>
 
           
           <h2>1. Configure Your Search Visibility Settings</h2>
-          <p>The most critical step in optimizing your SEEK profile is setting your visibility to 'Standard.' If your profile is set to 'Hidden' or 'Limited,' recruiters cannot discover you in search queries. Standard visibility allows verified recruiters to view your full profile, resume, and contact information, enabling them to message you directly with opportunities. Double-check your account settings to ensure standard visibility is enabled. For specialized assistance, you can leverage our <Link href="/services/seek-profile-optimization">SEEK Profile Optimization</Link> service.</p>
+          <p>The most critical step in optimizing your SEEK profile is setting your visibility to 'Standard.' If your profile is set to 'Hidden' or 'Limited,' recruiters cannot discover you in search queries. Standard visibility allows verified recruiters to view your full profile, resume and contact information, enabling them to message you directly with opportunities. Double-check your account settings to ensure standard visibility is enabled. For specialized assistance, you can leverage our <Link href="/services/seek-profile-optimization">SEEK Profile Optimization</Link> service.</p>
   
 
           <h2>2. Set Your Location and Commuter Preferences</h2>
@@ -143,7 +143,7 @@ export default function BlogDetailPage() {
   
 
           <h2>3. Write a Keyword-Rich Professional Summary</h2>
-          <p>SEEK's search algorithm matches candidates based on the keywords in their profile summary and work history. Write a concise, metrics-focused professional summary detailing your years of experience, core technical skills, and key achievements. Structure the text to contain the exact phrases used in job advertisements in your industry. Avoid generic buzzwords and focus on demonstrating your value. You can align this summary with your LinkedIn profile using our <Link href="/services/linkedin-optimization">LinkedIn Optimization Australia</Link> service.</p>
+          <p>SEEK's search algorithm matches candidates based on the keywords in their profile summary and work history. Write a concise, metrics-focused professional summary detailing your years of experience, core technical skills and key achievements. Structure the text to contain the exact phrases used in job advertisements in your industry. Avoid generic buzzwords and focus on demonstrating your value. You can align this summary with your LinkedIn profile using our <Link href="/services/linkedin-optimization">LinkedIn Optimization Australia</Link> service.</p>
   
 
           <h2>4. Upload an ATS-Friendly Resume</h2>
@@ -186,7 +186,7 @@ export default function BlogDetailPage() {
           <div className="fj-section-head">
             <span className="fj-label">Australian Cities Sourcing Guides</span>
             <h2>Local Sourcing Opportunities</h2>
-            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes, and networks.</p>
+            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes and networks.</p>
           </div>
           
           <div className="cities-marquee-wrapper">

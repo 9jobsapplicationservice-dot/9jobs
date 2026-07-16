@@ -40,7 +40,7 @@ export default async function CityPage({ params }) {
     {
       href: "/jobs/melbourne/warehouse",
       title: "Warehouse Jobs Melbourne",
-      text: "Warehouse, logistics, pick-pack, forklift, and operations roles across Melbourne.",
+      text: "Warehouse, logistics, pick-pack, forklift and operations roles across Melbourne.",
     },
   ] : [];
 
@@ -250,7 +250,7 @@ export default async function CityPage({ params }) {
             <div className="fj-section-head">
               <span className="fj-label">Popular Melbourne job pages</span>
               <h2>Explore high-intent job searches in <span className="heading-mark">Melbourne</span></h2>
-              <p>These targeted pages connect Melbourne job seekers to role-specific resume, SEEK, and application support.</p>
+              <p>These targeted pages connect Melbourne job seekers to role-specific resume, SEEK and application support.</p>
             </div>
             <div className="fj-card-grid fj-card-grid--two">
               {melbourneJobPages.map((page) => (

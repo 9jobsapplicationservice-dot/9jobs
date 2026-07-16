@@ -18,13 +18,13 @@ const services = [
   {
     title: "LinkedIn Optimization",
     href: "/services/linkedin-optimization",
-    description: "Profile copy, keywords, and settings that help Australian recruiters find and trust your profile.",
+    description: "Profile copy, keywords and settings that help Australian recruiters find and trust your profile.",
     icon: SearchCheck,
   },
   {
     title: "SEEK Profile Optimization",
     href: "/services/seek-profile-optimization",
-    description: "SEEK summary, visibility, and profile settings configured for local candidate searches.",
+    description: "SEEK summary, visibility and profile settings configured for local candidate searches.",
     icon: UserCheck,
   },
   {
@@ -36,7 +36,7 @@ const services = [
   {
     title: "Interview Coaching",
     href: "/services/interview-coaching",
-    description: "Mock interview preparation, STAR response coaching, and offer-stage confidence building.",
+    description: "Mock interview preparation, STAR response coaching and offer-stage confidence building.",
     icon: MessageCircle,
   },
 ];
@@ -45,7 +45,7 @@ const resourceLinks = [
   {
     href: "/blog/how-to-get-a-job-in-australia",
     title: "How to Get a Job in Australia",
-    text: "A complete search roadmap covering resumes, profiles, applications, and interviews.",
+    text: "A complete search roadmap covering resumes, profiles, applications and interviews.",
   },
   {
     href: "/blog/ats-resume-format-australia",
@@ -100,7 +100,7 @@ export default function ServicesPage() {
                 <h1>Career Services for Australian Job Seekers</h1>
               </StaggerItem>
               <StaggerItem as="div">
-                <p>Choose focused support for your resume, LinkedIn profile, SEEK profile, applications, and interview preparation.</p>
+                <p>Choose focused support for your resume, LinkedIn profile, SEEK profile, applications and interview preparation.</p>
               </StaggerItem>
               <StaggerItem as="div">
                 <div className="fj-actions">
@@ -118,7 +118,7 @@ export default function ServicesPage() {
               <div className="fj-section-head">
                 <span className="fj-label">What we help with</span>
                 <h2>Practical support across the full job search</h2>
-                <p>Each service links to a dedicated page with detailed process, FAQs, and Australian market context.</p>
+                <p>Each service links to a dedicated page with detailed process, FAQs and Australian market context.</p>
               </div>
             </Reveal>
             <StaggerContainer as="div" className="fj-card-grid fj-card-grid--three" stagger={0.1}>
@@ -147,7 +147,7 @@ export default function ServicesPage() {
               <div className="fj-section-head">
                 <span className="fj-label">Recommended guides</span>
                 <h2>Learn how each service improves <span className="heading-mark">crawl-to-callback signals</span></h2>
-                <p>These guides explain the resume, profile, and application improvements behind the 9Jobs services.</p>
+                <p>These guides explain the resume, profile and application improvements behind the 9Jobs services.</p>
               </div>
             </Reveal>
             <StaggerContainer as="div" className="fj-card-grid fj-card-grid--three" stagger={0.1}>

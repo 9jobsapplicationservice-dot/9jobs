@@ -20,7 +20,7 @@ export default function BlogDetailPage() {
       "name": "What are the major growth industries in Melbourne?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Melbourne is experiencing strong employment growth in Information Technology, Financial Services, Healthcare & Biotechnology, and Professional Services. Sourcing roles in these sectors offers the highest callback rates."
+        "text": "Melbourne is experiencing strong employment growth in Information Technology, Financial Services, Healthcare & Biotechnology and Professional Services. Sourcing roles in these sectors offers the highest callback rates."
       }
     },
     {
@@ -28,7 +28,7 @@ export default function BlogDetailPage() {
       "name": "How can I access the hidden job market in Melbourne?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Access the hidden job market by connecting directly with industry-specific recruitment agencies, maintaining an optimized LinkedIn profile that attracts inbound search queries, and networking within local business groups."
+        "text": "Access the hidden job market by connecting directly with industry-specific recruitment agencies, maintaining an optimized LinkedIn profile that attracts inbound search queries and networking within local business groups."
       }
     },
     {
@@ -44,7 +44,7 @@ export default function BlogDetailPage() {
       "name": "How long does the average recruitment process take in Melbourne?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The timeline varies, but the corporate recruitment process typically takes 3 to 6 weeks from application submission to final offer, involving a phone screen, 1-2 formal interviews, and reference checks."
+        "text": "The timeline varies, but the corporate recruitment process typically takes 3 to 6 weeks from application submission to final offer, involving a phone screen, 1-2 formal interviews and reference checks."
       }
     }
   ]
@@ -67,7 +67,7 @@ export default function BlogDetailPage() {
     }
   },
   "datePublished": "2026-06-04",
-  "description": "Get more interview invitations in Melbourne's competitive job market. Discover local hiring trends, recruiter preferences, and profile optimization strategies."
+  "description": "Get more interview invitations in Melbourne's competitive job market. Discover local hiring trends, recruiter preferences and profile optimization strategies."
 };
   const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -94,7 +94,7 @@ export default function BlogDetailPage() {
   ]
 };
 
-  const faqs = [["What are the major growth industries in Melbourne?","Melbourne is experiencing strong employment growth in Information Technology, Financial Services, Healthcare & Biotechnology, and Professional Services. Sourcing roles in these sectors offers the highest callback rates."],["How can I access the hidden job market in Melbourne?","Access the hidden job market by connecting directly with industry-specific recruitment agencies, maintaining an optimized LinkedIn profile that attracts inbound search queries, and networking within local business groups."],["Do I need to state my visa status on my application?","Yes. Australian recruiters prefer clear transparency regarding work eligibility. Listing your visa subclass (e.g. Permanent Resident or subclass 485) in your professional summary prevents you from being filtered out due to visa uncertainty."],["How long does the average recruitment process take in Melbourne?","The timeline varies, but the corporate recruitment process typically takes 3 to 6 weeks from application submission to final offer, involving a phone screen, 1-2 formal interviews, and reference checks."]];
+  const faqs = [["What are the major growth industries in Melbourne?","Melbourne is experiencing strong employment growth in Information Technology, Financial Services, Healthcare & Biotechnology and Professional Services. Sourcing roles in these sectors offers the highest callback rates."],["How can I access the hidden job market in Melbourne?","Access the hidden job market by connecting directly with industry-specific recruitment agencies, maintaining an optimized LinkedIn profile that attracts inbound search queries and networking within local business groups."],["Do I need to state my visa status on my application?","Yes. Australian recruiters prefer clear transparency regarding work eligibility. Listing your visa subclass (e.g. Permanent Resident or subclass 485) in your professional summary prevents you from being filtered out due to visa uncertainty."],["How long does the average recruitment process take in Melbourne?","The timeline varies, but the corporate recruitment process typically takes 3 to 6 weeks from application submission to final offer, involving a phone screen, 1-2 formal interviews and reference checks."]];
 
   return (
     <main className="site-main fj-page">
@@ -122,7 +122,7 @@ export default function BlogDetailPage() {
           </nav>
           <span className="fj-announcement"><span>Blog</span> Job Search Optimization</span>
           <h1>How to Get More Interviews in Melbourne VIC</h1>
-          <p>Get more interview invitations in Melbourne's competitive job market. Discover local hiring trends, recruiter preferences, and profile optimization strategies.</p>
+          <p>Get more interview invitations in Melbourne's competitive job market. Discover local hiring trends, recruiter preferences and profile optimization strategies.</p>
           <div style={{ marginTop: "16px", fontSize: "0.9rem", color: "var(--muted)" }}>
             Published: 2026-06-04 â€¢ 10 min read
           </div>
@@ -131,11 +131,11 @@ export default function BlogDetailPage() {
 
       <section className="fj-section">
         <div className="fj-container" style={{ maxWidth: "800px", margin: "0 auto", color: "var(--muted)", lineHeight: "1.8", display: "flex", flexDirection: "column", gap: "24px" }}>
-          <p>Melbourne's job market is dynamic, diverse, and highly competitive. As Victoria's economic capital, the city hosts major corporate headquarters, creative agencies, and a rapidly expanding tech ecosystem. However, securing interview invitations in Melbourne requires more than just mass-applying to online listings. Local recruiters rely heavily on specific search criteria, automated applicant tracking, and professional networks to source talent. Whether you are aiming for corporate roles in the CBD or technical positions in growing commercial hubs like Richmond, South Yarra, or Docklands, your job search strategy must be tailored to the local environment. This guide outlines actionable steps to optimize your profiles, navigate recruiter networks, and get more interview calls in Melbourne.</p>
+          <p>Melbourne's job market is dynamic, diverse and highly competitive. As Victoria's economic capital, the city hosts major corporate headquarters, creative agencies and a rapidly expanding tech ecosystem. However, securing interview invitations in Melbourne requires more than just mass-applying to online listings. Local recruiters rely heavily on specific search criteria, automated applicant tracking and professional networks to source talent. Whether you are aiming for corporate roles in the CBD or technical positions in growing commercial hubs like Richmond, South Yarra, or Docklands, your job search strategy must be tailored to the local environment. This guide outlines actionable steps to optimize your profiles, navigate recruiter networks and get more interview calls in Melbourne.</p>
 
           
           <h2>1. Optimize Your Location Settings for Melbourne Recruiters</h2>
-          <p>The first filter a Melbourne-based recruiter applies is location. If your profile is set to another state or country, you are automatically filtered out. Recruiters search for talent within specific geographic radiuses to ensure candidates are ready to start and can commute easily. Ensure that your location is explicitly set to Melbourne on your resume, LinkedIn, and SEEK profiles. If you are planning a relocation, list your target location as 'Melbourne VIC (Relocating)' and state your visa status clearly in your summary. For specialized help in configuring your online profiles for local searches, check our <Link href="/services/linkedin-optimization">LinkedIn Optimization Australia</Link> and <Link href="/services/seek-profile-optimization">SEEK Profile Optimization</Link> packages.</p>
+          <p>The first filter a Melbourne-based recruiter applies is location. If your profile is set to another state or country, you are automatically filtered out. Recruiters search for talent within specific geographic radiuses to ensure candidates are ready to start and can commute easily. Ensure that your location is explicitly set to Melbourne on your resume, LinkedIn and SEEK profiles. If you are planning a relocation, list your target location as 'Melbourne VIC (Relocating)' and state your visa status clearly in your summary. For specialized help in configuring your online profiles for local searches, check our <Link href="/services/linkedin-optimization">LinkedIn Optimization Australia</Link> and <Link href="/services/seek-profile-optimization">SEEK Profile Optimization</Link> packages.</p>
   
 
           <h2>2. Build an ATS-Ready Resume Aligned with Local Standards</h2>
@@ -143,15 +143,15 @@ export default function BlogDetailPage() {
   
 
           <h2>3. Connect with Local Recruitment Agencies</h2>
-          <p>A significant portion of Melbourne's professional vacancies are filled through recruitment agencies before they are ever published publicly. Agencies like Hudson, Davidson, and Robert Half act as intermediaries for major corporate and government employers. To access this 'hidden job market,' identify the leading recruitment agencies specializing in your sector in Victoria. Send them your optimized resume, connect with their sourcing consultants on LinkedIn, and follow up regularly. Building these relationships ensures that your profile is front-of-mind when new roles become available.</p>
+          <p>A significant portion of Melbourne's professional vacancies are filled through recruitment agencies before they are ever published publicly. Agencies like Hudson, Davidson and Robert Half act as intermediaries for major corporate and government employers. To access this 'hidden job market,' identify the leading recruitment agencies specializing in your sector in Victoria. Send them your optimized resume, connect with their sourcing consultants on LinkedIn and follow up regularly. Building these relationships ensures that your profile is front-of-mind when new roles become available.</p>
   
 
           <h2>4. Outsource Your Daily Job Applications</h2>
-          <p>Securing a role in Melbourne is a numbers game that requires consistent daily effort. Monitoring job boards, tailoring cover letters, and submitting applications manually can take hours of your day. By the time you apply to a week-old listing, the recruiter has already compiled their interview list. 9Jobs offers a professional <Link href="/services/job-application-automation">Job Application Service Australia</Link> where our local sourcing team actively identifies relevant opportunities in Melbourne daily, tailors your applications, and submits them on your behalf, ensuring you are always among the first applicants.</p>
+          <p>Securing a role in Melbourne is a numbers game that requires consistent daily effort. Monitoring job boards, tailoring cover letters and submitting applications manually can take hours of your day. By the time you apply to a week-old listing, the recruiter has already compiled their interview list. 9Jobs offers a professional <Link href="/services/job-application-automation">Job Application Service Australia</Link> where our local sourcing team actively identifies relevant opportunities in Melbourne daily, tailors your applications and submits them on your behalf, ensuring you are always among the first applicants.</p>
   
 
           <h2>5. Prepare for Melbourne's Structured Behavioral Interviews</h2>
-          <p>Once your applications convert, you must pass the interview stage. Melbourne employers rely heavily on behavioral interviewing to assess cultural fit and technical capability. Sourcing teams look for candidates who can articulate their experience clearly using the STAR method (Situation, Task, Action, Result). Practice answering common questions regarding conflict resolution, stakeholder management, and project execution. Our <Link href="/services/interview-coaching">Interview Support Australia</Link> program offers one-on-one coaching and mock interviews to refine your communication and secure your job offer.</p>
+          <p>Once your applications convert, you must pass the interview stage. Melbourne employers rely heavily on behavioral interviewing to assess cultural fit and technical capability. Sourcing teams look for candidates who can articulate their experience clearly using the STAR method (Situation, Task, Action, Result). Practice answering common questions regarding conflict resolution, stakeholder management and project execution. Our <Link href="/services/interview-coaching">Interview Support Australia</Link> program offers one-on-one coaching and mock interviews to refine your communication and secure your job offer.</p>
   
         </div>
       </section>
@@ -186,7 +186,7 @@ export default function BlogDetailPage() {
           <div className="fj-section-head">
             <span className="fj-label">Australian Cities Sourcing Guides</span>
             <h2>Local Sourcing Opportunities</h2>
-            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes, and networks.</p>
+            <p>Target localized job markets across Australia's major hubs with tailored profiles, resumes and networks.</p>
           </div>
           
           <div className="cities-marquee-wrapper">

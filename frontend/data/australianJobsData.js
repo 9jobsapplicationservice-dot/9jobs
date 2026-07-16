@@ -3,7 +3,7 @@ const cities = {
     slug: "melbourne",
     name: "Melbourne",
     state: "VIC",
-    description: "Navigate Melbourne's rich, diverse commercial sectors, tech hubs, and creative industries with localized application consulting.",
+    description: "Navigate Melbourne's rich, diverse commercial sectors, tech hubs and creative industries with localized application consulting.",
     suburbs: ["Richmond", "South Yarra", "Fitzroy", "St Kilda", "Docklands", "Collingwood", "Brunswick", "East Melbourne"],
     industries: ["Information Technology", "Creative & Design", "Education & Research", "Healthcare & Biotech", "Financial Services"]
   },
@@ -11,7 +11,7 @@ const cities = {
     slug: "sydney",
     name: "Sydney",
     state: "NSW",
-    description: "Accelerate your career in Australia's financial capital, corporate center, and largest tech cluster with target-aligned support.",
+    description: "Accelerate your career in Australia's financial capital, corporate center and largest tech cluster with target-aligned support.",
     suburbs: ["Surry Hills", "Pyrmont", "North Sydney", "Parramatta", "Macquarie Park", "Alexandria", "Chatswood", "Darlinghurst"],
     industries: ["Investment Banking & Finance", "Software Engineering", "Professional Services", "Media & Advertising", "Construction & Engineering"]
   },
@@ -19,7 +19,7 @@ const cities = {
     slug: "brisbane",
     name: "Brisbane",
     state: "QLD",
-    description: "Capitalize on Brisbane's infrastructure growth, tourism sectors, and expanding tech services ahead of local developments.",
+    description: "Capitalize on Brisbane's infrastructure growth, tourism sectors and expanding tech services ahead of local developments.",
     suburbs: ["Fortitude Valley", "South Brisbane", "Milton", "Newstead", "Bowen Hills", "Spring Hill", "Chermside", "West End"],
     industries: ["Government & Public Sector", "Tourism & Hospitality", "Mining & Resources", "Technology Startups", "Healthcare Delivery"]
   },
@@ -27,7 +27,7 @@ const cities = {
     slug: "perth",
     name: "Perth",
     state: "WA",
-    description: "Unlock opportunities in Western Australia's resource powerhouses, logistics networks, and growing professional sectors.",
+    description: "Unlock opportunities in Western Australia's resource powerhouses, logistics networks and growing professional sectors.",
     suburbs: ["Subiaco", "West Perth", "East Perth", "Fremantle", "Osborne Park", "Belmont", "South Perth", "Joondalup"],
     industries: ["Mining & Resource Operations", "Engineering Consultancies", "Logistics & Maritime", "Corporate Finance", "Renewable Energy"]
   },
@@ -35,7 +35,7 @@ const cities = {
     slug: "adelaide",
     name: "Adelaide",
     state: "SA",
-    description: "Position yourself in Adelaide's innovation precincts, defense contracting networks, and health sciences hubs.",
+    description: "Position yourself in Adelaide's innovation precincts, defense contracting networks and health sciences hubs.",
     suburbs: ["Kent Town", "North Adelaide", "Norwood", "Thebarton", "Mawson Lakes", "Bowden", "Unley", "Adelaide CBD"],
     industries: ["Defense Contracting", "Space & Aerospace Tech", "Wine & Agriculture Tech", "Medical Research", "Advanced Manufacturing"]
   },
@@ -43,7 +43,7 @@ const cities = {
     slug: "geelong",
     name: "Geelong",
     state: "VIC",
-    description: "Tap into Geelong's transitioning economy, manufacturing heritage, service hubs, and regional business opportunities.",
+    description: "Tap into Geelong's transitioning economy, manufacturing heritage, service hubs and regional business opportunities.",
     suburbs: ["Newtown", "East Geelong", "South Geelong", "Belmont", "North Geelong", "Grovedale", "Waurn Ponds", "Geelong West"],
     industries: ["Insurance & Claims (NDIS/TAC)", "Regional Government", "Carbon Fiber & Advanced Materials", "Education Services", "Tourism Operations"]
   },
@@ -51,7 +51,7 @@ const cities = {
     slug: "vic",
     name: "Victoria State",
     state: "VIC",
-    description: "Broaden your career search across Victoria's regional cities, agricultural centers, and statewide logistics networks.",
+    description: "Broaden your career search across Victoria's regional cities, agricultural centers and statewide logistics networks.",
     suburbs: ["Ballarat", "Bendigo", "Shepparton", "Wodonga", "Mildura", "Traralgon", "Warrnambool", "Latrobe Valley"],
     industries: ["Agribusiness & Food Tech", "State Logistics", "Regional Public Health", "Infrastructure Projects", "Community Services"]
   }
@@ -64,14 +64,14 @@ const pagesConfig = [
     slug: null,
     keyword: "Melbourne Jobs",
     title: "Jobs in Melbourne | Local Job Search Assistance | 9 Jobs (9jobs)",
-    metaDescription: "Find your next career opportunity in Melbourne. Partner with 9 Jobs (9jobs) for local resume writing, LinkedIn optimization, and daily job application services."
+    metaDescription: "Find your next career opportunity in Melbourne. Partner with 9 Jobs (9jobs) for local resume writing, LinkedIn optimization and daily job application services."
   },
   {
     city: "melbourne",
     slug: "get-jobs",
     keyword: "Get Jobs in Melbourne",
     title: "How to Get Jobs in Melbourne VIC | Professional Support | 9 Jobs (9jobs)",
-    metaDescription: "Discover how to get jobs in Melbourne. Learn about local hiring networks, optimize your profiles for VIC recruiters, and accelerate your job search."
+    metaDescription: "Discover how to get jobs in Melbourne. Learn about local hiring networks, optimize your profiles for VIC recruiters and accelerate your job search."
   },
   {
     city: "melbourne",
@@ -85,7 +85,7 @@ const pagesConfig = [
     slug: "careers",
     keyword: "Careers Melbourne",
     title: "Careers Melbourne | Local Career Search Support | 9 Jobs (9jobs)",
-    metaDescription: "Build a lasting career in Melbourne. 9 Jobs (9jobs) offers resume rewrites, interview preparation, and done-for-you applications to VIC employers."
+    metaDescription: "Build a lasting career in Melbourne. 9 Jobs (9jobs) offers resume rewrites, interview preparation and done-for-you applications to VIC employers."
   },
   {
     city: "melbourne",
@@ -99,21 +99,21 @@ const pagesConfig = [
     slug: "interview-coaching",
     keyword: "Interview Coaching Melbourne",
     title: "Interview Coaching Melbourne | Mock Interviews & Prep | 9 Jobs (9jobs)",
-    metaDescription: "Master the STAR method for Melbourne interviews. Get local coaching, communication guidance, and mock practice with 9 Jobs (9jobs) career coaches."
+    metaDescription: "Master the STAR method for Melbourne interviews. Get local coaching, communication guidance and mock practice with 9 Jobs (9jobs) career coaches."
   },
   {
     city: "melbourne",
     slug: "jobs-melbourne",
     keyword: "Jobs Melbourne",
     title: "Jobs Melbourne | Local Sourcing & Vacancies | 9 Jobs (9jobs)",
-    metaDescription: "Find jobs in Melbourne. Standard resume configurations, local SEO setups, and daily job application assistance from 9 Jobs (9jobs)."
+    metaDescription: "Find jobs in Melbourne. Standard resume configurations, local SEO setups and daily job application assistance from 9 Jobs (9jobs)."
   },
   {
     city: "melbourne",
     slug: "get-jobs-vic",
     keyword: "Get Jobs in Melbourne VIC",
     title: "How to Get Jobs in Melbourne VIC | Professional Support | 9 Jobs (9jobs)",
-    metaDescription: "Learn how to get jobs in Melbourne VIC. Adjust your location filters, format your resume for VIC databases, and secure callbacks."
+    metaDescription: "Learn how to get jobs in Melbourne VIC. Adjust your location filters, format your resume for VIC databases and secure callbacks."
   },
 
   // Sydney
@@ -122,28 +122,28 @@ const pagesConfig = [
     slug: null,
     keyword: "Sydney Jobs",
     title: "Jobs in Sydney NSW | Local Sourcing & Career Support | 9 Jobs (9jobs)",
-    metaDescription: "Land your next role in Sydney. Get localized resume writing, LinkedIn profile optimization, and job application support from 9 Jobs (9jobs)."
+    metaDescription: "Land your next role in Sydney. Get localized resume writing, LinkedIn profile optimization and job application support from 9 Jobs (9jobs)."
   },
   {
     city: "sydney",
     slug: "get-jobs",
     keyword: "Get Jobs in Sydney NSW",
     title: "How to Get Jobs in Sydney NSW | Local Strategy Guide | 9 Jobs (9jobs)",
-    metaDescription: "Learn how to get jobs in Sydney, NSW. Optimize your resume for corporate filters, adjust your SEEK preferences, and secure callbacks."
+    metaDescription: "Learn how to get jobs in Sydney, NSW. Optimize your resume for corporate filters, adjust your SEEK preferences and secure callbacks."
   },
   {
     city: "sydney",
     slug: "jobs",
     keyword: "Jobs in Sydney NSW",
     title: "Jobs in Sydney NSW | Local Sourcing & Vacancies | 9 Jobs (9jobs)",
-    metaDescription: "Browse opportunities in Sydney, NSW. Discover local recruitment hubs, optimize your keyword profile, and stand out to hiring managers."
+    metaDescription: "Browse opportunities in Sydney, NSW. Discover local recruitment hubs, optimize your keyword profile and stand out to hiring managers."
   },
   {
     city: "sydney",
     slug: "career-services",
     keyword: "Career Services Sydney NSW",
     title: "Career Services Sydney NSW | Professional Coaching | 9 Jobs (9jobs)",
-    metaDescription: "Accelerate your job search in Sydney. Local career consulting, resume tailoring, and done-for-you daily application submissions."
+    metaDescription: "Accelerate your job search in Sydney. Local career consulting, resume tailoring and done-for-you daily application submissions."
   },
   {
     city: "sydney",
@@ -157,7 +157,7 @@ const pagesConfig = [
     slug: "interview-coaching",
     keyword: "Interview Coaching Sydney NSW",
     title: "Interview Coaching Sydney | Executive Interview Prep | 9 Jobs (9jobs)",
-    metaDescription: "Improve your interview callback conversion in Sydney. Mock practice, STAR response preparation, and local communication alignment."
+    metaDescription: "Improve your interview callback conversion in Sydney. Mock practice, STAR response preparation and local communication alignment."
   },
 
   // Brisbane
@@ -166,7 +166,7 @@ const pagesConfig = [
     slug: null,
     keyword: "Brisbane Jobs",
     title: "Jobs in Brisbane QLD | Career Opportunities & Sourcing | 9 Jobs (9jobs)",
-    metaDescription: "Explore job opportunities in Brisbane. Partner with 9 Jobs (9jobs) for local resume optimization, LinkedIn updates, and application outsourcing."
+    metaDescription: "Explore job opportunities in Brisbane. Partner with 9 Jobs (9jobs) for local resume optimization, LinkedIn updates and application outsourcing."
   },
   {
     city: "brisbane",
@@ -196,21 +196,21 @@ const pagesConfig = [
     slug: null,
     keyword: "Perth Jobs",
     title: "Jobs in Perth WA | Local Sourcing & Professional Support | 9 Jobs (9jobs)",
-    metaDescription: "Land your target role in Perth. Professional resume rewrites, LinkedIn optimization, and automated application services from 9 Jobs (9jobs)."
+    metaDescription: "Land your target role in Perth. Professional resume rewrites, LinkedIn optimization and automated application services from 9 Jobs (9jobs)."
   },
   {
     city: "perth",
     slug: "get-jobs",
     keyword: "Get Jobs in Perth WA",
     title: "How to Get Jobs in Perth WA | Professional Sourcing | 9 Jobs (9jobs)",
-    metaDescription: "Learn how to target the Perth job market. Adjust your location settings, optimize resume keywords, and pass local recruiter screens."
+    metaDescription: "Learn how to target the Perth job market. Adjust your location settings, optimize resume keywords and pass local recruiter screens."
   },
   {
     city: "perth",
     slug: "jobs",
     keyword: "Jobs in Perth WA",
     title: "Jobs in Perth WA | Professional Vacancies & CV Help | 9 Jobs (9jobs)",
-    metaDescription: "Explore careers in Perth, WA. Optimize your profile metadata, pass applicant tracking systems, and secure mock interview calls."
+    metaDescription: "Explore careers in Perth, WA. Optimize your profile metadata, pass applicant tracking systems and secure mock interview calls."
   },
   {
     city: "perth",
@@ -224,7 +224,7 @@ const pagesConfig = [
     slug: "career-coaching",
     keyword: "Career Coaching Perth WA",
     title: "Career Coaching Perth | Professional Career Consulting | 9 Jobs (9jobs)",
-    metaDescription: "Navigate career transitions in Perth. Structural planning, local network insights, and tailored mock interview support."
+    metaDescription: "Navigate career transitions in Perth. Structural planning, local network insights and tailored mock interview support."
   },
   {
     city: "perth",
@@ -238,14 +238,14 @@ const pagesConfig = [
     slug: "jobs-in-perth",
     keyword: "Jobs in Perth",
     title: "Jobs in Perth | Local Vacancies & Sourcing Support | 9 Jobs (9jobs)",
-    metaDescription: "Find vacancies and jobs in Perth, WA. Optimize your profile settings, pass applicant tracking systems, and secure mock interview calls."
+    metaDescription: "Find vacancies and jobs in Perth, WA. Optimize your profile settings, pass applicant tracking systems and secure mock interview calls."
   },
   {
     city: "perth",
     slug: "jobs-in-perth-wa",
     keyword: "Jobs in Perth WA",
     title: "Jobs in Perth WA | Local Sourcing & Professional CVs | 9 Jobs (9jobs)",
-    metaDescription: "Browse opportunities and jobs in Perth WA. Rebuild your CV, optimize your SEEK preferences, and outsource your applications."
+    metaDescription: "Browse opportunities and jobs in Perth WA. Rebuild your CV, optimize your SEEK preferences and outsource your applications."
   },
 
   // Adelaide
@@ -254,7 +254,7 @@ const pagesConfig = [
     slug: null,
     keyword: "Adelaide Jobs",
     title: "Jobs in Adelaide SA | Sourcing & Profile Optimization | 9 Jobs (9jobs)",
-    metaDescription: "Find your next role in Adelaide. Get custom resume writing, LinkedIn keyword optimization, and daily application support from 9 Jobs (9jobs)."
+    metaDescription: "Find your next role in Adelaide. Get custom resume writing, LinkedIn keyword optimization and daily application support from 9 Jobs (9jobs)."
   },
   {
     city: "adelaide",
@@ -268,7 +268,7 @@ const pagesConfig = [
     slug: "jobs",
     keyword: "Jobs in Adelaide SA",
     title: "Jobs in Adelaide SA | Professional Sourcing & Resumes | 9 Jobs (9jobs)",
-    metaDescription: "Explore Adelaide's growing defense, manufacturing, and tech opportunities. Optimize your resume for South Australian benchmarks."
+    metaDescription: "Explore Adelaide's growing defense, manufacturing and tech opportunities. Optimize your resume for South Australian benchmarks."
   },
 
   // Geelong
@@ -277,7 +277,7 @@ const pagesConfig = [
     slug: null,
     keyword: "Geelong Jobs",
     title: "Jobs in Geelong VIC | Regional Sourcing Assistance | 9 Jobs (9jobs)",
-    metaDescription: "Target Geelong's local market. Get a resume rewrite, LinkedIn keyword tuning, and local application assistance from 9 Jobs (9jobs)."
+    metaDescription: "Target Geelong's local market. Get a resume rewrite, LinkedIn keyword tuning and local application assistance from 9 Jobs (9jobs)."
   },
   {
     city: "geelong",
@@ -298,7 +298,7 @@ const pagesConfig = [
     slug: "career-coaching",
     keyword: "Career Coaching Geelong VIC",
     title: "Career Coaching Geelong | Regional Professional Support | 9 Jobs (9jobs)",
-    metaDescription: "Navigate regional career pathways in Geelong. Target local government, insurance, and manufacturing roles with confidence."
+    metaDescription: "Navigate regional career pathways in Geelong. Target local government, insurance and manufacturing roles with confidence."
   },
 
   // Victoria
@@ -307,14 +307,14 @@ const pagesConfig = [
     slug: null,
     keyword: "Victoria Jobs",
     title: "Jobs in Victoria State | Regional Professional Sourcing | 9 Jobs (9jobs)",
-    metaDescription: "Find career opportunities across Victoria. Rebuild your resume, update your SEEK visibility, and outsource your applications."
+    metaDescription: "Find career opportunities across Victoria. Rebuild your resume, update your SEEK visibility and outsource your applications."
   },
   {
     city: "vic",
     slug: "jobs",
     keyword: "Jobs in VIC",
     title: "Jobs in VIC | Regional Sourcing & Professional CVs | 9 Jobs (9jobs)",
-    metaDescription: "Target vacancies in regional Victoria. Optimize your profile settings, pass automated screens, and get found by VIC agencies."
+    metaDescription: "Target vacancies in regional Victoria. Optimize your profile settings, pass automated screens and get found by VIC agencies."
   },
   {
     city: "vic",

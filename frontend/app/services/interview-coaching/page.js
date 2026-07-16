@@ -11,35 +11,35 @@ const routeSeo = getRouteSeo("/services/interview-coaching");
 export const metadata = createSeoMetadata(routeSeo);
 
 const services = [
-  ["Interview Notifications", "Real-time logging and tracking of incoming interview requests, phone screens, and recruiter follow-ups.", Bell],
+  ["Interview Notifications", "Real-time logging and tracking of incoming interview requests, phone screens and recruiter follow-ups.", Bell],
   ["Behavioral Prep Coaching", "Targeted preparation for behavioral and situational interviews using the structured STAR technique.", Target],
-  ["Australian Business Culture", "Coaching on communication styles, professional standards, and cultural expectations of local hiring managers.", UserCheck],
-  ["Salary Negotiation Support", "Strategy coaching to negotiate compensation, benefits, and contract parameters with confidence.", ShieldCheck],
+  ["Australian Business Culture", "Coaching on communication styles, professional standards and cultural expectations of local hiring managers.", UserCheck],
+  ["Salary Negotiation Support", "Strategy coaching to negotiate compensation, benefits and contract parameters with confidence.", ShieldCheck],
 ];
 
 const checklist = [
-  ["Recruiter Screening prep", "We guide you on how to handle the initial 10-15 minute recruiter phone screen, visa questions, and salary matching."],
-  ["STAR Method Framework", "We structure your past career achievements into clear Situation, Task, Action, and Result formats."],
+  ["Recruiter Screening prep", "We guide you on how to handle the initial 10-15 minute recruiter phone screen, visa questions and salary matching."],
+  ["STAR Method Framework", "We structure your past career achievements into clear Situation, Task, Action and Result formats."],
   ["Mock Interview Sessions", "Practice mock sessions mimicking common interview formats used by Australian corporates and tech firms."],
-  ["Post-Interview Debrief", "We review the feedback, analyze questions asked, and refine parameters for subsequent stages."],
+  ["Post-Interview Debrief", "We review the feedback, analyze questions asked and refine parameters for subsequent stages."],
 ];
 
 const faqs = [
   [
     "How does the interview support service work?",
-    "When you receive interview invitations from your job applications, we run targeted preparation sessions. We review the job description, research the company's background, and map out likely behavioral and technical questions. We conduct mock practices, refine your answers, and coach you on negotiation strategy."
+    "When you receive interview invitations from your job applications, we run targeted preparation sessions. We review the job description, research the company's background and map out likely behavioral and technical questions. We conduct mock practices, refine your answers and coach you on negotiation strategy."
   ],
   [
-    "What is the STAR method, and why is it used?",
+    "What is the STAR method and why is it used?",
     "The STAR method (Situation, Task, Action, Result) is the standard framework expected by Australian employers for behavioral questions (e.g. 'Tell me about a time you resolved a conflict'). It provides a clear, logical structure that proves your problem-solving capabilities using real metrics. We help you translate your career history into this format."
   ],
   [
     "How do you help with salary negotiation?",
-    "We research local salary guides (like Hays or SEEK indicators) to establish industry benchmarks for your level. We then coach you on how to articulate your expectations, frame negotiations around value, and handle offer proposals confidently."
+    "We research local salary guides (like Hays or SEEK indicators) to establish industry benchmarks for your level. We then coach you on how to articulate your expectations, frame negotiations around value and handle offer proposals confidently."
   ],
   [
     "Do you support technical coding or case study interviews?",
-    "Yes. We support candidates across IT and commercial sectors. For technical roles, we help structure explanations of your technical stack, architecture choices, and project delivery processes. For non-tech roles, we focus on leadership, problem-solving, and stakeholder management."
+    "Yes. We support candidates across IT and commercial sectors. For technical roles, we help structure explanations of your technical stack, architecture choices and project delivery processes. For non-tech roles, we focus on leadership, problem-solving and stakeholder management."
   ],
   [
     "Do mock interviews take place online?",
@@ -151,7 +151,7 @@ export default function InterviewSupportPage() {
                 <h1>Secure Your Next Job Offer in <span className="heading-mark">Australia</span></h1>
               </StaggerItem>
               <StaggerItem as="div">
-                <p>Mock interviews, behavioral preparation, and negotiation coaching tailored to the expectations of local Australian hiring managers.</p>
+                <p>Mock interviews, behavioral preparation and negotiation coaching tailored to the expectations of local Australian hiring managers.</p>
               </StaggerItem>
               <StaggerItem as="div">
                 <div className="fj-actions">
@@ -170,10 +170,10 @@ export default function InterviewSupportPage() {
                 <span className="fj-label">Secure the Job Offer</span>
                 <h2>Why local interview preparation is critical for success in <span className="heading-mark">Australia</span></h2>
                 <p>
-                  Landing the interview is only the first step. To secure a job offer, you must convince the hiring manager that you have the skills, cultural fit, and local market understanding to contribute immediately. In Australia, hiring practices rely heavily on behavioral interviews—asking situational questions to evaluate how you react under pressure.
+                  Landing the interview is only the first step. To secure a job offer, you must convince the hiring manager that you have the skills, cultural fit and local market understanding to contribute immediately. In Australia, hiring practices rely heavily on behavioral interviews—asking situational questions to evaluate how you react under pressure.
                 </p>
                 <p>
-                  Many candidates fail interviews not because they lack technical skills, but because they explain past work history in a disorganized, rambling manner. Recruiters look for structured, metrics-focused answers. 9Jobs prepares you to structure your experience, understand local corporate communication standards, and negotiate your contract parameters successfully.
+                  Many candidates fail interviews not because they lack technical skills, but because they explain past work history in a disorganized, rambling manner. Recruiters look for structured, metrics-focused answers. 9Jobs prepares you to structure your experience, understand local corporate communication standards and negotiate your contract parameters successfully.
                 </p>
               </div>
             </Reveal>
@@ -188,7 +188,7 @@ export default function InterviewSupportPage() {
                     <div className="fj-ai-note">
                       <span>Behavioral Answer Structure</span>
                       <strong>STAR Method Check</strong>
-                      <p>Pass. Answers structured logically around Situation, Task, Action, and measurable Results.</p>
+                      <p>Pass. Answers structured logically around Situation, Task, Action and measurable Results.</p>
                     </div>
                     <div className="fj-ai-note">
                       <span>Salary benchmark alignment</span>
@@ -288,10 +288,10 @@ export default function InterviewSupportPage() {
                 Interviewing in Australia has its own unique set of cultural nuances. Local employers value structured, direct, yet modest communication styles. This balance of professional authority and collaborative modesty is critical: candidates must prove capability without appearing overly aggressive or arrogant, a communication style often described as &quot;team-oriented confidence.&quot;
               </p>
               <p>
-                Behavioral questions represent the core of local interviews. When a hiring manager asks, &quot;Tell me about a time you managed a difficult stakeholder,&quot; they are not interested in generic theories. They expect to hear a specific narrative: the scenario, the action you personally took, and the outcome achieved. Using the STAR framework is the best way to prevent rambling.
+                Behavioral questions represent the core of local interviews. When a hiring manager asks, &quot;Tell me about a time you managed a difficult stakeholder,&quot; they are not interested in generic theories. They expect to hear a specific narrative: the scenario, the action you personally took and the outcome achieved. Using the STAR framework is the best way to prevent rambling.
               </p>
               <p>
-                Additionally, many candidates struggle with salary negotiation. Discussing money can feel uncomfortable. We teach candidates how to research target benchmarks, communicate expectations in a professional manner, and negotiate parameters like remote/hybrid flexibility or superannuation (which is the Australian retirement pension system and represents a critical component of local compensation packages).
+                Additionally, many candidates struggle with salary negotiation. Discussing money can feel uncomfortable. We teach candidates how to research target benchmarks, communicate expectations in a professional manner and negotiate parameters like remote/hybrid flexibility or superannuation (which is the Australian retirement pension system and represents a critical component of local compensation packages).
               </p>
               <p>
                 Finally, post-interview follow-ups are highly valued. Sending a brief, personalized thank-you note highlighting a key discussion point within 24 hours of the interview shows professionalism and keeps you top-of-mind as final selection choices are made.
@@ -306,7 +306,7 @@ export default function InterviewSupportPage() {
               <div className="fj-leader-card">
                 <div>
                   <h2>Align your entire profile for career success <span className="heading-mark">today</span></h2>
-                  <p>Pair your interview readiness with an optimized <Link href="/services/resume-writing">Professional Resume</Link>, <Link href="/services/linkedin-optimization">LinkedIn Profile</Link>, and active <Link href="/services/job-application-automation">Job Applications</Link>.</p>
+                  <p>Pair your interview readiness with an optimized <Link href="/services/resume-writing">Professional Resume</Link>, <Link href="/services/linkedin-optimization">LinkedIn Profile</Link> and active <Link href="/services/job-application-automation">Job Applications</Link>.</p>
                 </div>
                 <div className="fj-leader-media">
                   <Sparkles size={120} color="var(--lime)" style={{ margin: "auto" }} />

@@ -48,7 +48,7 @@ export default function RootLayout({ children }) {
     ],
     "url": siteUrl,
     "logo": "https://9jobs.co/framer/app-icon.svg",
-    "description": "9 Jobs (9jobs), also known as 9 Jobs Australia, is an Australian career support brand helping professionals with resumes, LinkedIn optimization, ATS resume strategy, and job application services.",
+    "description": "9 Jobs (9jobs), also known as 9 Jobs Australia, is an Australian career support brand helping professionals with resumes, LinkedIn optimization, ATS resume strategy and job application services.",
     "areaServed": {
       "@type": "Country",
       "name": "Australia"
@@ -67,7 +67,7 @@ export default function RootLayout({ children }) {
     "@id": "https://9jobs.co/#website",
     "name": "9 Jobs (9jobs)",
     "url": siteUrl,
-    "description": "9 Jobs (9jobs) provides resume writing, LinkedIn optimization, SEEK profile updates, and job application services in Australia.",
+    "description": "9 Jobs (9jobs) provides resume writing, LinkedIn optimization, SEEK profile updates and job application services in Australia.",
     "alternateName": [
       "9 Jobs",
       "9jobs",

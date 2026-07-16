@@ -28,10 +28,10 @@ const footerGroups = [
     title: "Explore 9Jobs",
     href: "/jobs",
     links: [
-      { href: "/9-jobs", label: "9 Jobs" },
-      { href: "/jobs", label: "9jobs Australia" },
-      { href: "/services/resume-writing", label: "9 Jobs Resume Service" },
-      { href: "/about", label: "9 Jobs Career Support" },
+      { href: "/9-jobs", label: "Brand Page" },
+      { href: "/jobs", label: "Jobs Australia" },
+      { href: "/services/resume-writing", label: "Resume Service" },
+      { href: "/about", label: "Career Support" },
       { href: "/services/linkedin-optimization", label: "LinkedIn Optimization" },
       { href: "/services/interview-coaching", label: "Interview Coaching" },
       { href: "/blog/how-to-get-a-job-in-australia", label: "How to Get a Job in Australia" },
@@ -84,7 +84,7 @@ export default function Footer() {
               </span>
               <span>9Jobs</span>
             </Link>
-            <p>Join the 40,000+ businesses in Australia using 9Jobs, today.</p>
+            <p>Join businesses in Australia using 9Jobs today.</p>
             <NewsletterForm />
             <div className="fj-footer-socials">
               <a href="https://www.instagram.com/9jobsau/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
@@ -94,7 +94,7 @@ export default function Footer() {
                   <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
                 </svg>
               </a>
-              <a href="https://www.facebook.com/9jobs.co" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <a href="https://www.facebook.com/profile.php?id=61589408708559" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
                 </svg>
@@ -141,7 +141,7 @@ export default function Footer() {
             <span>&copy; 2026 9Jobs. All rights reserved. Registered Australian Business.</span>
           </div>
           <p style={{ margin: 0, fontSize: "0.75rem", lineHeight: "1.4" }}>
-            Disclaimer: 9Jobs is a private career support, resume optimization, and job search facilitation provider. We are not associated with or endorsed by SEEK Limited, Jora, or LinkedIn Corporation. All product and service names, logos, and brands are property of their respective owners.
+            Disclaimer: 9Jobs is a private career support, resume optimization and job search facilitation provider. We are not associated with or endorsed by SEEK Limited, Jora, or LinkedIn Corporation. All product and service names, logos and brands are property of their respective owners.
           </p>
         </div>
       </div>

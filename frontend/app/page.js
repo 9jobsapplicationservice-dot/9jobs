@@ -7,11 +7,14 @@ import {
   Bell,
   Bot,
   Briefcase,
+  Calendar,
   Check,
   CheckCircle2,
   ClipboardCheck,
   FileText,
   Gauge,
+  Mail,
+  Search,
   SearchCheck,
   ShieldCheck,
   Sparkles,
@@ -127,6 +130,14 @@ function ScrollProgressLine({ className }) {
   );
 }
 
+const LinkedInIcon = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+    <rect width="4" height="12" x="2" y="9"/>
+    <circle cx="4" cy="4" r="2"/>
+  </svg>
+);
+
 const brandLogos = [
   { name: "kfm", src: "/assets/logo-1.png", width: 156, height: 90 },
   { name: "AR", src: "/assets/logo-2.png", width: 192, height: 80 },
@@ -136,7 +147,7 @@ const brandLogos = [
 ];
 const homepageTitle = "9jobs | 9 Jobs Australia - Resume Writing & Job Application Services";
 const homepageDescription =
-  "9jobs (also known as 9 Jobs) helps Australian professionals with Resume Writing Australia, LinkedIn Optimization, ATS Resume support, and Job Application Services.";
+  "9jobs (also known as 9 Jobs) helps Australian professionals with Resume Writing Australia, LinkedIn Optimization, ATS Resume support and Job Application Services.";
 const homepageUrl = "https://9jobs.co/";
 
 export const metadata = {
@@ -184,12 +195,12 @@ export const metadata = {
 };
 
 const candidates = [
-  ["David Wilson", "Founder & CEO", "$200,000", "Pending", "DW"],
-  ["Jessica Hayes", "Co-founder & CFO", "$200,000", "Pending", "JH"],
-  ["Constanza Perez", "Head of Product", "$150,000", "Pending", "CP"],
-  ["Meera Desai", "Head of Engineering", "$170,000", "Pending", "MD"],
-  ["Benjamin Weber", "Backend Engineer", "$120,000", "Pending", "BW"],
-  ["Jacob Jones", "Frontend Engineer", "$120,000", "Pending", "JJ"],
+  ["David Wilson", "Site Engineer", "$140,000", "Successful", "DW"],
+  ["Jessica Hayes", "Data Analyst", "$110,000", "Successful", "JH"],
+  ["Constanza Perez", "Business Analyst", "$125,000", "Successful", "CP"],
+  ["Meera Desai", "Sales Specialist", "$95,000", "Successful", "MD"],
+  ["Benjamin Weber", "Software Engineer", "$130,000", "Successful", "BW"],
+  ["Jacob Jones", "Frontend Engineer", "$120,000", "Successful", "JJ"],
 ];
 
 const featureCards = [
@@ -198,7 +209,7 @@ const featureCards = [
     eyebrow: "Resume & Profiles",
     title: "ATS-friendly optimization",
     badge: "New!",
-    text: "Get a professionally written, ATS-friendly resume and optimized profiles on LinkedIn, SEEK, and Jora.",
+    text: "Get a professionally written, ATS-friendly resume and optimized profiles on LinkedIn, SEEK and Jora.",
   },
   {
     icon: UsersRound,
@@ -222,50 +233,50 @@ const pipelineItems = [
 ];
 
 const growthItems = [
-  ["Profile optimization", "Enhance your LinkedIn, SEEK, and Jora profiles to stand out to recruiters."],
+  ["Profile optimization", "Enhance your LinkedIn, SEEK and Jora profiles to stand out to recruiters."],
   ["ATS-ready resumes", "Get custom, ATS-friendly resumes written specifically for Australian hiring systems."],
   ["Automated applications", "We actively search and apply for matching roles on your behalf."],
   ["Interview preparation", "Access targeted coaching and feedback to secure job offers."],
 ];
 
 const plans = [
-  ["Startups", "Learn about the Remote platform and services.", null],
-  ["Mid-size", "See our standard pricing and get a customized quote.", "Popular Choice"],
-  ["Enterprise", "See our standard pricing and get a customized quote.", "Executive Choice"],
+  ["Trial", "Try the full 9Jobs experience for a day — perfect for a quick, focused job search sprint.", null],
+  ["Non-IT", "Hands-on weekly support tailored for non-tech professionals ready to land their next role.", "Popular Choice"],
+  ["IT", "Premium weekly support for tech professionals — from ATS-ready resumes to interview prep.", "Executive Choice"],
 ];
 
 const displayFaqs = [
   [
     "What is 9Jobs?",
-    "9Jobs is an Australia-focused career support service for job seekers who want help with ATS resume writing, LinkedIn optimization, SEEK profile optimization, job applications, and interview preparation. The service is built for candidates targeting roles across Australian cities and industries.",
+    "9Jobs is an Australia-focused career support service for job seekers who want help with ATS resume writing, LinkedIn optimization, SEEK profile optimization, job applications and interview preparation. The service is built for candidates targeting roles across Australian cities and industries.",
   ],
   [
     "Is 9Jobs the same as Nine Careers or a job board?",
-    "No. 9Jobs is not Nine Careers and it is not a generic job board. 9Jobs provides resume writing, profile optimization, application support, and interview coaching for Australian job seekers, while Nine Careers is a separate employer careers site.",
+    "No. 9Jobs is not Nine Careers and it is not a generic job board. 9Jobs provides resume writing, profile optimization, application support and interview coaching for Australian job seekers, while Nine Careers is a separate employer careers site.",
   ],
   [
     "Does 9Jobs apply for jobs for me?",
-    "Yes. Depending on your plan, 9Jobs can help identify suitable roles, improve your resume and online profiles, submit applications, and organize your job search pipeline so you can focus on interview preparation and follow-ups.",
+    "Yes. Depending on your plan, 9Jobs can help identify suitable roles, improve your resume and online profiles, submit applications and organize your job search pipeline so you can focus on interview preparation and follow-ups.",
   ],
   [
     "Which 9Jobs service helps improve interview callbacks?",
-    "The strongest results usually come from combining ATS resume writing, LinkedIn optimization, SEEK profile optimization, and job application support. This gives recruiters consistent information across your resume, LinkedIn, SEEK, and application forms.",
+    "The strongest results usually come from combining ATS resume writing, LinkedIn optimization, SEEK profile optimization and job application support. This gives recruiters consistent information across your resume, LinkedIn, SEEK and application forms.",
   ],
   [
     "Do you help candidates apply for jobs in Australia?",
-    "Yes. 9Jobs supports Australia-focused job searches with resume improvement, LinkedIn optimization, role targeting, applications, and follow-up organization.",
+    "Yes. 9Jobs supports Australia-focused job searches with resume improvement, LinkedIn optimization, role targeting, applications and follow-up organization.",
   ],
   [
     "Which types of roles do you support?",
-    "We support IT and non-IT roles, including software, data, cloud, QA, sales, finance, admin, HR, operations, and customer-facing positions.",
+    "We support IT and non-IT roles, including software, data, cloud, QA, sales, finance, admin, HR, operations and customer-facing positions.",
   ],
   [
-    "Do you guarantee a job placement?",
-    "No service can honestly guarantee employer selection. We improve your profile quality, application consistency, and interview readiness so you can compete more professionally.",
+    "Do you promise a job placement?",
+    "No service can honestly promise employer selection. We improve your profile quality, application consistency and interview readiness so you can compete more professionally.",
   ],
   [
     "Can you make my resume suitable for Australian employers?",
-    "Yes. We review structure, keywords, achievements, clarity, and ATS readability so your resume is easier for Australian recruiters to scan.",
+    "Yes. We review structure, keywords, achievements, clarity and ATS readability so your resume is easier for Australian recruiters to scan.",
   ],
   [
     "How does the demo or contact request work?",
@@ -276,7 +287,7 @@ const displayFaqs = [
 const schemaFaqs = [
   [
     "What is 9Jobs?",
-    "9jobs is an Australian career support brand that helps professionals improve resumes, optimize LinkedIn profiles, strengthen ATS Resume performance, and manage job applications more strategically.",
+    "9jobs is an Australian career support brand that helps professionals improve resumes, optimize LinkedIn profiles, strengthen ATS Resume performance and manage job applications more strategically.",
   ],
   [
     "What is 9 Jobs?",
@@ -284,39 +295,39 @@ const schemaFaqs = [
   ],
   [
     "Is 9 Jobs Australia a recruitment agency?",
-    "No. 9 Jobs Australia is not a recruitment agency. It is a career support service that helps candidates improve documents, profiles, and application quality.",
+    "No. 9 Jobs Australia is not a recruitment agency. It is a career support service that helps candidates improve documents, profiles and application quality.",
   ],
   [
     "How does 9 Jobs work?",
-    "9 Jobs reviews your career goals, improves your resume and profiles, supports applications, and helps you stay interview-ready for Australian employers.",
+    "9 Jobs reviews your career goals, improves your resume and profiles, supports applications and helps you stay interview-ready for Australian employers.",
   ],
   [
     "Does 9 Jobs help with resumes?",
-    "Yes. 9jobs provides Resume Writing Australia support with ATS Resume structure, keyword strategy, and recruiter-friendly formatting.",
+    "Yes. 9jobs provides Resume Writing Australia support with ATS Resume structure, keyword strategy and recruiter-friendly formatting.",
   ],
   [
     "Does 9jobs offer LinkedIn Optimization?",
-    "Yes. LinkedIn Optimization is one of the core services, covering headline, About section, skills, and recruiter-facing profile positioning.",
+    "Yes. LinkedIn Optimization is one of the core services, covering headline, About section, skills and recruiter-facing profile positioning.",
   ],
   [
     "Does 9jobs help with Job Application Services?",
-    "Yes. 9jobs supports Job Application Services through role targeting, shortlist management, and application workflow support.",
+    "Yes. 9jobs supports Job Application Services through role targeting, shortlist management and application workflow support.",
   ],
   [
     "Can 9jobs improve an ATS Resume?",
-    "Yes. The service is designed to improve ATS Resume readability, keyword matching, and achievement clarity for Australian recruiters.",
+    "Yes. The service is designed to improve ATS Resume readability, keyword matching and achievement clarity for Australian recruiters.",
   ],
   [
     "Who should use 9 Jobs Australia?",
-    "Professionals across Australia who want stronger resumes, LinkedIn profiles, and job application outcomes can benefit from the service.",
+    "Professionals across Australia who want stronger resumes, LinkedIn profiles and job application outcomes can benefit from the service.",
   ],
   [
     "Does 9jobs support Australia Jobs outside major cities?",
-    "Yes. 9jobs supports candidates targeting metro and regional Australia Jobs, including Melbourne, Sydney, Brisbane, Perth, Adelaide, Geelong, and Victoria-wide roles.",
+    "Yes. 9jobs supports candidates targeting metro and regional Australia Jobs, including Melbourne, Sydney, Brisbane, Perth, Adelaide, Geelong and Victoria-wide roles.",
   ],
   [
     "What makes 9jobs different from a job board?",
-    "A job board lists vacancies. 9jobs focuses on improving the candidate side of the process with resumes, profiles, and application support.",
+    "A job board lists vacancies. 9jobs focuses on improving the candidate side of the process with resumes, profiles and application support.",
   ],
   [
     "Can 9 Jobs support career changers?",
@@ -332,11 +343,11 @@ const schemaFaqs = [
   ],
   [
     "How does 9jobs help with interviews?",
-    "By improving resume clarity, profile consistency, and application targeting, 9jobs helps create stronger interview opportunities and preparation context.",
+    "By improving resume clarity, profile consistency and application targeting, 9jobs helps create stronger interview opportunities and preparation context.",
   ],
   [
-    "Does 9jobs guarantee job placement?",
-    "No. 9jobs does not guarantee placement. The service improves visibility, positioning, and application quality to increase interview potential.",
+    "Does 9jobs promise job placement?",
+    "No. 9jobs does not promise placement. The service improves visibility, positioning and application quality to increase interview potential.",
   ],
   [
     "Can I contact 9 Jobs directly from 9jobs.co?",
@@ -359,16 +370,6 @@ const schemaFaqs = [
 // 9 Jobs Australia | 9jobs Resume Writing & Job Application Services
 // 9jobs, also known as 9 Jobs, helps Australian professionals with Resume Writing Australia, LinkedIn Optimization, ATS Resume support, and Job Application Services.
 
-const popularCities = [
-  { name: "Melbourne", href: "/jobs/melbourne", desc: "Access premium roles, ATS resume support, and career sourcing across Melbourne VIC." },
-  { name: "Sydney", href: "/jobs/sydney", desc: "Target top executive, financial, and tech opportunities in Sydney NSW." },
-  { name: "Brisbane", href: "/jobs/brisbane", desc: "Discover active vacancies and localized recruiter networks in Brisbane QLD." },
-  { name: "Perth", href: "/jobs/perth", desc: "Connect with mining, engineering, and professional career hubs in Perth WA." },
-  { name: "Adelaide", href: "/jobs/adelaide", desc: "Position your profile for defense, space, and tech positions in Adelaide SA." },
-  { name: "Geelong", href: "/jobs/geelong", desc: "Find regional government, NDIS, and insurance roles in Geelong VIC." },
-  { name: "Victoria", href: "/jobs/vic", desc: "Expand your career search across regional Victoria and agricultural hubs." },
-];
-
 function DashboardPreview() {
   return (
     <div className="fj-dashboard">
@@ -386,10 +387,10 @@ function DashboardPreview() {
       <div className="fj-dashboard-main">
         <div className="fj-dashboard-top">
           <div>
-            <p className="fj-dashboard-title">Good morning, Jessica!</p>
+            <p className="fj-dashboard-title">Recent Successful Placements</p>
             <div className="fj-dashboard-filters">
               <span>Team <strong>All</strong></span>
-              <span>Status <strong>Pending</strong></span>
+              <span>Status <strong>Successful</strong></span>
             </div>
           </div>
           <div className="fj-dashboard-actions">
@@ -416,9 +417,9 @@ function DashboardPreview() {
               </span>
               <span>
                 {role}
-                {role.includes("Product") && <em>Product</em>}
+                {role.includes("Analyst") && <em className="is-gold">Data & BI</em>}
+                {role.includes("Sales") && <em>Sales</em>}
                 {role.includes("Engineer") && <em className="is-lime">Tech</em>}
-                {(role.includes("CEO") || role.includes("CFO")) && <em className="is-gold">Executive</em>}
               </span>
               <span><mark>{status}</mark></span>
               <span>{amount}</span>
@@ -478,7 +479,7 @@ export default function Home() {
                 <h1>9Jobs - Job Search, Resume Writing & <span className="heading-mark">Career Support Australia</span></h1>
               </StaggerItem>
               <StaggerItem as="div">
-                <p>We optimize your resume, LinkedIn, SEEK and Jora profiles, apply for jobs on your behalf, and help you secure interviews and job offers.</p>
+                <p>We optimize your resume, LinkedIn, SEEK and Jora profiles, apply for jobs on your behalf and help you secure interviews and job offers.</p>
               </StaggerItem>
               <StaggerItem as="div">
                 <div className="fj-actions">
@@ -550,38 +551,38 @@ export default function Home() {
             <div className="fj-section-head">
               <span className="fj-label">9Jobs services</span>
               <h2>Choose the support that moves your search <span className="heading-mark">forward</span></h2>
-              <p>Targeted help for your resume, LinkedIn, SEEK, applications, and interviews.</p>
+              <p>Targeted help for your resume, LinkedIn, SEEK, applications and interviews.</p>
             </div>
           </Reveal>
           <StaggerContainer as="div" className="fj-card-grid fj-card-grid--three" stagger={0.12}>
             {[
               {
                 title: "Resume Writing Australia",
-                text: "ATS-friendly resumes written for Australian recruiter expectations, local keywords, and clear achievement-led scanning.",
+                text: "ATS-friendly resumes written for Australian recruiter expectations, local keywords and clear achievement-led scanning.",
                 href: "/services/resume-writing",
                 badge: "Executive Preferred",
                 premium: true,
               },
               {
                 title: "LinkedIn Optimization",
-                text: "Profile headlines, summaries, skills, and experience sections aligned with LinkedIn Recruiter search behavior.",
+                text: "Profile headlines, summaries, skills and experience sections aligned with LinkedIn Recruiter search behavior.",
                 href: "/services/linkedin-optimization",
               },
               {
                 title: "SEEK Profile Optimization",
-                text: "SEEK summaries, target titles, skills, and visibility settings configured for Australian candidate searches.",
+                text: "SEEK summaries, target titles, skills and visibility settings configured for Australian candidate searches.",
                 href: "/services/seek-profile-optimization",
               },
               {
                 title: "Job Application Support",
-                text: "Structured job sourcing and application support to keep your role pipeline active across SEEK, LinkedIn, and Jora.",
+                text: "Structured job sourcing and application support to keep your role pipeline active across SEEK, LinkedIn and Jora.",
                 href: "/services/job-application-automation",
                 badge: "Top Sourcing Service",
                 premium: true,
               },
               {
                 title: "Interview Coaching",
-                text: "Mock interview practice, STAR answer coaching, and interview follow-up support for Australian hiring processes.",
+                text: "Mock interview practice, STAR answer coaching and interview follow-up support for Australian hiring processes.",
                 href: "/services/interview-coaching",
               },
             ].map((service) => (
@@ -626,7 +627,7 @@ export default function Home() {
                   ["Alex Marshall", "optimized their resume", "2m ago"],
                   ["Sophia R.", "updated LinkedIn & SEEK", "5m ago"],
                   ["Alex Marshall", "applied to 12 jobs", "8m ago"],
-                  ["Nadia Thompson", "scheduled an interview", "13m ago"],
+                  ["Nadia Thompson", "scheduled an interview", "1 year ago"],
                 ].map(([name, action, time]) => (
                   <StaggerItem as="div" className="fj-activity-row fj-activity-row--live" key={`${name}-${action}`}>
                     <span className="fj-avatar">{name.slice(0, 2)}</span>
@@ -715,9 +716,17 @@ export default function Home() {
           </Reveal>
           <Reveal as="div" direction="right" distance={24}>
             <Marquee className="fj-home-marquee-shell fj-integrations-marquee" itemClassName="fj-integrations-marquee__item" speed="28s" ariaLabel="9Jobs integrations">
-              {["LinkedIn", "Gmail", "Calendar", "Indeed", "SEEK", "Resume"].map((item) => (
-                <span key={item} className="fj-integration-pill" aria-label={`${item} integration`}>
-                  {item}
+              {[
+                { name: "LinkedIn", icon: LinkedInIcon },
+                { name: "Gmail", icon: Mail },
+                { name: "Calendar", icon: Calendar },
+                { name: "Indeed", icon: Search },
+                { name: "SEEK", icon: Briefcase },
+                { name: "Resume", icon: FileText },
+              ].map(({ name, icon: Icon }) => (
+                <span key={name} className="fj-integration-pill" aria-label={`${name} integration`}>
+                  <Icon size={20} style={{ marginRight: "10px", flexShrink: 0 }} />
+                  {name}
                 </span>
               ))}
             </Marquee>
@@ -785,7 +794,7 @@ export default function Home() {
           <Reveal as="div" direction="left" distance={24}>
             <div>
               <h2>9Jobs is your job search partner in <span className="heading-mark">Australia</span></h2>
-              <p>We manage your job search end-to-end: resume optimization, profile updates, and active applications.</p>
+              <p>We manage your job search end-to-end: resume optimization, profile updates and active applications.</p>
             </div>
           </Reveal>
           <Reveal as="div" direction="right" distance={24}>
@@ -812,29 +821,6 @@ export default function Home() {
                 <p>{city.description}</p>
                 <Link href={`/jobs/${city.slug}`} className="fj-button fj-button--ghost fj-location-link" prefetch={false}>
                   <span>Explore {city.name}</span> <ArrowRight size={16} />
-                </Link>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-        </div>
-      </section>
-
-      <section className="fj-section fj-section--muted fj-home-section--grid">
-        <div className="fj-container">
-          <Reveal as="div" direction="up" distance={24}>
-            <div className="fj-section-head">
-              <span className="fj-label">Job Sourcing</span>
-              <h2>Find Jobs Across <span className="heading-mark">Australia</span></h2>
-              <p>Direct access to our dedicated, local career search landing pages in every major city and state region.</p>
-            </div>
-          </Reveal>
-          <StaggerContainer as="div" className="fj-card-grid fj-card-grid--three fj-location-grid fj-location-grid--secondary" style={{ marginTop: "40px" }} stagger={0.1}>
-            {popularCities.map((city) => (
-              <StaggerItem as="article" className="fj-feature-card fj-card-hover fj-location-panel" key={city.name} style={{ minHeight: "220px", display: "flex", flexDirection: "column" }}>
-                <h3>{city.name}</h3>
-                <p style={{ fontSize: "0.9rem", color: "var(--fj-muted)", margin: "10px 0 20px" }}>{city.desc}</p>
-                <Link href={city.href} className="fj-button fj-button--ghost fj-location-link" style={{ marginTop: "auto", minHeight: "44px", fontSize: "0.85rem" }} prefetch={false}>
-                  <span>Jobs in {city.name}</span> <ArrowRight size={14} />
                 </Link>
               </StaggerItem>
             ))}
