@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useParams } from 'next/navigation';
 
-const SIGNATURE_FONT_STACK = '"Brush Script MT", "Segoe Script", "Lucida Handwriting", cursive';
+const SIGNATURE_FONT_STACK = '"Snell Roundhand", "Segoe Script", "Brush Script MT", "Lucida Handwriting", cursive';
 const MAX_SIGNATURE_EXPORT_WIDTH = 560;
 const MAX_SIGNATURE_EXPORT_HEIGHT = 180;
 
@@ -248,21 +248,84 @@ export default function SignAgreementPage() {
     const ctx = canvas.getContext('2d');
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, width, height);
-    ctx.fillStyle = '#111827';
     ctx.textBaseline = 'alphabetic';
+    ctx.textAlign = 'left';
 
-    let fontSize = 60;
+    let fontSize = 72;
+    const paddingX = 30;
+    const paddingY = 24;
+    const maxTextWidth = width - paddingX * 2;
+
     ctx.font = `italic ${fontSize}px ${SIGNATURE_FONT_STACK}`;
-    while (ctx.measureText(trimmedName).width > width - 40 && fontSize > 34) {
+    while (ctx.measureText(trimmedName).width > maxTextWidth && fontSize > 38) {
       fontSize -= 2;
       ctx.font = `italic ${fontSize}px ${SIGNATURE_FONT_STACK}`;
     }
 
-    ctx.fillText(trimmedName, 20, Math.round(height * 0.66));
-    return canvas.toDataURL('image/png');
+    const metrics = ctx.measureText(trimmedName);
+    const textWidth = Math.min(metrics.width, maxTextWidth);
+    const ascent = Math.max(metrics.actualBoundingBoxAscent || fontSize * 0.72, fontSize * 0.72);
+    const descent = Math.max(metrics.actualBoundingBoxDescent || fontSize * 0.2, fontSize * 0.2);
+    const textHeight = ascent + descent;
+    const startX = Math.max((width - textWidth) / 2, paddingX);
+    const baselineY = Math.round((height + ascent - descent) / 2);
+
+    ctx.save();
+    ctx.translate(startX - 6, baselineY + 2);
+    ctx.transform(1, 0, -0.14, 1, 0, 0);
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.18)';
+    ctx.fillText(trimmedName, 8, 6);
+    ctx.restore();
+
+    ctx.save();
+    ctx.translate(startX, baselineY);
+    ctx.transform(1, 0, -0.14, 1, 0, 0);
+    const gradient = ctx.createLinearGradient(0, -ascent, textWidth, descent);
+    gradient.addColorStop(0, '#0f172a');
+    gradient.addColorStop(0.55, '#111827');
+    gradient.addColorStop(1, '#1e293b');
+    ctx.fillStyle = gradient;
+    ctx.fillText(trimmedName, 0, 0);
+    ctx.restore();
+
+    // Trim the transparent margins so the final sealed PDF shows only the ink.
+    const imageData = ctx.getImageData(0, 0, width, height);
+    const { data } = imageData;
+    let minX = width;
+    let minY = height;
+    let maxX = -1;
+    let maxY = -1;
+
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const alpha = data[(y * width + x) * 4 + 3];
+        if (alpha > 8) {
+          if (x < minX) minX = x;
+          if (y < minY) minY = y;
+          if (x > maxX) maxX = x;
+          if (y > maxY) maxY = y;
+        }
+      }
+    }
+
+    if (maxX < minX || maxY < minY) {
+      return '';
+    }
+
+    const cropPadding = 10;
+    const cropX = Math.max(minX - cropPadding, 0);
+    const cropY = Math.max(minY - cropPadding, 0);
+    const cropWidth = Math.min(maxX - minX + cropPadding * 2 + 1, width - cropX);
+    const cropHeight = Math.min(Math.max(maxY - minY + cropPadding * 2 + 1, textHeight + cropPadding * 2), height - cropY);
+
+    const outputCanvas = document.createElement('canvas');
+    outputCanvas.width = cropWidth;
+    outputCanvas.height = cropHeight;
+    const outputCtx = outputCanvas.getContext('2d');
+    outputCtx.clearRect(0, 0, cropWidth, cropHeight);
+    outputCtx.drawImage(canvas, cropX, cropY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+
+    return outputCanvas.toDataURL('image/png');
   };
 
   // Actions
@@ -930,7 +993,7 @@ const styles = {
     padding: '20px',
     backgroundColor: '#f8fafc',
     color: '#0f172a',
-    fontSize: '28px',
+    fontSize: '30px',
     fontStyle: 'italic',
     fontFamily: SIGNATURE_FONT_STACK,
     textAlign: 'center',
