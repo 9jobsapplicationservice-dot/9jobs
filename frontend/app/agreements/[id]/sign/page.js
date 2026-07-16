@@ -4,6 +4,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useParams } from 'next/navigation';
 
 const SIGNATURE_FONT_STACK = '"Brush Script MT", "Segoe Script", "Lucida Handwriting", cursive';
+const MAX_SIGNATURE_EXPORT_WIDTH = 560;
+const MAX_SIGNATURE_EXPORT_HEIGHT = 180;
 
 export default function SignAgreementPage() {
   const params = useParams();
@@ -214,6 +216,17 @@ export default function SignAgreementPage() {
     setHasDrawnSignature(false);
   };
 
+  const exportCanvasAsSignatureImage = (sourceCanvas) => {
+    const exportCanvas = document.createElement('canvas');
+    exportCanvas.width = MAX_SIGNATURE_EXPORT_WIDTH;
+    exportCanvas.height = MAX_SIGNATURE_EXPORT_HEIGHT;
+
+    const exportCtx = exportCanvas.getContext('2d');
+    exportCtx.clearRect(0, 0, exportCanvas.width, exportCanvas.height);
+    exportCtx.drawImage(sourceCanvas, 0, 0, exportCanvas.width, exportCanvas.height);
+    return exportCanvas.toDataURL('image/png');
+  };
+
   const buildTypedSignatureImage = async (name) => {
     const trimmedName = name.trim();
     if (!trimmedName) {
@@ -227,16 +240,14 @@ export default function SignAgreementPage() {
     }
 
     const canvas = typedCanvasRef.current || document.createElement('canvas');
-    const scale = 2;
-    const width = 560;
-    const height = 180;
-    canvas.width = width * scale;
-    canvas.height = height * scale;
+    const width = MAX_SIGNATURE_EXPORT_WIDTH;
+    const height = MAX_SIGNATURE_EXPORT_HEIGHT;
+    canvas.width = width;
+    canvas.height = height;
 
     const ctx = canvas.getContext('2d');
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.scale(scale, scale);
 
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, width, height);
@@ -345,7 +356,7 @@ export default function SignAgreementPage() {
         return;
       }
       const canvas = canvasRef.current;
-      signatureImage = canvas.toDataURL('image/png');
+      signatureImage = exportCanvasAsSignatureImage(canvas);
     } else {
       signatureImage = await buildTypedSignatureImage(signerName);
     }
