@@ -1,5 +1,5 @@
 import { describe, expect, jest, test, beforeEach } from '@jest/globals';
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { hashToken, hashOtp } from '@/utils/cryptoUtils';
 import { generateAuditTrail } from '@/utils/auditTrail';
 import { parsePdfSignatureCoords, resolvePdfSignatureCoords } from '@/utils/pdfCoords';
@@ -585,5 +585,13 @@ describe('secure internal e-signature workflow', () => {
     const body = await response.json();
     expect(response.status).toBe(200);
     expect(body.success).toBe(true);
+  });
+
+  test('typed signature font constant is available for PDF sealing', async () => {
+    const pdfDoc = await PDFDocument.create();
+    const font = await pdfDoc.embedFont(StandardFonts.TimesRomanItalic);
+
+    expect(StandardFonts.TimesRomanItalic).toBe('Times-Italic');
+    expect(font).toBeTruthy();
   });
 });

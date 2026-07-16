@@ -19,7 +19,7 @@ function formatUtcDate(date) {
 
 /**
  * Seals the PDF document by overlaying both client and provider signatures/dates in a single pass.
- * Automatically handles drawn (PNG) or typed (TimesItalic font) signatures.
+ * Automatically handles drawn (PNG) or typed (Times Roman Italic font) signatures.
  * Clean up temporary signature files from storage after sealing.
  * 
  * @param {Buffer} originalPdfBuffer The unsigned PDF bytes
@@ -34,7 +34,7 @@ export async function sealAgreementPdf(originalPdfBuffer, agreement) {
   const pages = pdfDoc.getPages();
   
   // Standard PDF 14 fonts, bundled in all viewers
-  const timesItalic = await pdfDoc.embedFont(StandardFonts.TimesItalic);
+  const timesItalic = await pdfDoc.embedFont(StandardFonts.TimesRomanItalic);
   const helvetica = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
   // 2. Draw Customer/Client Signature
