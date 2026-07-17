@@ -48,9 +48,9 @@ export async function sealAgreementPdf(originalPdfBuffer, agreement) {
     const isTypedClient = agreement.clientSignature.signatureType === 'typed';
     clientPage.drawImage(clientImage, {
       x: clientCoords.x,
-      y: isTypedClient ? clientCoords.y + 2 : clientCoords.y - 4,
-      width: isTypedClient ? 128 : 140,
-      height: isTypedClient ? 28 : 36,
+      y: isTypedClient ? clientCoords.y - 8 : clientCoords.y - 4,
+      width: isTypedClient ? 112 : 140,
+      height: isTypedClient ? 22 : 36,
     });
   } else if (agreement.clientSignature.signatureType === 'typed') {
     clientPage.drawText(agreement.clientSignature.name, {
@@ -73,9 +73,9 @@ export async function sealAgreementPdf(originalPdfBuffer, agreement) {
     const isTypedProvider = agreement.providerSignature.signatureType === 'typed';
     providerPage.drawImage(providerImage, {
       x: providerCoords.x,
-      y: isTypedProvider ? providerCoords.y + 2 : providerCoords.y - 4,
-      width: isTypedProvider ? 128 : 140,
-      height: isTypedProvider ? 28 : 36,
+      y: isTypedProvider ? providerCoords.y - 8 : providerCoords.y - 4,
+      width: isTypedProvider ? 112 : 140,
+      height: isTypedProvider ? 22 : 36,
     });
   } else if (agreement.providerSignature.signatureType === 'typed') {
     providerPage.drawText(agreement.providerSignature.name, {
