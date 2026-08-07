@@ -11,3 +11,7 @@ frontend/dev-server*.log
 *.bak
 Thumbs.db
 npm-debug.log*
+outputs/
+*.tar.gz
+*.zip
+*.rar

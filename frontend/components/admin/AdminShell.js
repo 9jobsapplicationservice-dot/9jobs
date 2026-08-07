@@ -33,6 +33,12 @@ const sidebarGroups = [
       { href: '/admin/invoices/new', label: 'Create Invoice' },
     ],
   },
+  {
+    title: 'Client Information',
+    links: [
+      { href: '/admin/client-information', label: 'Client Submissions' },
+    ],
+  },
 ];
 
 export default function AdminShell({ title, eyebrow, children }) {
