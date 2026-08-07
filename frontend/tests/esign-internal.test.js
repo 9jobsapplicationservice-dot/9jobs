@@ -182,6 +182,11 @@ describe('secure internal e-signature workflow', () => {
     expect(body.success).toBe(true);
     expect(agreementData.clientOtpHash).toBeTruthy();
     expect(agreementData.clientOtpExpiresAt).toBeInstanceOf(Date);
+    expect(mockIsRateLimited).toHaveBeenCalledWith(
+      `agreement:agreement-1:client:request-otp:${hashToken('valid-token')}:v3`,
+      30,
+      60 * 60 * 1000
+    );
   });
 
   test('locks OTP validation after 3 failed attempts', async () => {
@@ -542,6 +547,7 @@ describe('secure internal e-signature workflow', () => {
     const body = await response.json();
     expect(response.status).toBe(429);
     expect(body.error).toContain('cooldown active');
+    expect(mockIsRateLimited).not.toHaveBeenCalled();
   });
 
   test('recovers from expired completion lock (Point 8)', async () => {

@@ -1,59 +1,60 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import { buildFortnightAgreementTemplate } from './template.js';
 
-import { buildAgreementTemplate } from '@/lib/agreements/template';
-import { LOGO_BASE64 } from './logo-base64';
+import { LOGO_BASE64 } from '../agreements/logo-base64.js';
 
-const PAGE_WIDTH = 595.28;
-const PAGE_HEIGHT = 841.89;
+// --- COLOR PALETTE (9jobs Website Brand Colors) ---
+const COLOR_INK = rgb(0.02, 0.02, 0.02);       // #050505 - Off-black
+const COLOR_GOLD = rgb(0.85, 1.00, 0.37);      // #d9ff5f - Neon lime green
+const COLOR_BODY = rgb(0.18, 0.18, 0.20);      // #2d2f33 - Soft body ink
+const COLOR_MUTED = rgb(0.35, 0.43, 0.47);     // #5a6d77 - Muted slate blue-grey
+const COLOR_WHITE = rgb(1.00, 1.00, 1.00);     // White for transparent e-sign anchors
+
+const PAGE_WIDTH = 595.28;   // A4 Width
+const PAGE_HEIGHT = 841.89;  // A4 Height
+
+const PAGE_MARGIN_TOP = 110;
+const PAGE_MARGIN_BOTTOM = 55;
 const PAGE_MARGIN_LEFT_RIGHT = 54;
-const PAGE_MARGIN_TOP = 120;
-const PAGE_MARGIN_BOTTOM = 60;
-const CONTENT_WIDTH = PAGE_WIDTH - PAGE_MARGIN_LEFT_RIGHT * 2;
-const COLOR_INK = rgb(0.02, 0.02, 0.02);
-const COLOR_GOLD = rgb(0.85, 1.00, 0.37); // Lime Green Accent
-const COLOR_BODY = rgb(0.18, 0.18, 0.20);
-const COLOR_MUTED = rgb(0.35, 0.43, 0.47);
-const COLOR_WHITE = rgb(1, 1, 1);
+const CONTENT_WIDTH = PAGE_WIDTH - (PAGE_MARGIN_LEFT_RIGHT * 2);
 
 function wrapText(text, font, fontSize, maxWidth) {
-  const words = String(text || '').replace(/\s+/g, ' ').trim().split(' ');
-
-  if (!words[0]) {
-    return [''];
-  }
-
+  const words = String(text).split(' ');
   const lines = [];
-  let currentLine = words[0];
+  let currentLine = '';
 
-  for (const word of words.slice(1)) {
-    const nextLine = `${currentLine} ${word}`;
-
-    if (font.widthOfTextAtSize(nextLine, fontSize) <= maxWidth) {
-      currentLine = nextLine;
-    } else {
+  for (const word of words) {
+    const testLine = currentLine ? `${currentLine} ${word}` : word;
+    const testWidth = font.widthOfTextAtSize(testLine, fontSize);
+    if (testWidth > maxWidth) {
       lines.push(currentLine);
       currentLine = word;
+    } else {
+      currentLine = testLine;
     }
   }
-
-  lines.push(currentLine);
+  if (currentLine) {
+    lines.push(currentLine);
+  }
   return lines;
 }
 
 function createRenderer(pdfDoc, fonts) {
   const pages = [];
-  let page = null;
-  let cursorY = 0;
+  let currentPage = null;
+  let cursorY = PAGE_HEIGHT - PAGE_MARGIN_TOP;
 
   function addPage() {
-    page = pdfDoc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
-    pages.push(page);
+    currentPage = pdfDoc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
+    pages.push(currentPage);
     cursorY = PAGE_HEIGHT - PAGE_MARGIN_TOP;
-    return page;
+    return currentPage;
   }
 
-  function ensureSpace(requiredHeight) {
-    if (!page || cursorY - requiredHeight < PAGE_MARGIN_BOTTOM) {
+  addPage();
+
+  function ensureSpace(height) {
+    if (cursorY - height < PAGE_MARGIN_BOTTOM) {
       addPage();
     }
   }
@@ -61,19 +62,19 @@ function createRenderer(pdfDoc, fonts) {
   function drawWrappedText(text, options = {}) {
     const {
       x = PAGE_MARGIN_LEFT_RIGHT,
-      font = fonts.regular,
-      fontSize = 10.5,
-      color = COLOR_BODY,
-      lineHeight = fontSize * 1.45,
-      paragraphGap = 8,
       maxWidth = CONTENT_WIDTH,
+      font = fonts.regular,
+      fontSize = 9.5,
+      color = COLOR_BODY,
+      lineHeight = 13.5,
+      paragraphGap = 6,
     } = options;
 
     const lines = wrapText(text, font, fontSize, maxWidth);
     ensureSpace(lines.length * lineHeight + paragraphGap);
 
-    for (const line of lines) {
-      page.drawText(line, {
+    lines.forEach((line) => {
+      currentPage.drawText(line, {
         x,
         y: cursorY - fontSize,
         font,
@@ -81,54 +82,56 @@ function createRenderer(pdfDoc, fonts) {
         color,
       });
       cursorY -= lineHeight;
-    }
+    });
 
     cursorY -= paragraphGap;
   }
 
   function drawCenteredText(text, options = {}) {
-    const { font = fonts.bold, fontSize = 20, color = COLOR_INK, paragraphGap = 12 } = options;
-    const textWidth = font.widthOfTextAtSize(text, fontSize);
+    const {
+      font = fonts.bold,
+      fontSize = 14,
+      color = COLOR_INK,
+      lineHeight = 18,
+      paragraphGap = 10,
+    } = options;
 
-    ensureSpace(fontSize + paragraphGap);
-    page.drawText(text, {
-      x: (PAGE_WIDTH - textWidth) / 2,
-      y: cursorY - fontSize,
-      font,
-      size: fontSize,
-      color,
+    const lines = wrapText(text, font, fontSize, CONTENT_WIDTH);
+    ensureSpace(lines.length * lineHeight + paragraphGap);
+
+    lines.forEach((line) => {
+      const textWidth = font.widthOfTextAtSize(line, fontSize);
+      const x = (PAGE_WIDTH - textWidth) / 2;
+      currentPage.drawText(line, {
+        x,
+        y: cursorY - fontSize,
+        font,
+        size: fontSize,
+        color,
+      });
+      cursorY -= lineHeight;
     });
-    cursorY -= fontSize * 1.35 + paragraphGap;
-  }
 
-  function drawSignatureLine(label, value, options = {}) {
-    const { gapAfter = 8, font = fonts.regular } = options;
-    drawWrappedText(`${label} ${value}`, {
-      font,
-      fontSize: 11,
-      color: COLOR_INK,
-      paragraphGap: gapAfter,
-    });
+    cursorY -= paragraphGap;
   }
-
-  addPage();
 
   return {
-    addPage,
-    pages,
+    pdfDoc,
     fonts,
-    drawCenteredText,
-    drawWrappedText,
-    drawSignatureLine,
+    pages,
     get page() {
-      return page;
-    },
-    set cursorY(value) {
-      cursorY = value;
+      return currentPage;
     },
     get cursorY() {
       return cursorY;
     },
+    set cursorY(val) {
+      cursorY = val;
+    },
+    addPage,
+    ensureSpace,
+    drawWrappedText,
+    drawCenteredText,
   };
 }
 
@@ -147,8 +150,7 @@ function drawHeaderAndFooter(renderer, logoImage) {
       });
     }
 
-    // A. Left Border Layout (Transitioning J. TUCKER LAW Theme)
-    // 1. Straight vertical Navy bar at the top (above y = PAGE_HEIGHT - 135)
+    // A. Left Border Layout (Transitioning Theme)
     page.drawRectangle({
       x: 0,
       y: PAGE_HEIGHT - 135,
@@ -156,8 +158,6 @@ function drawHeaderAndFooter(renderer, logoImage) {
       height: 135,
       color: COLOR_INK,
     });
-
-    // 2. Straight vertical Gold/Lime bar at the bottom (below y = PAGE_HEIGHT - 135)
     page.drawRectangle({
       x: 0,
       y: 0,
@@ -165,19 +165,14 @@ function drawHeaderAndFooter(renderer, logoImage) {
       height: PAGE_HEIGHT - 135,
       color: COLOR_GOLD,
     });
-
-    // 3. Left Transition Wedges (symmetrical overlay creating the chevron split)
-    // Gold wedge (drawn behind)
     page.drawSvgPath(`M 0 ${PAGE_HEIGHT - 175} L 12 ${PAGE_HEIGHT - 175} L 24 ${PAGE_HEIGHT - 135} L 12 ${PAGE_HEIGHT - 95} L 0 ${PAGE_HEIGHT - 95} Z`, {
       color: COLOR_GOLD,
     });
-    // Navy wedge (drawn on top)
     page.drawSvgPath(`M 0 ${PAGE_HEIGHT - 95} L 12 ${PAGE_HEIGHT - 95} L 24 ${PAGE_HEIGHT - 135} L 12 ${PAGE_HEIGHT - 175} L 0 ${PAGE_HEIGHT - 175} Z`, {
       color: COLOR_INK,
     });
 
-    // A2. Right Border Layout (Mirrored J. TUCKER LAW Theme)
-    // 1. Straight vertical Navy bar at the top
+    // A2. Right Border Layout (Mirrored Theme)
     page.drawRectangle({
       x: PAGE_WIDTH - 12,
       y: PAGE_HEIGHT - 135,
@@ -185,8 +180,6 @@ function drawHeaderAndFooter(renderer, logoImage) {
       height: 135,
       color: COLOR_INK,
     });
-
-    // 2. Straight vertical Gold/Lime bar at the bottom
     page.drawRectangle({
       x: PAGE_WIDTH - 12,
       y: 0,
@@ -194,42 +187,32 @@ function drawHeaderAndFooter(renderer, logoImage) {
       height: PAGE_HEIGHT - 135,
       color: COLOR_GOLD,
     });
-
-    // 3. Right Transition Wedges (horizontally mirrored chevrons)
-    // Gold wedge (drawn behind)
     page.drawSvgPath(`M ${PAGE_WIDTH} ${PAGE_HEIGHT - 175} L ${PAGE_WIDTH - 12} ${PAGE_HEIGHT - 175} L ${PAGE_WIDTH - 24} ${PAGE_HEIGHT - 135} L ${PAGE_WIDTH - 12} ${PAGE_HEIGHT - 95} L ${PAGE_WIDTH} ${PAGE_HEIGHT - 95} Z`, {
       color: COLOR_GOLD,
     });
-    // Navy wedge (drawn on top)
     page.drawSvgPath(`M ${PAGE_WIDTH} ${PAGE_HEIGHT - 95} L ${PAGE_WIDTH - 12} ${PAGE_HEIGHT - 95} L ${PAGE_WIDTH - 24} ${PAGE_HEIGHT - 135} L ${PAGE_WIDTH - 12} ${PAGE_HEIGHT - 175} L ${PAGE_WIDTH} ${PAGE_HEIGHT - 175} Z`, {
       color: COLOR_INK,
     });
 
     // B. Header Pattern & Content
-    // 1. Draw light beige geometric triangle pattern in the top-right corner (clearly highlighted, matching gold theme)
     const colSpacing = 16;
-    const rowSpacing = 13.86; // 16 * sin(60) = 13.86
+    const rowSpacing = 13.86;
     const totalCols = 15;
     const totalRows = 7;
 
     for (let r = 0; r < totalRows; r++) {
       const y = PAGE_HEIGHT - r * rowSpacing;
       for (let c = 0; c < totalCols; c++) {
-        // Offset x on odd rows for isometric alignment
         const x = PAGE_WIDTH - c * colSpacing - (r % 2 === 1 ? colSpacing / 2 : 0);
-
-        // Fade color based on column index (fading to the left)
         const opacity = Math.max(0, 1 - (c / 10));
         if (opacity <= 0) continue;
 
-        // Beautiful faded gold/beige pattern color
         const fadedColor = rgb(
           1 - (1 - 0.94) * opacity,
           1 - (1 - 0.90) * opacity,
           1 - (1 - 0.84) * opacity
         );
 
-        // Draw connections
         if (c > 0) {
           page.drawLine({
             start: { x, y },
@@ -249,7 +232,6 @@ function drawHeaderAndFooter(renderer, logoImage) {
             thickness: 0.8,
             color: fadedColor,
           });
-
           page.drawLine({
             start: { x, y },
             end: { x: nextX2, y: nextY },
@@ -260,7 +242,6 @@ function drawHeaderAndFooter(renderer, logoImage) {
       }
     }
 
-    // 2. Draw Logo on the left (Larger 85x85 size, clearly highlighted)
     if (logoImage) {
       const logoWidth = 85;
       const logoHeight = 85;
@@ -272,7 +253,6 @@ function drawHeaderAndFooter(renderer, logoImage) {
       });
     }
 
-    // 3. Contact details stack on the right (with gold icons and clean sans-serif text)
     const xIcon = PAGE_WIDTH - PAGE_MARGIN_LEFT_RIGHT - 180;
     const xText = PAGE_WIDTH - PAGE_MARGIN_LEFT_RIGHT - 162;
 
@@ -286,7 +266,6 @@ function drawHeaderAndFooter(renderer, logoImage) {
     contactLines.forEach((line, lineIndex) => {
       const y = PAGE_HEIGHT - 35 - (lineIndex * 13);
       
-      // Draw Text
       page.drawText(line, {
         x: xText,
         y,
@@ -297,7 +276,6 @@ function drawHeaderAndFooter(renderer, logoImage) {
 
       // Draw black vector icons next to each text line
       if (lineIndex === 0) {
-        // Phone Icon (Smartphone shape)
         page.drawRectangle({
           x: xIcon + 2.5,
           y: y - 1,
@@ -320,7 +298,6 @@ function drawHeaderAndFooter(renderer, logoImage) {
           color: COLOR_INK,
         });
       } else if (lineIndex === 1) {
-        // Envelope Icon
         page.drawRectangle({
           x: xIcon + 1,
           y: y,
@@ -342,7 +319,6 @@ function drawHeaderAndFooter(renderer, logoImage) {
           color: COLOR_INK,
         });
       } else if (lineIndex === 2) {
-        // Document (ABN) Icon
         page.drawRectangle({
           x: xIcon + 2,
           y: y - 1,
@@ -355,7 +331,6 @@ function drawHeaderAndFooter(renderer, logoImage) {
         page.drawLine({ start: { x: xIcon + 3.5, y: y + 3 }, end: { x: xIcon + 6.5, y: y + 3 }, thickness: 0.6, color: COLOR_INK });
         page.drawLine({ start: { x: xIcon + 3.5, y: y + 1.5 }, end: { x: xIcon + 5.5, y: y + 1.5 }, thickness: 0.6, color: COLOR_INK });
       } else if (lineIndex === 3) {
-        // Globe (Website) Icon
         page.drawCircle({
           x: xIcon + 5,
           y: y + 3,
@@ -363,21 +338,18 @@ function drawHeaderAndFooter(renderer, logoImage) {
           borderWidth: 0.8,
           borderColor: COLOR_INK,
         });
-        // horizontal line
         page.drawLine({
           start: { x: xIcon + 1.5, y: y + 3 },
           end: { x: xIcon + 8.5, y: y + 3 },
           thickness: 0.6,
           color: COLOR_INK,
         });
-        // vertical line
         page.drawLine({
           start: { x: xIcon + 5, y: y - 0.5 },
           end: { x: xIcon + 5, y: y + 6.5 },
           thickness: 0.6,
           color: COLOR_INK,
         });
-        // vertical curved meridian
         page.drawEllipse({
           x: xIcon + 5,
           y: y + 3,
@@ -386,7 +358,6 @@ function drawHeaderAndFooter(renderer, logoImage) {
           borderWidth: 0.6,
           borderColor: COLOR_INK,
         });
-        // horizontal curved latitude
         page.drawEllipse({
           x: xIcon + 5,
           y: y + 3,
@@ -398,7 +369,7 @@ function drawHeaderAndFooter(renderer, logoImage) {
       }
     });
 
-    // 4. Header Divider line (Gold - starts at x = 12, ends at PAGE_WIDTH - 12 to avoid crossing borders)
+    // 4. Header Divider line
     page.drawLine({
       start: { x: 12, y: PAGE_HEIGHT - 95 },
       end: { x: PAGE_WIDTH - 12, y: PAGE_HEIGHT - 95 },
@@ -406,8 +377,7 @@ function drawHeaderAndFooter(renderer, logoImage) {
       color: COLOR_GOLD,
     });
 
-    // C. Footer Layout (Single-Line Style matching Screenshot 3)
-    // 1. Footer Divider line (Thin light grey - starts at x = 12, ends at PAGE_WIDTH - 12 to avoid crossing borders)
+    // C. Footer Layout
     page.drawLine({
       start: { x: 12, y: 40 },
       end: { x: PAGE_WIDTH - 12, y: 40 },
@@ -415,7 +385,6 @@ function drawHeaderAndFooter(renderer, logoImage) {
       color: rgb(0.85, 0.85, 0.85),
     });
 
-    // 2. Left-aligned footer details
     page.drawText('9 Jobs Pty Ltd | ABN 83 679 842 972 | +61 422 279 428', {
       x: 54,
       y: 25,
@@ -424,7 +393,6 @@ function drawHeaderAndFooter(renderer, logoImage) {
       color: COLOR_MUTED,
     });
 
-    // 3. Right-aligned page numbers
     const pageNumText = `Page ${index + 1} of ${renderer.pages.length}`;
     const textWidth = renderer.fonts.sansRegular.widthOfTextAtSize(pageNumText, 7.5);
     const xPageNum = PAGE_WIDTH - PAGE_MARGIN_LEFT_RIGHT - textWidth;
@@ -438,13 +406,13 @@ function drawHeaderAndFooter(renderer, logoImage) {
   });
 }
 
-export async function generateAgreementPdfBuffer(agreement) {
+export async function generateAgreementPdf(agreement) {
   const artifact = await generateAgreementPdfArtifact(agreement);
   return artifact.buffer;
 }
 
 export async function generateAgreementPdfArtifact(agreement) {
-  const document = buildAgreementTemplate(agreement);
+  const document = buildFortnightAgreementTemplate(agreement);
   const pdfDoc = await PDFDocument.create();
   const fonts = {
     regular: await pdfDoc.embedFont(StandardFonts.Helvetica),
@@ -468,7 +436,14 @@ export async function generateAgreementPdfArtifact(agreement) {
     dateBlock: null,
   };
 
-  renderer.drawCenteredText('9Jobs Standard Plan Contract', {
+  renderer.drawCenteredText('FORTNIGHT PLAN SERVICE AGREEMENT', {
+    font: fonts.bold,
+    fontSize: 9,
+    color: COLOR_MUTED,
+    paragraphGap: 4,
+  });
+
+  renderer.drawCenteredText('9Jobs Service Contract', {
     font: fonts.bold,
     fontSize: 20,
     color: COLOR_INK,
@@ -635,11 +610,10 @@ export async function generateAgreementPdfArtifact(agreement) {
         paragraphGap: 6,
       });
     });
-
   });
 
   // Ensure the entire signature and payment details section fits on the current page, otherwise break page
-  const requiredSigHeight = 220;
+  const requiredSigHeight = 180;
   if (renderer.cursorY - requiredSigHeight < PAGE_MARGIN_BOTTOM) {
     renderer.addPage();
   }

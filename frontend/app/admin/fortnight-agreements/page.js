@@ -1,0 +1,89 @@
+import AdminShell from '@/components/admin/AdminShell';
+import FortnightAgreementRowActions from '@/components/admin/FortnightAgreementRowActions';
+import FortnightAgreementRegisterActions from '@/components/admin/FortnightAgreementRegisterActions';
+import StatusBadge from '@/components/admin/StatusBadge';
+import { requireAdminPageSession } from '@/lib/admin/auth/require-admin';
+import {
+  listAgreements,
+  retryFailedAgreementCompletion,
+} from '@/lib/fortnight-agreements/service';
+
+export const dynamic = 'force-dynamic';
+
+export default async function FortnightAgreementsPage() {
+  await requireAdminPageSession();
+  const agreements = await listAgreements();
+
+  return (
+    <AdminShell eyebrow="Preview, send, and download fortnight agreements" title="Fortnight Agreements">
+      <section className="admin-panel">
+        <div className="admin-panel__header">
+          <div>
+            <h2>Fortnight Agreement Register</h2>
+            <p>Track contract status across generation, delivery, signing, and download.</p>
+          </div>
+          <FortnightAgreementRegisterActions hasAgreements={agreements.length > 0} />
+        </div>
+
+        {agreements.length ? (
+          <div className="admin-table-wrap">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>Provider Signatory</th>
+                  <th>Service Period</th>
+                  <th>Upfront Fee</th>
+                  <th>Status</th>
+                  <th>Sent</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {agreements.map((agreement) => (
+                  <tr key={agreement._id}>
+                    <td>
+                      <strong>{agreement.clientName}</strong>
+                      <span>{agreement.clientEmail}</span>
+                    </td>
+                    <td>{agreement.providerSignatureName}</td>
+                    <td>{agreement.initialTerm}</td>
+                    <td>{agreement.servicePrice}</td>
+                    <td>
+                      <StatusBadge status={agreement.status} />
+                    </td>
+                    <td>{agreement.sentAt ? agreement.sentAt.slice(0, 10) : 'Not sent'}</td>
+                    <td className="admin-actions-cell" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                      <FortnightAgreementRowActions
+                        agreementId={agreement._id}
+                        status={agreement.status}
+                      />
+                      {agreement.status === 'completed' && (
+                        <a
+                          className="admin-link admin-link--download"
+                          href={`/api/fortnight-agreements/${agreement._id}/download`}
+                          download
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }}>
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                          </svg>
+                          Download
+                        </a>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="admin-empty-state">
+            <p>No fortnight contracts are stored right now. Start fresh and create a new contract to generate the live PDF preview.</p>
+          </div>
+        )}
+      </section>
+    </AdminShell>
+  );
+}

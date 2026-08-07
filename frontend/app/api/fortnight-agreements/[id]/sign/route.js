@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/utils/db';
-import Agreement from '@/models/Agreement';
+import FortnightAgreement from '@/models/FortnightAgreement';
 import { 
   hashToken, 
   hashOtp, 
@@ -14,15 +14,11 @@ import { uploadPrivatePdf } from '@/lib/storage/blob';
 import { 
   sendOtpEmail, 
   sendProviderSigningInvite
-} from '@/lib/agreements/email';
-import { executeFinalSealing } from '@/lib/agreements/completion';
+} from '@/lib/fortnight-agreements/email';
+import { executeFinalSealing } from '@/lib/fortnight-agreements/completion';
 
 export const dynamic = 'force-dynamic';
 
-/**
- * GET: Validates the token and returns signer context (names, email, OTP verification state)
- * without exposing sensitive signatures, tokens, or private PDF URLs.
- */
 export async function GET(request, { params }) {
   await connectDB();
   const id = (await params).id;
@@ -36,13 +32,12 @@ export async function GET(request, { params }) {
 
   const tokenHash = hashToken(rawToken);
 
-  // Rate Limiting on signing portal access (max 20 per minute per IP)
   const clientIp = request.headers.get('x-forwarded-for') || '127.0.0.1';
-  if (await isRateLimited(`ip:${clientIp}:sign-page-access`, 20, 60 * 1000)) {
+  if (await isRateLimited(`ip:${clientIp}:fortnight-sign-page-access`, 20, 60 * 1000)) {
     return NextResponse.json({ error: 'Too many requests. Please try again later.' }, { status: 429 });
   }
 
-  const agreement = await Agreement.findOne({
+  const agreement = await FortnightAgreement.findOne({
     _id: id,
     $or: [
       { clientSigningTokenHash: tokenHash },
@@ -51,10 +46,13 @@ export async function GET(request, { params }) {
   });
 
   if (!agreement) {
-    return NextResponse.json({ error: 'Invalid link or agreement not found.' }, { status: 401 });
+    return NextResponse.json({ error: 'Invalid link or contract not found.' }, { status: 401 });
   }
 
   const isClient = constantTimeCompare(agreement.clientSigningTokenHash, tokenHash);
+  const isProvider = constantTimeCompare(agreement.providerSigningTokenHash, tokenHash);
+  console.log('[FortnightSign GET] Token matched as client:', isClient, 'as provider:', isProvider, 'Status:', agreement.status);
+
   const expiry = isClient ? agreement.clientTokenExpiresAt : agreement.providerTokenExpiresAt;
   const usedAt = isClient ? agreement.clientTokenUsedAt : agreement.providerTokenUsedAt;
 
@@ -71,19 +69,27 @@ export async function GET(request, { params }) {
   }
 
   if (usedAt) {
-    return NextResponse.json({ error: 'This signing link has already been used.' }, { status: 403 });
+    const errorMsg = isClient
+      ? 'This client signing link has already been used. If you need to countersign as the provider, please click the countersign link sent to your registered provider email.'
+      : 'This service provider countersign link has already been used. The agreement has been fully signed and completed.';
+    return NextResponse.json({ error: errorMsg }, { status: 403 });
   }
 
   if (new Date() > expiry) {
     return NextResponse.json({ error: 'This signing link has expired.' }, { status: 403 });
   }
 
-  // Validate state sequentially
   if (isClient && agreement.status !== 'sent_to_client') {
-    return NextResponse.json({ error: 'Agreement is not in a signable state for client.' }, { status: 403 });
+    const errorMsg = agreement.status === 'completed'
+      ? 'This contract is already fully completed.'
+      : 'This client signing link is no longer active because the client signature has already been received.';
+    return NextResponse.json({ error: errorMsg }, { status: 403 });
   }
   if (!isClient && agreement.status !== 'sent_to_provider') {
-    return NextResponse.json({ error: 'Agreement is not in a signable state for provider.' }, { status: 403 });
+    const errorMsg = agreement.status === 'completed'
+      ? 'This contract is already completed.'
+      : 'This provider signing link is not active yet. The client must sign the contract first.';
+    return NextResponse.json({ error: errorMsg }, { status: 403 });
   }
 
   const otpVerifiedAt = isClient ? agreement.clientOtpVerifiedAt : agreement.providerOtpVerifiedAt;
@@ -98,9 +104,6 @@ export async function GET(request, { params }) {
   });
 }
 
-/**
- * POST: Handles signing actions (OTP generation, OTP verification, signature submission)
- */
 export async function POST(request, { params }) {
   await connectDB();
   const id = (await params).id;
@@ -114,8 +117,7 @@ export async function POST(request, { params }) {
 
   const tokenHash = hashToken(rawToken);
 
-  // Securely resolve signer from hashed token
-  const agreement = await Agreement.findOne({
+  const agreement = await FortnightAgreement.findOne({
     _id: id,
     $or: [
       { clientSigningTokenHash: tokenHash },
@@ -128,28 +130,37 @@ export async function POST(request, { params }) {
   }
 
   const isClient = constantTimeCompare(agreement.clientSigningTokenHash, tokenHash);
+  const isProvider = constantTimeCompare(agreement.providerSigningTokenHash, tokenHash);
   const email = isClient ? agreement.clientEmail : agreement.providerEmail;
+  console.log('[FortnightSign POST] Action:', action, 'isClient:', isClient, 'isProvider:', isProvider, 'Target email:', email);
+
   const name = isClient ? agreement.clientName : agreement.providerSignatureName;
   const tokenUsedAt = isClient ? agreement.clientTokenUsedAt : agreement.providerTokenUsedAt;
   const tokenExpiresAt = isClient ? agreement.clientTokenExpiresAt : agreement.providerTokenExpiresAt;
 
-  // Verify token constraints
   if (tokenUsedAt) {
-    return NextResponse.json({ error: 'Access denied: Token already used.' }, { status: 403 });
+    const errorMsg = isClient
+      ? 'This client signing link has already been used. If you need to countersign as the provider, please click the countersign link sent to your registered provider email.'
+      : 'This service provider countersign link has already been used. The agreement has been fully signed and completed.';
+    return NextResponse.json({ error: errorMsg }, { status: 403 });
   }
   if (new Date() > tokenExpiresAt) {
-    return NextResponse.json({ error: 'Access denied: Token expired.' }, { status: 403 });
+    return NextResponse.json({ error: 'This signing link has expired.' }, { status: 403 });
   }
 
-  // Verify sequential state
   if (isClient && agreement.status !== 'sent_to_client') {
-    return NextResponse.json({ error: 'Access denied: Out of sequence.' }, { status: 403 });
+    const errorMsg = agreement.status === 'completed'
+      ? 'This contract is already fully completed.'
+      : 'This client signing link is no longer active because the client signature has already been received.';
+    return NextResponse.json({ error: errorMsg }, { status: 403 });
   }
   if (!isClient && agreement.status !== 'sent_to_provider') {
-    return NextResponse.json({ error: 'Access denied: Out of sequence.' }, { status: 403 });
+    const errorMsg = agreement.status === 'completed'
+      ? 'This contract is already completed.'
+      : 'This provider signing link is not active yet. The client must sign the contract first.';
+    return NextResponse.json({ error: errorMsg }, { status: 403 });
   }
 
-  // Get Client IP and UA
   const ip = request.headers.get('x-forwarded-for') || '127.0.0.1';
   const userAgent = request.headers.get('user-agent') || 'unknown';
 
@@ -165,19 +176,18 @@ export async function POST(request, { params }) {
     // Scope the quota to this signing link. Cooldown re-clicks are rejected above
     // and must not consume the signer's hourly allowance.
     const signerRole = isClient ? 'client' : 'provider';
-    if (await isRateLimited(`agreement:${id}:${signerRole}:request-otp:${tokenHash}:v3`, 30, 60 * 60 * 1000)) {
+    if (await isRateLimited(`fortnight-agreement:${id}:${signerRole}:request-otp:${tokenHash}:v3`, 30, 60 * 60 * 1000)) {
       return NextResponse.json({ error: 'Too many verification codes requested for this agreement. Please wait and try again.' }, { status: 429 });
     }
 
     const otp = generateOtp();
     const otpHash = hashOtp(otp);
 
-    // Save hashed OTP, expiry, and reset attempts atomically
     if (isClient) {
       agreement.clientOtpHash = otpHash;
-      agreement.clientOtpExpiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
+      agreement.clientOtpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
       agreement.clientOtpAttempts = 0;
-      agreement.clientOtpCooldownUntil = new Date(Date.now() + 60 * 1000); // 60s resend cooldown
+      agreement.clientOtpCooldownUntil = new Date(Date.now() + 60 * 1000);
     } else {
       agreement.providerOtpHash = otpHash;
       agreement.providerOtpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
@@ -205,8 +215,7 @@ export async function POST(request, { params }) {
       return NextResponse.json({ error: 'Missing verification code.' }, { status: 400 });
     }
 
-    // Rate Limiting (max 10 attempts per 15 minutes per email)
-    if (await isRateLimited(`email:${email}:verify-otp`, 10, 15 * 60 * 1000)) {
+    if (await isRateLimited(`email:${email}:fortnight-verify-otp`, 10, 15 * 60 * 1000)) {
       return NextResponse.json({ error: 'Too many incorrect attempts. Account locked for 15 minutes.' }, { status: 429 });
     }
 
@@ -222,7 +231,6 @@ export async function POST(request, { params }) {
       return NextResponse.json({ error: 'Verification code has expired or is invalid.' }, { status: 400 });
     }
 
-    // Increment attempts atomically
     agreement[attemptsField] += 1;
     await agreement.save();
 
@@ -231,7 +239,6 @@ export async function POST(request, { params }) {
       return NextResponse.json({ error: 'Incorrect verification code.' }, { status: 400 });
     }
 
-    // OTP Verified Successfully!
     if (isClient) {
       agreement.clientOtpVerifiedAt = new Date();
     } else {
@@ -248,26 +255,21 @@ export async function POST(request, { params }) {
   if (action === 'submit_signature') {
     const { signatureType, signatureName, signatureImage, consentAccepted } = body;
 
-    // 1. Validate Consent Checkbox
     if (!consentAccepted) {
       return NextResponse.json({ error: 'Consent is mandatory: You must agree to use electronic signature.' }, { status: 400 });
     }
 
-    // 2. Validate OTP is verified
     const otpVerifiedAt = isClient ? agreement.clientOtpVerifiedAt : agreement.providerOtpVerifiedAt;
     if (!otpVerifiedAt) {
       return NextResponse.json({ error: 'Access denied: Verification code must be validated first.' }, { status: 403 });
     }
 
-    // Rate limit only real submission attempts after the basic validation passes.
-    if (await isRateLimited(`token:${tokenHash}:submit-signature`, 3, 60 * 60 * 1000)) {
+    if (await isRateLimited(`token:${tokenHash}:fortnight-submit-signature`, 3, 60 * 60 * 1000)) {
       return NextResponse.json({ error: 'Too many submission retries. Please wait.' }, { status: 429 });
     }
 
     let signatureFileKey = '';
 
-    // 3. Process submitted signature PNG when provided. Typed signatures may
-    // fall back to text-only for backward compatibility with direct API callers.
     if (signatureType === 'drawn' || (signatureType === 'typed' && signatureImage)) {
       if (!signatureImage || !signatureImage.startsWith('data:image/png;base64,')) {
         return NextResponse.json({ error: 'Invalid signature image. Signature must be submitted as PNG.' }, { status: 400 });
@@ -278,31 +280,27 @@ export async function POST(request, { params }) {
 
       let sanitizedImageBuffer;
       try {
-        // Enforce strict PNG validation, dimensions, and re-encoding server-side
         sanitizedImageBuffer = sanitizeAndReencodePng(rawImageBuffer);
       } catch (err) {
         return NextResponse.json({ error: `Signature validation failed: ${err.message}` }, { status: 400 });
       }
 
-      // Upload to private storage for final PDF sealing
       try {
         const upload = await uploadPrivatePdf({
-          folder: `signatures/${agreement._id}`,
+          folder: `fortnight-signatures/${agreement._id}`,
           fileName: `temp-${isClient ? 'client' : 'provider'}-sig.png`,
           buffer: sanitizedImageBuffer,
           contentType: 'image/png',
         });
-        signatureFileKey = upload.path; // Stored securely as path key
+        signatureFileKey = upload.path;
       } catch (err) {
         console.error('Failed to upload signature PNG:', err);
         return NextResponse.json({ error: 'Failed to upload signature image to private storage.' }, { status: 500 });
       }
     }
 
-    // 4. Save Signer Submission Metadata
     if (isClient) {
-      // Atomic Update checking status
-      const updatedClient = await Agreement.findOneAndUpdate(
+      const updatedClient = await FortnightAgreement.findOneAndUpdate(
         { 
           _id: id, 
           status: 'sent_to_client',
@@ -328,12 +326,11 @@ export async function POST(request, { params }) {
         return NextResponse.json({ error: 'Submission conflict: Signature already processed.' }, { status: 409 });
       }
 
-      // Generate Provider invitation token
       const providerToken = generateSecureToken();
       const providerTokenHash = hashToken(providerToken);
 
       updatedClient.providerSigningTokenHash = providerTokenHash;
-      updatedClient.providerTokenExpiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000); // 48 hours
+      updatedClient.providerTokenExpiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000);
       updatedClient.providerInvitationSentAt = new Date();
       updatedClient.status = 'sent_to_provider';
       await updatedClient.save();
@@ -342,7 +339,6 @@ export async function POST(request, { params }) {
         await sendProviderSigningInvite(updatedClient, providerToken);
       } catch (err) {
         console.error('Failed to send provider invite email:', err);
-        // Do not fail the request, we can resend later since status is updated.
       }
 
       return NextResponse.json({
@@ -351,8 +347,7 @@ export async function POST(request, { params }) {
         message: 'Client signature saved. Provider invited.',
       });
     } else {
-      // Provider Submission
-      const updatedProvider = await Agreement.findOneAndUpdate(
+      const updatedProvider = await FortnightAgreement.findOneAndUpdate(
         {
           _id: id,
           status: 'sent_to_provider',
@@ -379,14 +374,13 @@ export async function POST(request, { params }) {
         return NextResponse.json({ error: 'Submission conflict: Signature already processed.' }, { status: 409 });
       }
 
-      // Trigger Final Sealing & Archiving
       try {
         const finalizedAgreement = await executeFinalSealing(updatedProvider);
         if (finalizedAgreement?.status === 'completed') {
           return NextResponse.json({
             success: true,
             status: 'completed',
-            message: 'Agreement completed successfully.',
+            message: 'Contract completed successfully.',
           });
         }
       } catch (err) {
