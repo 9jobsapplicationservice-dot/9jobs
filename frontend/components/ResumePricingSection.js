@@ -18,7 +18,7 @@ const resumePlans = [
       "Grammar & wording improvements",
       "Industry-specific keyword optimization",
       "Achievement-focused content",
-      "PDF delivery (ATS + Recruiter friendly)"
+      "PDF delivery (ATS & Recruiter friendly)"
     ],
     initial: { opacity: 0, x: -90, rotate: -2, skewY: -2.5 },
     animate: { opacity: 1, x: 0, rotate: -2, skewY: -2.5 },
@@ -34,7 +34,7 @@ const resumePlans = [
     dark: true
   },
   {
-    name: "Resume + LinkedIn + SEEK Optimisation",
+    name: "Resume, LinkedIn & SEEK Optimisation",
     badge: "Most Popular",
     price: "$89",
     period: "one-time",
@@ -47,7 +47,7 @@ const resumePlans = [
       "Experience & skills enhancement",
       "ATS & search keyword targeting",
       "Profile visibility improvements",
-      "PDF delivery + profile guides"
+      "PDF delivery & profile guides"
     ],
     initial: { opacity: 0, x: 90, rotate: 2, skewY: -2.5, scale: 1.05 },
     animate: { opacity: 1, x: 0, rotate: 2, skewY: -2.5, scale: 1.05 },

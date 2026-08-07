@@ -57,7 +57,7 @@ export function buildAgreementTemplate(input) {
       'The Service Provider will maintain confidentiality of all information and ensure that the Customer’s personal details are not disclosed without consent.',
     ]),
     createSection('5. Use of CV and Other Application Materials', [
-      'All application materials, including CVs and cover letters, provided or created by the Service Provider will be used exclusively for job applications under this Agreement.',
+      'All application materials, including CVs and cover letters, provided or created by the Service Provider will be used exclusively for job applications under this Contract.',
       'Additional materials (cover letters, LinkedIn updates, etc.) may be prepared at an additional cost if requested by the Customer.',
     ]),
     createSection('6. Job Application Targets', [
@@ -65,7 +65,7 @@ export function buildAgreementTemplate(input) {
       'No refunds will be provided if external factors (job availability, market conditions) affect outcomes.',
     ]),
     createSection('7. Customer’s Responsibilities', [
-      'The Customer is responsible for responding to direct recruiter communications, managing interviews, and completing follow-up actions beyond the scope of this Agreement.',
+      'The Customer is responsible for responding to direct recruiter communications, managing interviews, and completing follow-up actions beyond the scope of this Contract.',
     ]),
     createSection('8. Availability', [
       'The Service Provider will be available during regular business hours, Monday to Friday, and unavailable on weekends.',
@@ -85,22 +85,22 @@ export function buildAgreementTemplate(input) {
       'The Service Provider is not liable for any indirect, incidental, or consequential damages arising from the use of the services.',
       'Total liability shall not exceed the total amount of fees paid by the Customer.',
     ]),
-    createSection('10. Dispute Resolution', [
+    createSection('11. Dispute Resolution', [
       'Disputes will be addressed through mediation or arbitration prior to legal action, with both parties acting in good faith.',
     ]),
-    createSection('11. Governing Law', [
-      'This Agreement is governed by the laws of Australia. Both parties submit to the jurisdiction of Australian courts.',
+    createSection('12. Governing Law', [
+      'This Contract is governed by the laws of Australia. Both parties submit to the jurisdiction of Australian courts.',
     ]),
-    createSection('12. Termination and Refunds', [
+    createSection('13. Termination and Refunds', [
       'The Service Provider may terminate services with 5 days’ written notice.',
       'Any unused portion of advance payments will be refunded on a pro-rata basis.',
       'Client may cancel access anytime with written notice.',
       'If the client fails to make the payment within 5 days, 9Jobs reserves the right to suspend or stop the services without further notice.',
     ]),
-    createSection('13. Entire Agreement', [
-      'This Agreement supersedes all prior agreements or understandings and constitutes the entire understanding between the parties.',
+    createSection('14. Entire Contract', [
+      'This Contract supersedes all prior contracts or understandings and constitutes the entire understanding between the parties.',
     ]),
-    createSection('14. Amendments', [
+    createSection('15. Amendments', [
       'Any changes must be in writing and signed by both parties.',
     ]),
   ];

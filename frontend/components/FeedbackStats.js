@@ -4,8 +4,8 @@ import { AnimatedCounter, Reveal, StaggerContainer, StaggerItem } from "./homepa
 
 const stats = [
   { value: 4.8, decimals: 1, suffix: "/5", label: "Average Client Rating", icon: Star },
-  { value: 1200, suffix: "+", label: "Interviews Arranged", icon: CalendarCheck },
-  { value: 450, suffix: "+", label: "Successful Placements", icon: ShieldCheck },
+  { value: 1200, suffix: "", label: "Interviews Arranged", icon: CalendarCheck },
+  { value: 450, suffix: "", label: "Successful Placements", icon: ShieldCheck },
   { value: 92, suffix: "%", label: "Repeat Clients", icon: UsersRound },
 ];
 

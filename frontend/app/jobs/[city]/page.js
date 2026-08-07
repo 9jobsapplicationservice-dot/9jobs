@@ -119,7 +119,7 @@ export default async function CityPage({ params }) {
               <div className="fj-ai-note" key={idx}>
                 <span>Sector Opportunity</span>
                 <strong>{ind}</strong>
-                <p>High demand for ATS-optimized CV profiles and SEEK targeting.</p>
+                <p>{pageData.cityMeta.industryDescriptions?.[idx] || "High demand for ATS-optimized CV profiles and SEEK targeting."}</p>
               </div>
             ))}
           </div>

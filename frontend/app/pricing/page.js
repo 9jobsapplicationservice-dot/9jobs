@@ -77,7 +77,7 @@ export default function PricingPage() {
                       ))}
                     </div>
                     
-                    <div className="fj-pricing-actions" style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: 'auto' }}>
+                    <div className="fj-pricing-actions" style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: 'auto', paddingTop: '24px' }}>
                       <PricingCheckoutButton 
                         plan={plan} 
                         className={plan.dark ? "fj-button fj-button--lime" : "fj-button"}

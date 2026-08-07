@@ -17,6 +17,7 @@
     "@stripe/stripe-js": "^9.5.0",
     "@types/node": "^20.11.24",
     "@types/react": "^19.0.0",
+    "9jobsservice": "file:..",
     "bcryptjs": "^3.0.3",
     "framer-motion": "^12.38.0",
     "lucide-react": "^1.14.0",
@@ -27,7 +28,8 @@
     "pdfkit": "^0.19.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "eslint": "^9",

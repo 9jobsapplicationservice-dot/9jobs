@@ -451,11 +451,11 @@ describe('secure internal e-signature workflow', () => {
     expect(coords.dateBlock).toBeTruthy();
 
     expect(coords.providerSign.x).toBe(114);
-    expect(coords.providerSign.y).toBe(244.64000000000004);
-    expect(coords.customerSign.x).toBe(114);
-    expect(coords.customerSign.y).toBe(165.34000000000006);
-    expect(coords.dateBlock.x).toBe(54);
-    expect(coords.dateBlock.y).toBe(60);
+    expect(coords.providerSign.y).toBe(459.39);
+    expect(coords.customerSign.x).toBe(375);
+    expect(coords.customerSign.y).toBe(459.39);
+    expect(coords.dateBlock.x).toBe(114);
+    expect(coords.dateBlock.y).toBe(424.39);
   });
 
   test('generated PDF artifact exposes deterministic anchor coordinates', async () => {

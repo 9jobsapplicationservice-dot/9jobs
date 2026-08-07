@@ -60,7 +60,7 @@ const steps = [
   {
     number: "03",
     title: "Daily Job Applications",
-    text: "We apply to 20+ matched jobs daily and proactively reach out to hiring managers using premium recruitment tools—helping boost your interview chances up to 10×.",
+    text: "We apply upto 20 matched jobs daily and proactively reach out to hiring managers using premium recruitment tools—helping boost your interview chances up to 10×.",
     icon: SendHorizontal,
     accentColor: "#06b6d4",
     accentLight: "rgba(6, 182, 212, 0.08)",
@@ -79,7 +79,7 @@ const steps = [
   {
     number: "05",
     title: "Daily Updates",
-    text: "You receive daily updates on WhatsApp with Excel sheet + screenshots of applied jobs for complete clarity.",
+    text: "You receive daily updates on WhatsApp with Excel sheet and screenshots of applied jobs for complete clarity.",
     icon: WhatsAppIcon,
     accentColor: "#22c55e",
     accentLight: "rgba(34, 197, 94, 0.08)",
@@ -118,18 +118,18 @@ const steps = [
 const stats = [
   {
     label: "Happy Clients",
-    number: "100+",
+    number: "100",
     numberValue: 100,
-    numberSuffix: "+",
+    numberSuffix: "",
     icon: UsersRound,
     color: "#8b5cf6",
     lightColor: "rgba(139, 92, 246, 0.08)",
   },
   {
     label: "Jobs Applied",
-    number: "20+",
+    number: "20",
     numberValue: 20,
-    numberSuffix: "+",
+    numberSuffix: "",
     icon: CheckCircle2,
     color: "#10b981",
     lightColor: "rgba(16, 185, 129, 0.08)",

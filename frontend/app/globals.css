@@ -3480,12 +3480,16 @@ section.hero.hero-split,
 
 .fj-blog-card {
   min-height: 430px;
+  display: flex;
+  flex-direction: column;
 }
 
 .fj-social-blog-card {
   position: relative;
   gap: 16px;
   padding: 18px;
+  display: flex;
+  flex-direction: column;
 }
 
 .fj-section-head--social {
@@ -4305,10 +4309,22 @@ section.hero.hero-split,
   .fj-card-grid--three,
   .fj-card-grid--four,
   .fj-card-grid--five,
-  .fj-footer-grid,
   .fj-list-grid,
   .fj-integration-grid {
     grid-template-columns: 1fr;
+  }
+
+  .fj-footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 20px;
+  }
+
+  .fj-footer-brand {
+    grid-column: span 2;
+  }
+
+  .fj-footer-link-placeholder {
+    display: none;
   }
 
   .fj-section-head--split {

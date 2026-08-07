@@ -84,7 +84,7 @@ export default function Footer() {
               </span>
               <span>9Jobs</span>
             </Link>
-            <p>Join the 40,000+ businesses in Australia using 9Jobs, today.</p>
+            <p>Join the 40,000 professionals in Australia using 9Jobs today.</p>
             <NewsletterForm />
             <div className="fj-footer-socials">
               <a href="https://www.instagram.com/9jobsau/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">

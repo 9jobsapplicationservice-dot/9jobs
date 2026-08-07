@@ -167,7 +167,7 @@ export async function suggestNextInvoiceDetails() {
     billedToEmail: '',
     billedToPhone: '',
     weekLabel: '1',
-    description: 'Job Application Services',
+    description: '',
     duration: '1 WEEK',
     total: '150',
   };

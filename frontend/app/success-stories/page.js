@@ -11,8 +11,8 @@ export const metadata = createSeoMetadata(routeSeo);
 
 const stats = [
   { value: 4.8, decimals: 1, suffix: "/5", label: "Average Client Rating", icon: Star },
-  { value: 1200, decimals: 0, suffix: "+", label: "Interviews Arranged", icon: CalendarCheck },
-  { value: 450, decimals: 0, suffix: "+", label: "Successful Placements", icon: ShieldCheck },
+  { value: 1200, decimals: 0, suffix: "", label: "Interviews Arranged", icon: CalendarCheck },
+  { value: 450, decimals: 0, suffix: "", label: "Successful Placements", icon: ShieldCheck },
   { value: 92, decimals: 0, suffix: "%", label: "Repeat Clients", icon: UsersRound }
 ];
 
@@ -74,13 +74,13 @@ export default function SuccessStories() {
                   role: "VP of Product",
                   story: "Hiring for leadership is always tough. The 9Jobs team was incredibly professional and maintained consistent communication throughout the search. They arranged 5 high-quality interviews and the final placement exceeded our expectations. The platform made it so easy to track the pipeline.",
                   rating: 5,
-                  image: "/framer/story-ops.jpg"
+                  image: "/framer/portrait-01.jpg"
                 }
               ].map((story, idx) => (
                 <StaggerItem as="div" key={idx}>
                   <HoverCard style={{ background: "#fff", borderRadius: "var(--radius-lg)", border: "1px solid var(--line)", overflow: "hidden", display: "flex", flexDirection: idx % 2 === 0 ? "row" : "row-reverse", flexWrap: "wrap" }}>
-                    <div style={{ flex: "1 1 300px", background: "var(--surface)", position: "relative", minHeight: "300px" }}>
-                      <Image src={story.image} alt={story.client} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px" style={{ objectFit: "cover" }} />
+                    <div style={{ flex: "1 1 350px", maxWidth: "480px", background: "var(--surface)", position: "relative", minHeight: "350px" }}>
+                      <Image src={story.image} alt={story.client} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px" style={{ objectFit: "cover", objectPosition: "center top" }} />
                     </div>
                     <div style={{ flex: "1 1 400px", padding: "48px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                       <div style={{ display: "flex", gap: "4px", marginBottom: "16px" }}>

@@ -38,8 +38,23 @@ function formatDate(value) {
   }).format(date);
 }
 
+function sanitizePdfText(value) {
+  return String(value ?? '')
+    .normalize('NFKD')
+    .replace(/\uFB00/g, 'ff')
+    .replace(/\uFB01/g, 'fi')
+    .replace(/\uFB02/g, 'fl')
+    .replace(/\uFB03/g, 'ffi')
+    .replace(/\uFB04/g, 'ffl')
+    .replace(/\u2018|\u2019/g, "'")
+    .replace(/\u201C|\u201D/g, '"')
+    .replace(/\u2013|\u2014/g, '-')
+    .replace(/\u2026/g, '...')
+    .replace(/[^\x20-\x7E\n\r\t]/g, '');
+}
+
 function drawText(page, text, x, y, options) {
-  page.drawText(String(text || ''), {
+  page.drawText(sanitizePdfText(text), {
     x,
     y,
     ...options,
@@ -75,6 +90,28 @@ function drawFilledRect(page, x, y, width, height, color) {
     height,
     color,
   });
+}
+
+function fitTextToWidth(text, font, size, maxWidth) {
+  const safeText = sanitizePdfText(text);
+
+  if (!safeText || font.widthOfTextAtSize(safeText, size) <= maxWidth) {
+    return safeText;
+  }
+
+  const ellipsis = '...';
+  const ellipsisWidth = font.widthOfTextAtSize(ellipsis, size);
+  let end = safeText.length;
+
+  while (end > 0) {
+    const candidate = safeText.slice(0, end).trimEnd();
+    if (font.widthOfTextAtSize(candidate, size) + ellipsisWidth <= maxWidth) {
+      return `${candidate}${ellipsis}`;
+    }
+    end -= 1;
+  }
+
+  return ellipsis;
 }
 
 export async function generateInvoicePdfBuffer(invoice) {
@@ -257,19 +294,26 @@ export async function generateInvoicePdfBuffer(invoice) {
 
   // Table row content
   currentY = tableHeaderY - tableHeaderHeight - 25;
-  drawText(page, invoiceData.description, MARGIN_LEFT + 12, currentY, {
+  const descriptionX = MARGIN_LEFT + 12;
+  const quantityX = 290;
+  const rateX = 370;
+  const amountX = PAGE_WIDTH - MARGIN_RIGHT - 12;
+  const descriptionMaxWidth = quantityX - descriptionX - 18;
+  const fittedDescription = fitTextToWidth(invoiceData.description, regular, 11, descriptionMaxWidth);
+
+  drawText(page, fittedDescription, descriptionX, currentY, {
     font: regular,
     size: 11,
     color: COLOR_TEXT,
   });
 
-  drawText(page, invoiceData.duration, 290, currentY, {
+  drawText(page, invoiceData.duration, quantityX, currentY, {
     font: regular,
     size: 11,
     color: COLOR_TEXT,
   });
 
-  drawText(page, `$${invoiceData.total}`, 370, currentY, {
+  drawText(page, `$${invoiceData.total}`, rateX, currentY, {
     font: regular,
     size: 11,
     color: COLOR_TEXT,
@@ -277,7 +321,7 @@ export async function generateInvoicePdfBuffer(invoice) {
 
   const rowAmtText = `$${invoiceData.total}`;
   const rowAmtWidth = bold.widthOfTextAtSize(rowAmtText, 11);
-  drawText(page, rowAmtText, PAGE_WIDTH - MARGIN_RIGHT - 12 - rowAmtWidth, currentY, {
+  drawText(page, rowAmtText, amountX - rowAmtWidth, currentY, {
     font: bold,
     size: 11,
     color: COLOR_TEXT,

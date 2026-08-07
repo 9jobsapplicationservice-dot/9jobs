@@ -16,7 +16,7 @@ const initialState = {
   issuedDate: '2026-07-01',
   validUntil: '2026-07-07',
   dueDate: '2026-07-02',
-  description: 'Job Application Services',
+  description: '',
   duration: '1 WEEK',
   total: '150',
 };
@@ -51,9 +51,13 @@ const labels = {
   total: 'Total (AUD)',
 };
 
+const placeholders = {
+  description: 'Enter any invoice description',
+};
+
 function getInputType(field) {
   if (field.toLowerCase().includes('email')) return 'email';
-  if (field.toLowerCase().includes('date')) return 'date';
+  if (field.toLowerCase().includes('date') || field === 'validUntil') return 'date';
   return 'text';
 }
 
@@ -141,6 +145,7 @@ export default function InvoiceForm({ initialValues = null, invoiceId = '', mode
                 <span>{labels[field]}</span>
                 <input
                   onChange={(event) => updateField(field, event.target.value)}
+                  placeholder={placeholders[field] || ''}
                   type={getInputType(field)}
                   value={values[field]}
                 />

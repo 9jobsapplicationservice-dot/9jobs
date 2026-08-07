@@ -202,7 +202,7 @@ export default function LinkedinOptimizationPage() {
                 <div className="fj-hero-floating-cluster" style={{ pointerEvents: 'none' }}>
                   <FloatingCard className="fj-hero-floating-card" depth={14} floatRange={8} duration={6} style={{ position: 'absolute', top: '-20px', left: '-20px', background: '#fff', padding: '12px 18px', borderRadius: '14px', boxShadow: '0 10px 30px rgba(212, 160, 23, 0.08)', border: '1px solid rgba(212, 160, 23, 0.26)', display: 'flex', flexDirection: 'column', gap: '2px', zIndex: 10 }}>
                     <strong style={{ fontSize: '0.85rem', color: 'var(--fj-ink)' }}>Profile views increased</strong>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--fj-muted)' }}>+140% weekly search</span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--fj-muted)' }}>140% weekly search</span>
                   </FloatingCard>
                   <FloatingCard className="fj-hero-floating-card" depth={18} floatRange={10} duration={7} delay={0.4} style={{ position: 'absolute', bottom: '-20px', right: '-20px', background: '#fff', padding: '12px 18px', borderRadius: '14px', boxShadow: '0 10px 30px rgba(212, 160, 23, 0.08)', border: '1px solid rgba(212, 160, 23, 0.26)', display: 'flex', flexDirection: 'column', gap: '2px', zIndex: 10 }}>
                     <strong style={{ fontSize: '0.85rem', color: 'var(--fj-ink)' }}>Recruiter found you</strong>

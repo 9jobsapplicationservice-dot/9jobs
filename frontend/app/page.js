@@ -229,9 +229,9 @@ const growthItems = [
 ];
 
 const plans = [
-  ["Startups", "Learn about the Remote platform and services.", null],
-  ["Mid-size", "See our standard pricing and get a customized quote.", "Popular Choice"],
-  ["Enterprise", "See our standard pricing and get a customized quote.", "Executive Choice"],
+  ["Trial Plan", "Try the full 9Jobs experience for a day — perfect for a quick, focused job search sprint.", null],
+  ["Non-IT Support", "Hands-on weekly support tailored for non-tech professionals ready to land their next role.", "Popular Choice"],
+  ["IT Support", "Premium weekly support for tech professionals — from ATS-ready resumes to interview prep.", "Executive Choice"],
 ];
 
 const displayFaqs = [
@@ -623,10 +623,10 @@ export default function Home() {
               </div>
               <StaggerContainer as="div" stagger={0.12}>
                 {[
-                  ["Alex Marshall", "optimized their resume", "2m ago"],
-                  ["Sophia R.", "updated LinkedIn & SEEK", "5m ago"],
-                  ["Alex Marshall", "applied to 12 jobs", "8m ago"],
-                  ["Nadia Thompson", "scheduled an interview", "13m ago"],
+                  ["Alex Marshall", "optimized their resume", "2 month ago"],
+                  ["Sophia R.", "updated LinkedIn & SEEK", "5 month ago"],
+                  ["Alex Marshall", "applied to 12 jobs", "8 month ago"],
+                  ["Nadia Thompson", "scheduled an interview", "1 year ago"],
                 ].map(([name, action, time]) => (
                   <StaggerItem as="div" className="fj-activity-row fj-activity-row--live" key={`${name}-${action}`}>
                     <span className="fj-avatar">{name.slice(0, 2)}</span>
@@ -812,29 +812,6 @@ export default function Home() {
                 <p>{city.description}</p>
                 <Link href={`/jobs/${city.slug}`} className="fj-button fj-button--ghost fj-location-link" prefetch={false}>
                   <span>Explore {city.name}</span> <ArrowRight size={16} />
-                </Link>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-        </div>
-      </section>
-
-      <section className="fj-section fj-section--muted fj-home-section--grid">
-        <div className="fj-container">
-          <Reveal as="div" direction="up" distance={24}>
-            <div className="fj-section-head">
-              <span className="fj-label">Job Sourcing</span>
-              <h2>Find Jobs Across <span className="heading-mark">Australia</span></h2>
-              <p>Direct access to our dedicated, local career search landing pages in every major city and state region.</p>
-            </div>
-          </Reveal>
-          <StaggerContainer as="div" className="fj-card-grid fj-card-grid--three fj-location-grid fj-location-grid--secondary" style={{ marginTop: "40px" }} stagger={0.1}>
-            {popularCities.map((city) => (
-              <StaggerItem as="article" className="fj-feature-card fj-card-hover fj-location-panel" key={city.name} style={{ minHeight: "220px", display: "flex", flexDirection: "column" }}>
-                <h3>{city.name}</h3>
-                <p style={{ fontSize: "0.9rem", color: "var(--fj-muted)", margin: "10px 0 20px" }}>{city.desc}</p>
-                <Link href={city.href} className="fj-button fj-button--ghost fj-location-link" style={{ marginTop: "auto", minHeight: "44px", fontSize: "0.85rem" }} prefetch={false}>
-                  <span>Jobs in {city.name}</span> <ArrowRight size={14} />
                 </Link>
               </StaggerItem>
             ))}

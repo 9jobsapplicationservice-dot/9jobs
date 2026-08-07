@@ -5,7 +5,14 @@ const cities = {
     state: "VIC",
     description: "Navigate Melbourne's rich, diverse commercial sectors, tech hubs, and creative industries with localized application consulting.",
     suburbs: ["Richmond", "South Yarra", "Fitzroy", "St Kilda", "Docklands", "Collingwood", "Brunswick", "East Melbourne"],
-    industries: ["Information Technology", "Creative & Design", "Education & Research", "Healthcare & Biotech", "Financial Services"]
+    industries: ["Information Technology", "Creative & Design", "Education & Research", "Healthcare & Biotech", "Financial Services"],
+    industryDescriptions: [
+      "Strong demand for software, cloud, data, and support candidates across Melbourne's startup and enterprise hiring market.",
+      "Studios and agencies regularly hire for branding, UI, content, and digital production roles across inner Melbourne.",
+      "Universities and training providers create steady openings in teaching, administration, academic support, and research delivery.",
+      "Hospitals, clinics, and biotech employers continue hiring across patient support, labs, compliance, and health operations.",
+      "Banks, insurers, and advisory firms look for analysts, coordinators, and client-facing professionals with clean documentation."
+    ]
   },
   sydney: {
     slug: "sydney",
@@ -13,7 +20,14 @@ const cities = {
     state: "NSW",
     description: "Accelerate your career in Australia's financial capital, corporate center, and largest tech cluster with target-aligned support.",
     suburbs: ["Surry Hills", "Pyrmont", "North Sydney", "Parramatta", "Macquarie Park", "Alexandria", "Chatswood", "Darlinghurst"],
-    industries: ["Investment Banking & Finance", "Software Engineering", "Professional Services", "Media & Advertising", "Construction & Engineering"]
+    industries: ["Investment Banking & Finance", "Software Engineering", "Professional Services", "Media & Advertising", "Construction & Engineering"],
+    industryDescriptions: [
+      "Sydney's finance market stays active for banking operations, funds management, compliance, and advisory support talent.",
+      "Engineering teams across product, platform, security, and fintech businesses keep hiring software talent in Sydney.",
+      "Consulting, legal, HR, and business advisory firms value polished resumes and strong client-service positioning.",
+      "Agencies and in-house teams recruit for campaign delivery, account management, copy, and digital growth roles.",
+      "Major builds and infrastructure programs support demand for project coordinators, estimators, site teams, and engineers."
+    ]
   },
   brisbane: {
     slug: "brisbane",
@@ -21,7 +35,14 @@ const cities = {
     state: "QLD",
     description: "Capitalize on Brisbane's infrastructure growth, tourism sectors, and expanding tech services ahead of local developments.",
     suburbs: ["Fortitude Valley", "South Brisbane", "Milton", "Newstead", "Bowen Hills", "Spring Hill", "Chermside", "West End"],
-    industries: ["Government & Public Sector", "Tourism & Hospitality", "Mining & Resources", "Technology Startups", "Healthcare Delivery"]
+    industries: ["Government & Public Sector", "Tourism & Hospitality", "Mining & Resources", "Technology Startups", "Healthcare Delivery"],
+    industryDescriptions: [
+      "Departments and councils often seek administrators, project officers, policy support, and service delivery professionals.",
+      "Hotels, venues, and tourism operators continue hiring across guest service, events, food, and front-line supervision.",
+      "Resource employers need reliable operations, safety, scheduling, procurement, and technical support candidates.",
+      "Brisbane startups hire across product support, software, growth marketing, and customer success as teams scale.",
+      "Clinics, aged care, and hospital networks create regular openings in coordination, patient care, and administration."
+    ]
   },
   perth: {
     slug: "perth",
@@ -29,7 +50,14 @@ const cities = {
     state: "WA",
     description: "Unlock opportunities in Western Australia's resource powerhouses, logistics networks, and growing professional sectors.",
     suburbs: ["Subiaco", "West Perth", "East Perth", "Fremantle", "Osborne Park", "Belmont", "South Perth", "Joondalup"],
-    industries: ["Mining & Resource Operations", "Engineering Consultancies", "Logistics & Maritime", "Corporate Finance", "Renewable Energy"]
+    industries: ["Mining & Resource Operations", "Engineering Consultancies", "Logistics & Maritime", "Corporate Finance", "Renewable Energy"],
+    industryDescriptions: [
+      "WA resource employers hire for site admin, maintenance planning, safety, shutdown support, and operations coordination.",
+      "Consultancies often recruit civil, mechanical, and project delivery professionals for local and remote projects.",
+      "Ports, freight, and warehousing networks create roles in dispatch, transport planning, supply chain, and compliance.",
+      "Perth corporate teams need finance officers, payroll staff, analysts, and commercial support across growing firms.",
+      "Clean energy projects are opening roles in project support, field coordination, stakeholder engagement, and technical delivery."
+    ]
   },
   adelaide: {
     slug: "adelaide",
@@ -37,7 +65,14 @@ const cities = {
     state: "SA",
     description: "Position yourself in Adelaide's innovation precincts, defense contracting networks, and health sciences hubs.",
     suburbs: ["Kent Town", "North Adelaide", "Norwood", "Thebarton", "Mawson Lakes", "Bowden", "Unley", "Adelaide CBD"],
-    industries: ["Defense Contracting", "Space & Aerospace Tech", "Wine & Agriculture Tech", "Medical Research", "Advanced Manufacturing"]
+    industries: ["Defense Contracting", "Space & Aerospace Tech", "Wine & Agriculture Tech", "Medical Research", "Advanced Manufacturing"],
+    industryDescriptions: [
+      "Defense suppliers value clear compliance-ready resumes for project, procurement, engineering, and support functions.",
+      "Adelaide's aerospace ecosystem hires across systems support, testing, documentation, and technical coordination.",
+      "Agritech and wine businesses recruit for production planning, quality, logistics, and field operations support.",
+      "Research institutes and health labs need coordinators, analysts, and regulated documentation capability.",
+      "Manufacturing employers continue hiring across production, QA, maintenance, scheduling, and process improvement roles."
+    ]
   },
   geelong: {
     slug: "geelong",
@@ -45,7 +80,14 @@ const cities = {
     state: "VIC",
     description: "Tap into Geelong's transitioning economy, manufacturing heritage, service hubs, and regional business opportunities.",
     suburbs: ["Newtown", "East Geelong", "South Geelong", "Belmont", "North Geelong", "Grovedale", "Waurn Ponds", "Geelong West"],
-    industries: ["Insurance & Claims (NDIS/TAC)", "Regional Government", "Carbon Fiber & Advanced Materials", "Education Services", "Tourism Operations"]
+    industries: ["Insurance & Claims (NDIS/TAC)", "Regional Government", "Carbon Fiber & Advanced Materials", "Education Services", "Tourism Operations"],
+    industryDescriptions: [
+      "Claims, support coordination, and case management roles remain active across NDIS, TAC, and insurance-linked services.",
+      "Regional government employers seek administration, policy support, customer service, and program delivery talent.",
+      "Advanced materials businesses hire for production support, quality, logistics, and technical operations roles.",
+      "Schools, campuses, and training centers create demand for education support, admin, and engagement positions.",
+      "Visitor services and local operators recruit across bookings, events, hospitality, and front-desk coordination."
+    ]
   },
   vic: {
     slug: "vic",
@@ -53,7 +95,14 @@ const cities = {
     state: "VIC",
     description: "Broaden your career search across Victoria's regional cities, agricultural centers, and statewide logistics networks.",
     suburbs: ["Ballarat", "Bendigo", "Shepparton", "Wodonga", "Mildura", "Traralgon", "Warrnambool", "Latrobe Valley"],
-    industries: ["Agribusiness & Food Tech", "State Logistics", "Regional Public Health", "Infrastructure Projects", "Community Services"]
+    industries: ["Agribusiness & Food Tech", "State Logistics", "Regional Public Health", "Infrastructure Projects", "Community Services"],
+    industryDescriptions: [
+      "Regional Victoria offers steady hiring in food production, farm support, quality systems, and agribusiness operations.",
+      "Transport corridors and distribution networks create openings in dispatch, warehousing, planning, and inventory control.",
+      "Hospitals and regional health providers need admin, allied support, care coordination, and patient-facing staff.",
+      "Civil and utilities projects continue hiring project support, field teams, safety officers, and contract administrators.",
+      "Community organisations recruit for case work, outreach, disability support, and local service coordination roles."
+    ]
   }
 };
 
