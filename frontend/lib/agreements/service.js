@@ -28,7 +28,7 @@ function shouldAppendEnvelopeEvent(agreementDocument, rawStatus) {
 
 export async function listAgreements() {
   await connectDB();
-  const agreements = await Agreement.find({}).sort({ createdAt: -1 });
+  const agreements = await Agreement.find({}).sort({ createdAt: -1 }).lean();
   return agreements.map(serializeAgreement);
 }
 
@@ -86,7 +86,17 @@ export async function syncAgreementDocumentStatusFromDocuSign(agreementDocument)
   return serializeAgreement(agreementDocument);
 }
 
+let lastSyncTime = 0;
+let lastRecoveryTime = 0;
+const COOLDOWN_MS = 1000 * 60 * 5; // 5 minutes cooldown
+
 export async function syncPendingAgreementStatuses() {
+  const now = Date.now();
+  if (now - lastSyncTime < COOLDOWN_MS) {
+    return 0;
+  }
+  lastSyncTime = now;
+
   if (!hasDocuSignRuntimeConfig()) {
     return 0;
   }
@@ -97,18 +107,28 @@ export async function syncPendingAgreementStatuses() {
     status: { $in: ACTIVE_DOCUSIGN_STATUSES },
   });
 
-  for (const agreementDocument of agreements) {
-    try {
-      await syncAgreementDocumentStatusFromDocuSign(agreementDocument);
-    } catch (error) {
-      console.error(`DocuSign status sync failed for agreement ${agreementDocument._id}:`, error);
-    }
-  }
+  await Promise.all(
+    agreements.map(async (agreementDocument) => {
+      try {
+        await syncAgreementDocumentStatusFromDocuSign(agreementDocument);
+      } catch (error) {
+        console.error(`DocuSign status sync failed for agreement ${agreementDocument._id}:`, error);
+      }
+    })
+  );
 
   return agreements.length;
 }
 
 export async function recoverFailedInternalAgreementCompletions(limit = 10) {
+  if (limit > 1) {
+    const now = Date.now();
+    if (now - lastRecoveryTime < COOLDOWN_MS) {
+      return 0;
+    }
+    lastRecoveryTime = now;
+  }
+
   await connectDB();
 
   const agreements = await Agreement.find({
@@ -123,17 +143,21 @@ export async function recoverFailedInternalAgreementCompletions(limit = 10) {
 
   let recoveredCount = 0;
 
-  for (const agreement of agreements) {
-    try {
-      const recovered = await retryFailedAgreementCompletion(String(agreement._id));
-      if (recovered?.status === 'completed') {
-        recoveredCount += 1;
+  const results = await Promise.all(
+    agreements.map(async (agreement) => {
+      try {
+        const recovered = await retryFailedAgreementCompletion(String(agreement._id));
+        if (recovered?.status === 'completed') {
+          return 1;
+        }
+      } catch (error) {
+        console.error(`Agreement completion retry failed for ${agreement._id}:`, error);
       }
-    } catch (error) {
-      console.error(`Agreement completion retry failed for ${agreement._id}:`, error);
-    }
-  }
+      return 0;
+    })
+  );
 
+  recoveredCount = results.reduce((sum, val) => sum + val, 0);
   return recoveredCount;
 }
 

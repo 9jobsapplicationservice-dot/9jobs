@@ -40,11 +40,11 @@ export default function FortnightAgreementRowActions({ agreementId, status }) {
 
   return (
     <div className="admin-actions-row">
-      <Link className="admin-link admin-link--view" href={`/admin/fortnight-agreements/${agreementId}`}>
+      <Link className="admin-link admin-link--view" href={`/admin/fortnight-agreements/${agreementId}`} prefetch={false}>
         View
       </Link>
       {status !== 'completed' ? (
-        <Link className="admin-link" href={`/admin/fortnight-agreements/${agreementId}/edit`}>
+        <Link className="admin-link" href={`/admin/fortnight-agreements/${agreementId}/edit`} prefetch={false}>
           Edit
         </Link>
       ) : null}

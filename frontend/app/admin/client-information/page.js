@@ -10,15 +10,16 @@ export default async function AdminClientInformationPage() {
   await requireAdminPageSession();
   await connectDB();
   
-  const submissions = await ClientInfo.find({}).sort({ createdAt: -1 });
+  const submissions = await ClientInfo.find({}).sort({ createdAt: -1 }).lean();
 
   // Convert Mongoose documents to plain JSON objects to prevent Next.js serialization warnings
   const plainSubmissions = submissions.map((doc) => {
-    const obj = doc.toObject();
-    obj._id = String(obj._id);
-    if (obj.createdAt) obj.createdAt = obj.createdAt.toISOString();
-    if (obj.updatedAt) obj.updatedAt = obj.updatedAt.toISOString();
-    return obj;
+    return {
+      ...doc,
+      _id: String(doc._id),
+      createdAt: doc.createdAt ? doc.createdAt.toISOString() : null,
+      updatedAt: doc.updatedAt ? doc.updatedAt.toISOString() : null,
+    };
   });
 
   return (

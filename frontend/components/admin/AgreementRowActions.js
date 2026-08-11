@@ -40,11 +40,11 @@ export default function AgreementRowActions({ agreementId, status }) {
 
   return (
     <div className="admin-actions-row">
-      <Link className="admin-link admin-link--view" href={`/admin/agreements/${agreementId}`}>
+      <Link className="admin-link admin-link--view" href={`/admin/agreements/${agreementId}`} prefetch={false}>
         View
       </Link>
       {status !== 'completed' ? (
-        <Link className="admin-link" href={`/admin/agreements/${agreementId}/edit`}>
+        <Link className="admin-link" href={`/admin/agreements/${agreementId}/edit`} prefetch={false}>
           Edit
         </Link>
       ) : null}

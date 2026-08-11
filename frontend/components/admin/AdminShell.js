@@ -60,6 +60,7 @@ export default function AdminShell({ title, eyebrow, children }) {
                     className={`admin-sidebar__link ${isActive ? 'admin-sidebar__link--active' : ''}`}
                     href={link.href}
                     key={link.href}
+                    prefetch={false}
                   >
                     {link.label}
                   </Link>

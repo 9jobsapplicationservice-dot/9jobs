@@ -13,16 +13,18 @@ export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboardPage() {
   await requireAdminPageSession();
-  await syncPendingAgreementStatuses();
-  await recoverFailedInternalAgreementCompletions();
-  await connectDB();
+  await Promise.all([
+    syncPendingAgreementStatuses().catch((err) => console.error('Dashboard sync error:', err)),
+    recoverFailedInternalAgreementCompletions().catch((err) => console.error('Dashboard recover error:', err)),
+    connectDB(),
+  ]);
 
   const [totalAgreements, sent, completed, pendingDocs, latestAgreements] = await Promise.all([
     Agreement.countDocuments({}),
     Agreement.countDocuments({ status: { $in: ['sent', 'delivered', 'viewed'] } }),
     Agreement.countDocuments({ status: 'completed' }),
     Agreement.countDocuments({ status: { $in: ['draft', 'previewed'] } }),
-    Agreement.find({}).sort({ createdAt: -1 }).limit(5),
+    Agreement.find({}).sort({ createdAt: -1 }).limit(5).lean(),
   ]);
 
   return (
@@ -47,7 +49,7 @@ export default async function AdminDashboardPage() {
             <h2>Latest Agreements</h2>
             <p>Recent drafts, previews, and signed contracts.</p>
           </div>
-          <Link className="admin-ghost-button admin-ghost-button--link" href="/admin/agreements">
+          <Link className="admin-ghost-button admin-ghost-button--link" href="/admin/agreements" prefetch={false}>
             View all
           </Link>
         </div>

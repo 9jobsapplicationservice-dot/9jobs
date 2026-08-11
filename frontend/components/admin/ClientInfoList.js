@@ -206,7 +206,7 @@ export default function ClientInfoList({ initialSubmissions }) {
         >
           <div
             style={{
-              background: 'var(--color-bg-card)',
+              background: '#ffffff',
               width: '100%',
               maxWidth: '680px',
               borderRadius: '12px',
@@ -438,7 +438,7 @@ export default function ClientInfoList({ initialSubmissions }) {
         >
           <div
             style={{
-              background: 'var(--color-bg-card)',
+              background: '#ffffff',
               width: '100%',
               maxWidth: '680px',
               borderRadius: '12px',

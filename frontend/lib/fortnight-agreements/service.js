@@ -7,7 +7,7 @@ import { retryFailedAgreementCompletion } from '@/lib/fortnight-agreements/compl
 
 export async function listAgreements() {
   await connectDB();
-  const agreements = await FortnightAgreement.find({}).sort({ createdAt: -1 });
+  const agreements = await FortnightAgreement.find({}).sort({ createdAt: -1 }).lean();
   return agreements.map(serializeAgreement);
 }
 

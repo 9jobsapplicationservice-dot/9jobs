@@ -39,10 +39,7 @@ export default function AdminLoginForm({ nextPath = '/admin/dashboard' }) {
         title: 'Admin login successful.',
         tone: 'success',
       });
-      startTransition(() => {
-        router.push(nextPath || '/admin/dashboard');
-        router.refresh();
-      });
+      router.push(nextPath || '/admin/dashboard');
     } finally {
       setIsPending(false);
     }

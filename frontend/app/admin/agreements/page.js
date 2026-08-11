@@ -15,8 +15,10 @@ export const dynamic = 'force-dynamic';
 
 export default async function AgreementsPage() {
   await requireAdminPageSession();
-  await syncPendingAgreementStatuses();
-  await recoverFailedInternalAgreementCompletions();
+  await Promise.all([
+    syncPendingAgreementStatuses().catch((err) => console.error('Agreements sync error:', err)),
+    recoverFailedInternalAgreementCompletions().catch((err) => console.error('Agreements recover error:', err)),
+  ]);
   const agreements = await listAgreements();
 
   return (

@@ -26,9 +26,13 @@ function DetailRow({ label, value }) {
 
 export default async function AgreementDetailPage({ params }) {
   await requireAdminPageSession();
-  await recoverFailedInternalAgreementCompletions(1);
   const { id } = await params;
-  let agreementDocument = await getAgreementDocumentById(id);
+
+  const [_, agreementDoc] = await Promise.all([
+    recoverFailedInternalAgreementCompletions(1).catch((err) => console.error('Detail page recovery error:', err)),
+    getAgreementDocumentById(id),
+  ]);
+  let agreementDocument = agreementDoc;
 
   if (agreementDocument?.docuSignEnvelopeId) {
     await syncAgreementDocumentStatusFromDocuSign(agreementDocument);

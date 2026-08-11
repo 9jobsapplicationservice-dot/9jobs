@@ -7,7 +7,7 @@ import { fetchBlobBuffer, uploadPrivatePdf } from '@/lib/storage/blob';
 
 export async function listInvoices() {
   await connectDB();
-  const invoices = await Invoice.find({}).sort({ createdAt: -1 });
+  const invoices = await Invoice.find({}).sort({ createdAt: -1 }).lean();
   return invoices.map(serializeInvoice);
 }
 
