@@ -40,10 +40,10 @@ export default function InvoiceRegisterActions({ invoiceId }) {
 
   return (
     <div className="admin-actions-row">
-      <Link className="admin-link admin-link--view" href={`/admin/invoices/${invoiceId}`} prefetch={false}>
+      <Link className="admin-link admin-link--view" href={`/admin/invoices/${invoiceId}`}>
  View
                </Link>
-      <Link className="admin-link" href={`/admin/invoices/${invoiceId}/edit`} prefetch={false}>
+      <Link className="admin-link" href={`/admin/invoices/${invoiceId}/edit`}>
  Edit
                </Link>
       <button className="admin-link" disabled={isDeleting} onClick={handleDelete} type="button">

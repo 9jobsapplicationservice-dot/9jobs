@@ -42,3 +42,11 @@ export function enforceLoginRateLimit(key) {
     retryAfterSeconds: Math.max(1, Math.ceil((entry.resetAt - Date.now()) / 1000)),
   };
 }
+
+export function resetLoginRateLimit(key) {
+  if (!key) {
+    return;
+  }
+
+  store.delete(key);
+}

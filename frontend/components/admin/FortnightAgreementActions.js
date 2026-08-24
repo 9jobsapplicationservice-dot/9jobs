@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState, startTransition } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -49,6 +50,10 @@ export default function FortnightAgreementActions({ agreementId, status, hasGene
       >
         {pendingAction === 'generate' ? 'Generating...' : hasGeneratedPdf ? 'Regenerate Preview' : 'Generate Preview'}
       </button>
+
+      <Link className="admin-dark-button admin-dark-button--link" href={`/admin/fortnight-agreements/${agreementId}/edit`} prefetch={false}>
+        Edit
+      </Link>
 
       <button
         className="admin-dark-button"

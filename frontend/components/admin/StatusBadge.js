@@ -1,5 +1,7 @@
 const STATUS_LABELS = {
   draft: 'Draft',
+  pending: 'Pending',
+  paid: 'Paid',
   previewed: 'Previewed',
   sent: 'Sent',
   delivered: 'Delivered',

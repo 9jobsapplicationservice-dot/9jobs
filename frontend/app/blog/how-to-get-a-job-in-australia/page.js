@@ -56,7 +56,7 @@ export default function HowToGetJobPage() {
       "name": "9Jobs",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://9jobs.co/framer/app-icon.svg"
+        "url": "https://9jobs.co/9jobs-logo.png"
       }
     },
     "datePublished": "2026-06-03",
@@ -258,3 +258,4 @@ export default function HowToGetJobPage() {
     </main>
   );
 }
+

@@ -4,6 +4,26 @@ import { PageTransition } from '@/components/homepage/HomeMotion';
 export const metadata = {
   title: 'Client Information Details - 9Jobs',
   description: 'Provide your professional details, working rights, and upload your resume to get started with 9Jobs.',
+  openGraph: {
+    title: 'Client Information Details - 9Jobs',
+    description: 'Provide your professional details, working rights, and upload your resume to get started with 9Jobs.',
+    url: 'https://9jobs.co/client-information',
+    siteName: '9Jobs',
+    images: [
+      {
+        url: 'https://9jobs.co/9jobs-share-card.png',
+        width: 1200,
+        height: 630,
+        alt: '9Jobs logo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Client Information Details - 9Jobs',
+    description: 'Provide your professional details, working rights, and upload your resume to get started with 9Jobs.',
+    images: ['https://9jobs.co/9jobs-share-card.png'],
+  },
 };
 
 export default function ClientInformationPage() {

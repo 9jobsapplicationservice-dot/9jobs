@@ -28,11 +28,14 @@ export default async function AgreementDetailPage({ params }) {
   await requireAdminPageSession();
   const { id } = await params;
 
-  const [_, agreementDoc] = await Promise.all([
-    recoverFailedInternalAgreementCompletions(1).catch((err) => console.error('Detail page recovery error:', err)),
-    getAgreementDocumentById(id),
-  ]);
-  let agreementDocument = agreementDoc;
+  let agreementDocument = await getAgreementDocumentById(id);
+
+  if (agreementDocument?.status === 'completion_processing_failed') {
+    await recoverFailedInternalAgreementCompletions(1).catch((err) =>
+      console.error('Detail page recovery error:', err)
+    );
+    agreementDocument = await getAgreementDocumentById(id);
+  }
 
   if (agreementDocument?.docuSignEnvelopeId) {
     await syncAgreementDocumentStatusFromDocuSign(agreementDocument);
@@ -96,10 +99,6 @@ export default async function AgreementDetailPage({ params }) {
           </div>
         </div>
 
-        <div className="admin-notes-card">
-          <h3>Notes</h3>
-          <p>{agreement.notes || 'No notes were added for this agreement.'}</p>
-        </div>
       </section>
 
       <section className="admin-preview-layout">

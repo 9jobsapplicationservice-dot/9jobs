@@ -542,7 +542,7 @@ const generatePageCode = (post) => {
       "name": "9Jobs",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://9jobs.co/framer/app-icon.svg"
+        "url": "https://9jobs.co/9jobs-logo.png"
       }
     },
     "datePublished": post.publishDate,
@@ -714,3 +714,4 @@ blogPosts.forEach(post => {
 });
 
 console.log("All 10 blogs successfully generated.");
+

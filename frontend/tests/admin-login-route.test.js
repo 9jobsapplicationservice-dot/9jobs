@@ -147,6 +147,122 @@ describe('admin auth routes', () => {
     });
   });
 
+  test('rate limit is tracked per email instead of blocking all admin logins on the same IP', async () => {
+    const { loginPost } = await loadAuthRoutes();
+    verifyAdminCredentials.mockResolvedValue(false);
+
+    for (let attempt = 0; attempt < 6; attempt += 1) {
+      const blockedRequest = new Request('http://localhost/api/admin/login', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'x-forwarded-for': '10.0.0.55',
+        },
+        body: JSON.stringify({
+          email: 'blocked@9jobs.co',
+          password: 'wrong-password',
+        }),
+      });
+
+      await loginPost(blockedRequest);
+    }
+
+    verifyAdminCredentials.mockResolvedValue(true);
+
+    const allowedRequest = new Request('http://localhost/api/admin/login', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-forwarded-for': '10.0.0.55',
+      },
+      body: JSON.stringify({
+        email: 'admin@9jobs.co',
+        password: 'super-secret',
+      }),
+    });
+
+    const response = await loginPost(allowedRequest);
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.success).toBe(true);
+  });
+
+  test('successful login resets the rate-limit bucket for the same email', async () => {
+    const { loginPost } = await loadAuthRoutes();
+    verifyAdminCredentials
+      .mockResolvedValueOnce(false)
+      .mockResolvedValueOnce(false)
+      .mockResolvedValueOnce(true)
+      .mockResolvedValueOnce(false)
+      .mockResolvedValueOnce(false)
+      .mockResolvedValueOnce(false)
+      .mockResolvedValueOnce(false)
+      .mockResolvedValueOnce(false)
+      .mockResolvedValueOnce(false);
+
+    const baseHeaders = {
+      'content-type': 'application/json',
+      'x-forwarded-for': '10.0.0.66',
+    };
+    const email = 'admin@9jobs.co';
+
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      const failedRequest = new Request('http://localhost/api/admin/login', {
+        method: 'POST',
+        headers: baseHeaders,
+        body: JSON.stringify({
+          email,
+          password: 'wrong-password',
+        }),
+      });
+
+      const failedResponse = await loginPost(failedRequest);
+      expect(failedResponse.status).toBe(401);
+    }
+
+    const successRequest = new Request('http://localhost/api/admin/login', {
+      method: 'POST',
+      headers: baseHeaders,
+      body: JSON.stringify({
+        email,
+        password: 'correct-password',
+      }),
+    });
+
+    const successResponse = await loginPost(successRequest);
+    expect(successResponse.status).toBe(200);
+
+    for (let attempt = 0; attempt < 5; attempt += 1) {
+      const failedRequest = new Request('http://localhost/api/admin/login', {
+        method: 'POST',
+        headers: baseHeaders,
+        body: JSON.stringify({
+          email,
+          password: `wrong-password-${attempt}`,
+        }),
+      });
+
+      const failedResponse = await loginPost(failedRequest);
+      expect(failedResponse.status).toBe(401);
+    }
+
+    const blockedRequest = new Request('http://localhost/api/admin/login', {
+      method: 'POST',
+      headers: baseHeaders,
+      body: JSON.stringify({
+        email,
+        password: 'wrong-password-final',
+      }),
+    });
+
+    const blockedResponse = await loginPost(blockedRequest);
+    const blockedBody = await blockedResponse.json();
+
+    expect(blockedResponse.status).toBe(429);
+    expect(blockedBody.error).toBe('Too many login attempts. Please try again later.');
+  });
+
   test('creates the initial admin account and logs them in', async () => {
     const { signupPost } = await loadAuthRoutes();
     createInitialAdminUser.mockResolvedValue({

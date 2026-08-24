@@ -35,6 +35,23 @@ describe('Fortnight Agreement layout and logic tests', () => {
     expect(section3.paragraphs[0]).toContain('AUD $250');
   });
 
+  test('renewal copy keeps service period and renewal month separate', () => {
+    const template = buildFortnightAgreementTemplate({
+      ...dummyInput,
+      initialTerm: '2 month',
+      renewalEnabled: true,
+      renewalTerm: '1 month',
+      renewalFee: 'AUD $90',
+    });
+
+    const section2 = template.sections.find((section) => section.heading.startsWith('2.'));
+    const section3 = template.sections.find((section) => section.heading.startsWith('3.'));
+
+    expect(section2.intro).toContain('2 month');
+    expect(section3.paragraphs[0]).toContain('for 2 month');
+    expect(section3.paragraphs[1]).toContain('after 1 month');
+  });
+
   test('generated PDF artifact exposes deterministic anchor coordinates', async () => {
     const artifact = await generateAgreementPdfArtifact(dummyInput);
     expect(artifact.buffer).toBeInstanceOf(Buffer);

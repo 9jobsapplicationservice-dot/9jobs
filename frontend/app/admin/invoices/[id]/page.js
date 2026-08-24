@@ -51,7 +51,14 @@ export default async function InvoiceDetailPage({ params }) {
           <StatusBadge status={invoice.status} />
         </div>
 
-        <InvoiceActions invoiceId={invoice._id} hasGeneratedPdf={Boolean(invoice.generatedPdfUrl)} />
+        <InvoiceActions
+          hasGeneratedPdf={Boolean(invoice.generatedPdfUrl)}
+          initialCheckoutUrl={invoice.stripeCheckoutUrl || ''}
+          initialPaymentLinkSentAt={invoice.paymentLinkSentAt || ''}
+          initialPaymentStatus={invoice.paymentStatus || 'pending'}
+          initialStripeSubscriptionId={invoice.stripeSubscriptionId || ''}
+          invoiceId={invoice._id}
+        />
 
         <div className="admin-detail-grid">
           <div className="admin-detail-card">

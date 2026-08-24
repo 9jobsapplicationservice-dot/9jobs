@@ -1,6 +1,10 @@
 import crypto from 'node:crypto';
 
 const DOCUSIGN_TOKEN_AUDIENCE = 'account-d.docusign.com';
+const DOCUSIGN_TOKEN_REFRESH_BUFFER_MS = 60 * 1000;
+let cachedDocuSignToken = null;
+let cachedDocuSignTokenExpiresAt = 0;
+let docuSignTokenPromise = null;
 
 export function hasDocuSignRuntimeConfig() {
   return Boolean(
@@ -64,52 +68,80 @@ function signJwtAssertion(claims, privateKey) {
 }
 
 async function getDocuSignAccessToken() {
-  const config = getDocuSignConfig();
-  const now = Math.floor(Date.now() / 1000);
-  const assertion = signJwtAssertion(
-    {
-      iss: config.integrationKey,
-      sub: config.userId,
-      aud: config.authServer,
-      iat: now,
-      exp: now + 3600,
-      scope: 'signature impersonation',
-    },
-    config.privateKey
-  );
+  const nowMs = Date.now();
 
-  const response = await fetch(`https://${config.authServer}/oauth/token`, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams({
-      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-      assertion,
-    }),
-    cache: 'no-store',
-  });
-
-  if (!response.ok) {
-    throw new Error(`DocuSign auth failed (${response.status}).`);
+  if (
+    cachedDocuSignToken &&
+    cachedDocuSignTokenExpiresAt - DOCUSIGN_TOKEN_REFRESH_BUFFER_MS > nowMs
+  ) {
+    return cachedDocuSignToken;
   }
 
-  const data = await response.json();
-  return {
-    accessToken: data.access_token,
-    config,
-  };
+  if (docuSignTokenPromise) {
+    return docuSignTokenPromise;
+  }
+
+  docuSignTokenPromise = (async () => {
+    const config = getDocuSignConfig();
+    const now = Math.floor(Date.now() / 1000);
+    const assertion = signJwtAssertion(
+      {
+        iss: config.integrationKey,
+        sub: config.userId,
+        aud: config.authServer,
+        iat: now,
+        exp: now + 3600,
+        scope: 'signature impersonation',
+      },
+      config.privateKey
+    );
+
+    const response = await fetch(`https://${config.authServer}/oauth/token`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+        assertion,
+      }),
+      cache: 'no-store',
+    });
+
+    if (!response.ok) {
+      throw new Error(`DocuSign auth failed (${response.status}).`);
+    }
+
+    const data = await response.json();
+    const tokenPayload = {
+      accessToken: data.access_token,
+      config,
+    };
+
+    cachedDocuSignToken = tokenPayload;
+    cachedDocuSignTokenExpiresAt = nowMs + Number(data.expires_in || 3600) * 1000;
+
+    return tokenPayload;
+  })();
+
+  try {
+    return await docuSignTokenPromise;
+  } finally {
+    docuSignTokenPromise = null;
+  }
 }
 
 async function docusignRequest(pathname, options = {}) {
+  const { timeoutMs, ...requestOptions } = options;
   const { accessToken, config } = await getDocuSignAccessToken();
   const response = await fetch(`${config.basePath}/v2.1/accounts/${config.accountId}${pathname}`, {
-    ...options,
+    ...requestOptions,
     headers: {
       Authorization: `Bearer ${accessToken}`,
       'content-type': 'application/json',
-      ...(options.headers || {}),
+      ...(requestOptions.headers || {}),
     },
+    ...(typeof timeoutMs === 'number' && timeoutMs > 0 ? { signal: AbortSignal.timeout(timeoutMs) } : {}),
     cache: 'no-store',
   });
 
@@ -216,9 +248,10 @@ export async function createDocuSignEnvelope({ agreement, pdfBuffer }) {
   return response.json();
 }
 
-export async function getDocuSignEnvelopeStatus(envelopeId) {
+export async function getDocuSignEnvelopeStatus(envelopeId, options = {}) {
   const response = await docusignRequest(`/envelopes/${envelopeId}`, {
     method: 'GET',
+    ...options,
   });
 
   return response.json();

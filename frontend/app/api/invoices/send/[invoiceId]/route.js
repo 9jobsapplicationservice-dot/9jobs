@@ -79,9 +79,9 @@ export async function POST(request, { params }) {
  <p>Please find attached your $${invoiceDocument.total} invoice for ${invoiceDocument.description} (${invoiceDocument.invoiceNumber}), due on ${formatDate(invoiceDocument.dueDate)}.</p>
  <p>Kindly complete the payment before the due date and reply to this email with the payment confirmation so we can continue with your service without any delays. If you've already made the payment, please disregard this email.</p>
  <p>Thank you very much for your time and support.</p>
- <p>Kind regards,<br>
- 9Jobs Application Service Team<br>
- M: +61 422 552 002</p>
+<p>Kind regards,<br>
+9Jobs Application Service Team<br>
+M: +61 422 279 428</p>
  </div>
  `,
  attachments: [

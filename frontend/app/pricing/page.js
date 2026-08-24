@@ -8,26 +8,45 @@ import { Reveal, StaggerContainer, StaggerItem, HoverCard, PageTransition } from
 const plans = [
   {
     name: "Trial",
-    price: "$25",
-    period: "/ 1 day",
-    summary: "Try the full 9Jobs experience for a day — perfect for a quick, focused job search sprint.",
-    items: ["Full platform access", "Resume review", "Application support", "1-day support window"],
+    price: "AUD $50",
+    period: "/ 2 weeks",
+    summary: "Try the 9Jobs experience for 2 weeks with a simple one-time checkout under the Standard Plan.",
+    items: ["Full platform access", "Resume review", "Application support", "2-week support window"],
+    ctaLabel: "Pay AUD $50",
   },
   {
-    name: "Non-IT",
-    price: "$200",
+    name: "Standard Plan",
+    price: "AUD $150",
     period: "/ week",
-    summary: "Hands-on weekly support tailored for non-tech professionals ready to land their next role.",
-    items: ["Resume & LinkedIn review", "Application tracking", "Job search strategy", "Follow-up support", "Weekly check-in"],
+    summary: "Standard Plan weekly job-support subscription with recurring billing disclosed before payment.",
+    items: [
+      "Private checkout link",
+      "Amount due today shown before payment",
+      "Same amount charged every week until cancelled",
+      "Cancellation path included in billing flow",
+      "Agreement-linked recurring consent",
+    ],
     highlighted: true,
+    action: "contact",
+    href: "/contact?intent=standard-weekly",
+    ctaLabel: "Request private checkout",
   },
   {
-    name: "IT",
-    price: "$250",
-    period: "/ week",
-    summary: "Premium weekly support for tech professionals — from ATS-ready resumes to interview prep.",
-    items: ["Tech resume optimization", "LinkedIn & GitHub review", "ATS keyword targeting", "Interview prep support", "Weekly check-in"],
+    name: "Two-Month Success-Based",
+    price: "AUD $200",
+    period: "/ onboarding",
+    summary: "Start with upfront onboarding fees, then handle any later success fee as a separate one-time charge.",
+    items: [
+      "Personalised onboarding amount",
+      "No automatic weekly recurring charge",
+      "Separate success-fee request when triggered",
+      "Private billing link and agreement review",
+      "Manual approval before any success-fee payment",
+    ],
     dark: true,
+    action: "contact",
+    href: "/contact?intent=success-based",
+    ctaLabel: "Request onboarding link",
   },
 ];
 
@@ -76,10 +95,10 @@ export default function PricingPage() {
                         <span key={item}><Check size={17} /> {item}</span>
                       ))}
                     </div>
-                    
-                    <div className="fj-pricing-actions" style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: 'auto', paddingTop: '24px' }}>
-                      <PricingCheckoutButton 
-                        plan={plan} 
+
+                    <div className="fj-pricing-actions" style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "auto", paddingTop: "24px" }}>
+                      <PricingCheckoutButton
+                        plan={plan}
                         className={plan.dark ? "fj-button fj-button--lime" : "fj-button"}
                       />
                       <CalendlyLink className="fj-button fj-button--ghost">

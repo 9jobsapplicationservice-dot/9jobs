@@ -1,17 +1,21 @@
 import AdminShell from '@/components/admin/AdminShell';
-import InvoiceForm from '@/components/admin/InvoiceForm';
+import UnifiedInvoiceBuilder from '@/components/admin/UnifiedInvoiceBuilder';
 import { requireAdminPageSession } from '@/lib/admin/auth/require-admin';
 import { suggestNextInvoiceDetails } from '@/lib/invoices/service';
+import { suggestNextFortnightInvoiceDetails } from '@/lib/fortnight-invoices/service';
 
 export const dynamic = 'force-dynamic';
 
 export default async function NewInvoicePage() {
   await requireAdminPageSession();
-  const nextInvoiceDetails = await suggestNextInvoiceDetails();
+  const [weeklyDefaults, fortnightDefaults] = await Promise.all([
+    suggestNextInvoiceDetails(),
+    suggestNextFortnightInvoiceDetails(),
+  ]);
 
   return (
-    <AdminShell eyebrow="Create a new branded invoice PDF" title="Create Invoice">
-      <InvoiceForm initialValues={nextInvoiceDetails} />
+    <AdminShell eyebrow="Create weekly, fortnight, and onboarding invoices from one fixed flow" title="Create Invoice">
+      <UnifiedInvoiceBuilder fortnightDefaults={fortnightDefaults} weeklyDefaults={weeklyDefaults} />
     </AdminShell>
   );
 }

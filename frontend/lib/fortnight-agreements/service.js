@@ -5,9 +5,32 @@ import { serializeAgreement } from '@/lib/fortnight-agreements/serialize';
 import { uploadPrivatePdf, fetchBlobBuffer, fetchBlobBufferByKey } from '@/lib/storage/blob';
 import { retryFailedAgreementCompletion } from '@/lib/fortnight-agreements/completion';
 
+const ADMIN_FORTNIGHT_AGREEMENT_LIST_PROJECTION = [
+  'clientName',
+  'clientEmail',
+  'providerSignatureName',
+  'initialTerm',
+  'servicePrice',
+  'clientSignature',
+  'providerSignature',
+  'status',
+  'sentAt',
+  'createdAt',
+  'updatedAt',
+].join(' ');
+
 export async function listAgreements() {
   await connectDB();
   const agreements = await FortnightAgreement.find({}).sort({ createdAt: -1 }).lean();
+  return agreements.map(serializeAgreement);
+}
+
+export async function listAdminAgreements() {
+  await connectDB();
+  const agreements = await FortnightAgreement.find({})
+    .select(ADMIN_FORTNIGHT_AGREEMENT_LIST_PROJECTION)
+    .sort({ createdAt: -1 })
+    .lean();
   return agreements.map(serializeAgreement);
 }
 

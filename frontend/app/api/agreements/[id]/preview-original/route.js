@@ -8,6 +8,14 @@ import { isRateLimited } from '@/utils/rateLimiter';
 
 export const dynamic = 'force-dynamic';
 
+function canPreviewAfterTokenUse({ isClient, status }) {
+  if (isClient) {
+    return ['client_signed', 'sent_to_provider', 'completion_processing', 'completed'].includes(status);
+  }
+
+  return ['completion_processing', 'completed'].includes(status);
+}
+
 export async function GET(request, { params }) {
   await connectDB();
   const id = (await params).id;
@@ -57,7 +65,7 @@ export async function GET(request, { params }) {
   const usedAt = isClient ? agreement.clientTokenUsedAt : agreement.providerTokenUsedAt;
 
   // 3. Validate Token Expiration & Used Status
-  if (usedAt) {
+  if (usedAt && !canPreviewAfterTokenUse({ isClient, status: agreement.status })) {
     return new NextResponse(JSON.stringify({ error: 'Access denied: Token has already been used.' }), {
       status: 403,
       headers: { 'content-type': 'application/json' }
@@ -72,13 +80,15 @@ export async function GET(request, { params }) {
   }
 
   // 4. Validate Sequential State
-  if (isClient && agreement.status !== 'sent_to_client') {
+  const allowUsedPreview = Boolean(usedAt) && canPreviewAfterTokenUse({ isClient, status: agreement.status });
+
+  if (isClient && agreement.status !== 'sent_to_client' && !allowUsedPreview) {
     return new NextResponse(JSON.stringify({ error: 'Access denied: Agreement is not in a signable state for client.' }), {
       status: 403,
       headers: { 'content-type': 'application/json' }
     });
   }
-  if (!isClient && agreement.status !== 'sent_to_provider') {
+  if (!isClient && agreement.status !== 'sent_to_provider' && !allowUsedPreview) {
     return new NextResponse(JSON.stringify({ error: 'Access denied: Agreement is not in a signable state for provider.' }), {
       status: 403,
       headers: { 'content-type': 'application/json' }

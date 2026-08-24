@@ -40,6 +40,15 @@ export default function SignAgreementPage() {
   const [isDrawing, setIsDrawing] = useState(false);
   const [hasDrawnSignature, setHasDrawnSignature] = useState(false);
 
+  const signerDisplayName =
+    signerContext?.signerRole === 'Client'
+      ? signerContext?.clientName
+      : signerContext?.providerSignerName || signerContext?.signerName || signerContext?.providerName;
+  const signerRoleSummary =
+    signerContext?.signerRole === 'Client'
+      ? `Signing as CLIENT: ${signerContext?.clientName} (${signerContext?.signerEmail})`
+      : `Signing as SERVICE PROVIDER: ${signerContext?.providerSignerName || signerContext?.signerName} (${signerContext?.providerName})`;
+
   // Fetch Initial Token Verification Context
   useEffect(() => {
     if (!agreementId || !token) {
@@ -59,8 +68,14 @@ export default function SignAgreementPage() {
           setError(data.error || 'Access denied: Invalid link.');
         } else {
           setSignerContext(data);
-          setSignerName(data.signerRole === 'Client' ? data.clientName : data.providerName);
+          setSignerName(
+            data.signerName || (data.signerRole === 'Client' ? data.clientName : data.providerSignerName || data.providerName)
+          );
           setIsOtpVerified(data.isOtpVerified);
+          if (data.linkConsumed && data.submissionState) {
+            setSubmissionState(data.submissionState);
+            setSubmissionMessage(data.submissionMessage || '');
+          }
         }
       } catch (err) {
         setError('Connection failed. Please check your internet connection.');
@@ -574,6 +589,23 @@ export default function SignAgreementPage() {
       <div style={styles.signPanel}>
         <div style={styles.signCard}>
           <span style={styles.badge}>{signerContext?.signerRole} Session</span>
+
+          <div style={{
+            backgroundColor: signerContext?.signerRole === 'Client' ? '#eff6ff' : '#f0fdf4',
+            border: signerContext?.signerRole === 'Client' ? '1px solid #bfdbfe' : '1px solid #bbf7d0',
+            color: signerContext?.signerRole === 'Client' ? '#1e3a8a' : '#15803d',
+            padding: '12px',
+            borderRadius: '6px',
+            fontSize: '13px',
+            fontWeight: '600',
+            marginTop: '12px',
+            marginBottom: '15px',
+            textAlign: 'center',
+            lineHeight: '1.4'
+          }}>
+            {signerRoleSummary}
+          </div>
+
           <h2 style={styles.signTitle}>Review and Sign</h2>
           <p style={styles.signDesc}>
             Please review the document in the preview pane, enter your signature below, and click Submit.
@@ -610,13 +642,15 @@ export default function SignAgreementPage() {
           </div>
 
           <div style={{ marginBottom: '20px' }}>
-            <label style={styles.inputLabel}>Full Legal Name</label>
+            <label style={styles.inputLabel}>
+              {signerContext?.signerRole === 'Client' ? 'Client Full Legal Name' : 'Service Provider Signer Name'}
+            </label>
             <input
               type="text"
               value={signerName}
               onChange={(e) => setSignerName(e.target.value)}
               style={styles.inputField}
-              placeholder="Enter your name"
+              placeholder={signerDisplayName || 'Enter your name'}
               required
             />
           </div>

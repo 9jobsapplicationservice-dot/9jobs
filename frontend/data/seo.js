@@ -435,7 +435,7 @@ export function createArticleSchema({ title, description, path, datePublished = 
       "name": "9Jobs",
       "logo": {
         "@type": "ImageObject",
-        "url": absoluteUrl("/framer/app-icon.svg"),
+        "url": absoluteUrl("/9jobs-logo.png"),
       },
     },
     "mainEntityOfPage": {
@@ -473,3 +473,4 @@ export function createServiceSchema({ name, description, path, serviceType = nam
     },
   };
 }
+

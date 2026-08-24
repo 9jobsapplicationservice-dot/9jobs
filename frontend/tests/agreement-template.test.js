@@ -20,7 +20,7 @@ describe('agreement template', () => {
       notes: 'Priority applications for Melbourne operations roles.',
     });
 
-    expect(document.title).toBe('9Jobs Service Contract');
+    expect(document.title).toBe('9Jobs Standard Plan Contract');
     expect(document.sections.some((section) => section.heading === '1. Scope of Services')).toBe(true);
     expect(document.signatureBlocks.customer.name).toBe('Jane Client');
     
@@ -32,8 +32,7 @@ describe('agreement template', () => {
     expect(paymentSection.paragraphs[0]).toContain('$999 (AUD)');
     expect(paymentSection.paragraphs[1]).toContain('4 weeks');
 
-    // Verify notes section is added
-    expect(document.sections.some((section) => section.heading === 'Notes')).toBe(true);
+    expect(document.sections.some((section) => section.heading === 'Notes')).toBe(false);
   });
 
   test('omits notes block when notes are blank', () => {

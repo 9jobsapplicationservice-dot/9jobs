@@ -33,6 +33,9 @@ export async function PUT(request, { params }) {
         email: body.email,
         password: body.password,
         preferredRole: body.preferredRole,
+        billing: {
+          ...(body.billing || {}),
+        },
       },
       { new: true }
     );

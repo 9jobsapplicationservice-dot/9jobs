@@ -1,18 +1,49 @@
+import Link from 'next/link';
+
 import AdminShell from '@/components/admin/AdminShell';
 import FortnightAgreementRowActions from '@/components/admin/FortnightAgreementRowActions';
 import FortnightAgreementRegisterActions from '@/components/admin/FortnightAgreementRegisterActions';
 import StatusBadge from '@/components/admin/StatusBadge';
 import { requireAdminPageSession } from '@/lib/admin/auth/require-admin';
 import {
-  listAgreements,
+  listAdminAgreements,
   retryFailedAgreementCompletion,
 } from '@/lib/fortnight-agreements/service';
 
 export const dynamic = 'force-dynamic';
 
-export default async function FortnightAgreementsPage() {
+const PENDING_AGREEMENT_STATUSES = [
+  'draft',
+  'previewed',
+  'sent',
+  'delivered',
+  'viewed',
+  'sent_to_client',
+  'client_signed',
+  'sent_to_provider',
+  'completion_processing',
+  'completion_processing_failed',
+];
+
+function filterAgreementsByMetric(agreements, metric) {
+  if (metric === 'signed') {
+    return agreements.filter((agreement) => agreement.status === 'completed');
+  }
+
+  if (metric === 'pending') {
+    return agreements.filter((agreement) => PENDING_AGREEMENT_STATUSES.includes(agreement.status));
+  }
+
+  return agreements;
+}
+
+export default async function FortnightAgreementsPage({ searchParams }) {
   await requireAdminPageSession();
-  const agreements = await listAgreements();
+  const resolvedSearchParams = await searchParams;
+  const metric = resolvedSearchParams?.metric === 'signed' || resolvedSearchParams?.metric === 'pending'
+    ? resolvedSearchParams.metric
+    : 'total';
+  const agreements = filterAgreementsByMetric(await listAdminAgreements(), metric);
 
   return (
     <AdminShell eyebrow="Preview, send, and download fortnight agreements" title="Fortnight Agreements">
@@ -21,6 +52,14 @@ export default async function FortnightAgreementsPage() {
           <div>
             <h2>Fortnight Agreement Register</h2>
             <p>Track contract status across generation, delivery, signing, and download.</p>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '12px' }}>
+              <Link className="admin-ghost-button admin-ghost-button--link" href="/admin/agreements" prefetch={false}>
+                Standard
+              </Link>
+              <Link className="admin-primary-button" href="/admin/fortnight-agreements" prefetch={false}>
+                Fortnight
+              </Link>
+            </div>
           </div>
           <FortnightAgreementRegisterActions hasAgreements={agreements.length > 0} />
         </div>

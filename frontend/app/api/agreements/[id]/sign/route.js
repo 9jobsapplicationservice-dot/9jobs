@@ -19,6 +19,38 @@ import { executeFinalSealing } from '@/lib/agreements/completion';
 
 export const dynamic = 'force-dynamic';
 
+function getReadOnlySigningState({ isClient, status }) {
+  if (isClient && status === 'sent_to_provider') {
+    return {
+      submissionState: 'client_signed',
+      submissionMessage: 'The service provider will receive the invitation to sign next.',
+    };
+  }
+
+  if (status === 'completion_processing') {
+    return {
+      submissionState: 'completion_processing',
+      submissionMessage: 'We are finalizing the completed agreement now.',
+    };
+  }
+
+  if (status === 'completed') {
+    return {
+      submissionState: 'completed',
+      submissionMessage: 'A completed copy of the document has been emailed to your registered mailbox.',
+    };
+  }
+
+  if (status === 'completion_processing_failed') {
+    return {
+      submissionState: 'completion_processing_failed',
+      submissionMessage: 'Your signature was received, but the completed document is still being processed. Our team has been notified.',
+    };
+  }
+
+  return null;
+}
+
 /**
  * GET: Validates the token and returns signer context (names, email, OTP verification state)
  * without exposing sensitive signatures, tokens, or private PDF URLs.
@@ -71,6 +103,23 @@ export async function GET(request, { params }) {
   }
 
   if (usedAt) {
+    const readOnlyState = getReadOnlySigningState({ isClient, status: agreement.status });
+
+    if (readOnlyState) {
+      return NextResponse.json({
+        agreementId: String(agreement._id),
+        clientName: agreement.clientName,
+        providerName: agreement.providerName,
+        providerSignerName: agreement.providerSignatureName,
+        signerRole: isClient ? 'Client' : 'Provider',
+        signerEmail: isClient ? agreement.clientEmail : agreement.providerEmail,
+        signerName: isClient ? agreement.clientName : agreement.providerSignatureName,
+        isOtpVerified: true,
+        linkConsumed: true,
+        ...readOnlyState,
+      });
+    }
+
     return NextResponse.json({ error: 'This signing link has already been used.' }, { status: 403 });
   }
 
@@ -91,9 +140,11 @@ export async function GET(request, { params }) {
   return NextResponse.json({
     agreementId: String(agreement._id),
     clientName: agreement.clientName,
-    providerName: agreement.providerSignatureName,
+    providerName: agreement.providerName,
+    providerSignerName: agreement.providerSignatureName,
     signerRole: isClient ? 'Client' : 'Provider',
     signerEmail: isClient ? agreement.clientEmail : agreement.providerEmail,
+    signerName: isClient ? agreement.clientName : agreement.providerSignatureName,
     isOtpVerified: Boolean(otpVerifiedAt),
   });
 }

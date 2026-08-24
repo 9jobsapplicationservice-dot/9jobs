@@ -6,20 +6,45 @@ import AgreementRegisterActions from '@/components/admin/AgreementRegisterAction
 import StatusBadge from '@/components/admin/StatusBadge';
 import { requireAdminPageSession } from '@/lib/admin/auth/require-admin';
 import {
-  listAgreements,
-  recoverFailedInternalAgreementCompletions,
-  syncPendingAgreementStatuses,
+  listAdminAgreements,
+  scheduleAgreementMaintenance,
 } from '@/lib/agreements/service';
 
 export const dynamic = 'force-dynamic';
 
-export default async function AgreementsPage() {
+const PENDING_AGREEMENT_STATUSES = [
+  'draft',
+  'previewed',
+  'sent',
+  'delivered',
+  'viewed',
+  'sent_to_client',
+  'client_signed',
+  'sent_to_provider',
+  'completion_processing',
+  'completion_processing_failed',
+];
+
+function filterAgreementsByMetric(agreements, metric) {
+  if (metric === 'signed') {
+    return agreements.filter((agreement) => agreement.status === 'completed');
+  }
+
+  if (metric === 'pending') {
+    return agreements.filter((agreement) => PENDING_AGREEMENT_STATUSES.includes(agreement.status));
+  }
+
+  return agreements;
+}
+
+export default async function AgreementsPage({ searchParams }) {
   await requireAdminPageSession();
-  await Promise.all([
-    syncPendingAgreementStatuses().catch((err) => console.error('Agreements sync error:', err)),
-    recoverFailedInternalAgreementCompletions().catch((err) => console.error('Agreements recover error:', err)),
-  ]);
-  const agreements = await listAgreements();
+  scheduleAgreementMaintenance();
+  const resolvedSearchParams = await searchParams;
+  const metric = resolvedSearchParams?.metric === 'signed' || resolvedSearchParams?.metric === 'pending'
+    ? resolvedSearchParams.metric
+    : 'total';
+  const agreements = filterAgreementsByMetric(await listAdminAgreements(), metric);
 
   return (
     <AdminShell eyebrow="Preview, send, and download agreements" title="Agreements">
@@ -28,6 +53,14 @@ export default async function AgreementsPage() {
           <div>
             <h2>Agreement Register</h2>
             <p>Track agreement status across generation, delivery, signing, and download.</p>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '12px' }}>
+              <Link className="admin-primary-button" href="/admin/agreements" prefetch={false}>
+                Standard
+              </Link>
+              <Link className="admin-ghost-button admin-ghost-button--link" href="/admin/fortnight-agreements" prefetch={false}>
+                Fortnight
+              </Link>
+            </div>
           </div>
           <AgreementRegisterActions hasAgreements={agreements.length > 0} />
         </div>

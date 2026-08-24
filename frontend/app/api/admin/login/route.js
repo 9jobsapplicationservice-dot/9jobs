@@ -5,20 +5,31 @@ import { getAdminSessionCookieOptions } from '@/lib/admin/auth/cookies';
 import { ADMIN_SESSION_COOKIE_NAME } from '@/lib/admin/auth/constants';
 import { verifyAdminCredentials } from '@/lib/admin/auth/credentials';
 import { adminLoginSchema } from '@/lib/admin/auth/login-schema';
-import { enforceLoginRateLimit } from '@/lib/admin/auth/rate-limit';
+import { enforceLoginRateLimit, resetLoginRateLimit } from '@/lib/admin/auth/rate-limit';
 import { createAdminSessionToken } from '@/lib/admin/auth/session';
 
 function getRequestKey(request) {
   return (
     request.headers.get('x-forwarded-for') ||
     request.headers.get('x-real-ip') ||
+    request.headers.get('cf-connecting-ip') ||
+    request.headers.get('x-real-ip') ||
     'local'
   );
 }
 
+function buildRateLimitKey(request, email = '') {
+  const requestKey = String(getRequestKey(request) || 'local').trim().toLowerCase();
+  const normalizedEmail = String(email || '').trim().toLowerCase();
+  return normalizedEmail ? `${requestKey}:${normalizedEmail}` : requestKey;
+}
+
 export async function POST(request) {
   try {
-    const rateLimit = enforceLoginRateLimit(getRequestKey(request));
+    const body = await request.json();
+    const credentials = adminLoginSchema.parse(body);
+    const rateLimitKey = buildRateLimitKey(request, credentials.email);
+    const rateLimit = enforceLoginRateLimit(rateLimitKey);
 
     if (!rateLimit.allowed) {
       return NextResponse.json(
@@ -34,8 +45,6 @@ export async function POST(request) {
       );
     }
 
-    const body = await request.json();
-    const credentials = adminLoginSchema.parse(body);
     let adminSessionPayload = null;
 
     try {
@@ -65,6 +74,8 @@ export async function POST(request) {
         }
       );
     }
+
+    resetLoginRateLimit(rateLimitKey);
 
     const token = await createAdminSessionToken(adminSessionPayload);
 

@@ -76,7 +76,7 @@ describe('agreement DocuSign status sync', () => {
 
     const result = await syncAgreementDocumentStatusFromDocuSign(agreementDocument);
 
-    expect(getDocuSignEnvelopeStatus).toHaveBeenCalledWith('env-123');
+    expect(getDocuSignEnvelopeStatus).toHaveBeenCalledWith('env-123', {});
     expect(downloadCompletedEnvelopePdf).toHaveBeenCalledWith('env-123');
     expect(agreementDocument.status).toBe('completed');
     expect(agreementDocument.signedPdfUrl).toBe('gridfs://agreements/agreement-1/signed-agreement.pdf');

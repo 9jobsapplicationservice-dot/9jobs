@@ -10,14 +10,17 @@ const initialState = {
   clientName: '',
   clientEmail: '',
   clientPhone: '',
-  providerName: '9 Jobs Pty Ltd',
+  providerName: 'Aditya',
   providerEmail: '9jobsapplicationservice@gmail.com',
   providerPhone: '+61 422 279 428',
   providerSignatureName: 'Aditya Singh',
   providerAbn: '83679842972',
   agreementDate: new Date().toISOString().slice(0, 10),
   servicePrice: 'AUD $200', // Upfront Service Fee
-  initialTerm: 'two (2) months', // Service Period
+  initialTerm: '2 month', // Service Period
+  renewalEnabled: false,
+  renewalTerm: '1 month',
+  renewalFee: 'AUD $90',
   notes: '',
 };
 
@@ -32,7 +35,7 @@ const sections = [
   },
   {
     title: 'Agreement Parameters',
-    fields: ['agreementDate', 'initialTerm', 'servicePrice', 'notes'],
+    fields: ['agreementDate', 'initialTerm', 'servicePrice', 'renewalEnabled', 'renewalTerm', 'renewalFee'],
   },
 ];
 
@@ -46,10 +49,43 @@ const labels = {
   providerSignatureName: 'Provider Signature Name',
   providerAbn: 'Provider ABN',
   agreementDate: 'Agreement Date',
-  initialTerm: '2. Service Period (e.g. two (2) months)',
+  initialTerm: '2. Service Period',
   servicePrice: '3. Upfront Service Fee (e.g. AUD $200)',
-  notes: 'Notes',
+  renewalEnabled: 'Renewal',
+  renewalTerm: 'Renewal Month',
+  renewalFee: 'Renewal Fee',
 };
+
+const lockedFields = new Set(['providerEmail', 'providerPhone', 'providerAbn']);
+const providerNameOptions = ['Aditya', 'Addy', 'Jay'];
+const servicePeriodOptions = ['1 month', '2 month'];
+const renewalTermOptions = ['1 month', '2 month'];
+
+function normalizeServicePeriod(value) {
+  const normalized = String(value || '').trim().toLowerCase();
+
+  if (normalized.includes('1 month') || normalized.includes('one (1)')) {
+    return '1 month';
+  }
+
+  return '2 month';
+}
+
+function buildFormValues(initialValues) {
+  return {
+    ...initialState,
+    ...initialValues,
+    providerName: initialState.providerName,
+    providerEmail: initialState.providerEmail,
+    providerPhone: initialState.providerPhone,
+    providerAbn: initialState.providerAbn,
+    initialTerm: normalizeServicePeriod(initialValues?.initialTerm),
+    renewalEnabled: Boolean(initialValues?.renewalEnabled),
+    renewalTerm: normalizeServicePeriod(initialValues?.renewalTerm || initialState.renewalTerm),
+    renewalFee: initialValues?.renewalFee || initialState.renewalFee,
+    notes: '',
+  };
+}
 
 function getInputType(field) {
   if (field.includes('Email')) return 'email';
@@ -60,7 +96,7 @@ function getInputType(field) {
 export default function FortnightAgreementForm({ initialValues = null, agreementId = '', mode = 'create' }) {
   const router = useRouter();
   const { pushToast } = useToast();
-  const [values, setValues] = useState(initialValues ? { ...initialState, ...initialValues } : initialState);
+  const [values, setValues] = useState(initialValues ? buildFormValues(initialValues) : initialState);
   const [fieldErrors, setFieldErrors] = useState({});
   const [isPending, setIsPending] = useState(false);
 
@@ -69,6 +105,14 @@ export default function FortnightAgreementForm({ initialValues = null, agreement
       ...current,
       [field]: value,
     }));
+  }
+
+  function shouldShowField(field) {
+    if (field === 'renewalTerm' || field === 'renewalFee') {
+      return values.renewalEnabled;
+    }
+
+    return true;
   }
 
   async function handleSubmit(event) {
@@ -97,7 +141,7 @@ export default function FortnightAgreementForm({ initialValues = null, agreement
         headers: {
           'content-type': 'application/json',
         },
-        body: JSON.stringify(mode === 'edit' ? { id: agreementId, ...validation.data } : validation.data),
+        body: JSON.stringify(mode === 'edit' ? { id: agreementId, ...validation.data, notes: '' } : { ...validation.data, notes: '' }),
       });
       const data = await response.json();
 
@@ -126,7 +170,7 @@ export default function FortnightAgreementForm({ initialValues = null, agreement
           </div>
         </div>
         <div className="admin-chip-row">
-          <span className="admin-chip">Custom Service Period</span>
+          <span className="admin-chip">1 or 2 month period</span>
           <span className="admin-chip">Custom Upfront Fee</span>
           <span className="admin-chip">On-Site E-Sign Ready</span>
         </div>
@@ -137,16 +181,45 @@ export default function FortnightAgreementForm({ initialValues = null, agreement
           <h2>{section.title}</h2>
           <div className="admin-form-grid">
             {section.fields.map((field) => (
+              shouldShowField(field) ? (
               <label className={`admin-field ${field === 'notes' ? 'admin-field--full' : ''}`} key={field}>
                 <span>{labels[field]}</span>
-                {field === 'notes' ? (
-                  <textarea
-                    onChange={(event) => updateField(field, event.target.value)}
-                    rows={5}
-                    value={values[field]}
-                  />
+                {field === 'initialTerm' || field === 'renewalTerm' ? (
+                  <select onChange={(event) => updateField(field, event.target.value)} value={values[field]}>
+                    {(field === 'initialTerm' ? servicePeriodOptions : renewalTermOptions).map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                ) : field === 'providerName' ? (
+                  <select onChange={(event) => updateField(field, event.target.value)} value={values[field]}>
+                    {providerNameOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                ) : field === 'renewalEnabled' ? (
+                  <div className="admin-toggle-group" role="group" aria-label="Renewal toggle">
+                    <button
+                      className={!values.renewalEnabled ? 'admin-toggle-button admin-toggle-button--active' : 'admin-toggle-button'}
+                      onClick={() => updateField(field, false)}
+                      type="button"
+                    >
+                      Off
+                    </button>
+                    <button
+                      className={values.renewalEnabled ? 'admin-toggle-button admin-toggle-button--active' : 'admin-toggle-button'}
+                      onClick={() => updateField(field, true)}
+                      type="button"
+                    >
+                      On
+                    </button>
+                  </div>
                 ) : (
                   <input
+                    readOnly={lockedFields.has(field)}
                     onChange={(event) => updateField(field, event.target.value)}
                     type={getInputType(field)}
                     value={values[field]}
@@ -154,6 +227,7 @@ export default function FortnightAgreementForm({ initialValues = null, agreement
                 )}
                 {fieldErrors[field] ? <small className="admin-error-text">{fieldErrors[field]}</small> : null}
               </label>
+              ) : null
             ))}
           </div>
         </section>

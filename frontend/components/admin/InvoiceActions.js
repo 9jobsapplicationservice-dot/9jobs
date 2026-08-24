@@ -1,16 +1,44 @@
 'use client';
 
+import Link from 'next/link';
 import { startTransition, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { useToast } from '@/components/admin/ToastProvider';
 
-export default function InvoiceActions({ invoiceId, hasGeneratedPdf }) {
+export default function InvoiceActions({
+  invoiceId,
+  hasGeneratedPdf,
+  initialCheckoutUrl = '',
+  initialPaymentStatus = 'pending',
+  initialPaymentLinkSentAt = '',
+  initialStripeSubscriptionId = '',
+}) {
   const router = useRouter();
   const { pushToast } = useToast();
   const [pendingAction, setPendingAction] = useState('');
+  const [checkoutUrl, setCheckoutUrl] = useState(initialCheckoutUrl);
+  const [paymentStatus, setPaymentStatus] = useState(initialPaymentStatus);
+  const [paymentLinkSentAt, setPaymentLinkSentAt] = useState(initialPaymentLinkSentAt);
+  const [stripeSubscriptionId, setStripeSubscriptionId] = useState(initialStripeSubscriptionId);
+  const [copied, setCopied] = useState(false);
 
-  async function runAction(action, url) {
+  async function copyPaymentLink() {
+    if (!checkoutUrl) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(checkoutUrl);
+      setCopied(true);
+      pushToast({ title: 'Payment link copied.', tone: 'success' });
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      pushToast({ title: 'Unable to copy payment link.', tone: 'error' });
+    }
+  }
+
+  async function runAction(action, url, options = {}) {
     setPendingAction(action);
 
     try {
@@ -24,8 +52,34 @@ export default function InvoiceActions({ invoiceId, hasGeneratedPdf }) {
         return;
       }
 
+      if (data.checkoutUrl) {
+        setCheckoutUrl(data.checkoutUrl);
+      }
+
+      if (action === 'paymentLink' || action === 'emailLink') {
+        setPaymentStatus(data.invoice?.paymentStatus || 'pending');
+        setStripeSubscriptionId(data.invoice?.stripeSubscriptionId || '');
+      }
+
+      if (action === 'emailLink') {
+        const sentAt = data.invoice?.paymentLinkSentAt || new Date().toISOString();
+        setPaymentLinkSentAt(sentAt);
+      }
+
+      if (options.onSuccess) {
+        options.onSuccess(data);
+      }
+
+      const toastTitleByAction = {
+        generate: 'Invoice preview generated.',
+        send: 'Invoice sent by email.',
+        paymentLink: 'Payment link generated.',
+        emailLink: 'Payment link sent by email.',
+        whatsapp: 'WhatsApp share link is ready.',
+      };
+
       pushToast({
-        title: action === 'generate' ? 'Invoice preview generated.' : 'Invoice sent by email.',
+        title: toastTitleByAction[action] || 'Invoice action completed.',
         tone: 'success',
       });
       startTransition(() => {
@@ -46,6 +100,25 @@ export default function InvoiceActions({ invoiceId, hasGeneratedPdf }) {
       >
         {pendingAction === 'generate' ? 'Generating...' : hasGeneratedPdf ? 'Regenerate Preview' : 'Generate Preview'}
       </button>
+      <Link className="admin-dark-button admin-dark-button--link" href={`/admin/invoices/${invoiceId}/edit`} prefetch={false}>
+        Edit
+      </Link>
+      <button
+        className="admin-dark-button"
+        disabled={pendingAction === 'paymentLink'}
+        onClick={() => runAction('paymentLink', `/api/invoices/${invoiceId}/payment-link`)}
+        type="button"
+      >
+        {pendingAction === 'paymentLink' ? 'Generating...' : 'Generate Payment Link'}
+      </button>
+      <button
+        className="admin-dark-button"
+        disabled={pendingAction === 'emailLink'}
+        onClick={() => runAction('emailLink', `/api/invoices/${invoiceId}/send-payment-link`)}
+        type="button"
+      >
+        {pendingAction === 'emailLink' ? 'Sending...' : 'Send via Email'}
+      </button>
       <button
         className="admin-dark-button"
         disabled={pendingAction === 'send'}
@@ -54,6 +127,64 @@ export default function InvoiceActions({ invoiceId, hasGeneratedPdf }) {
       >
         {pendingAction === 'send' ? 'Sending...' : 'Send Invoice'}
       </button>
+      <button
+        className="admin-dark-button"
+        disabled={pendingAction === 'whatsapp'}
+        onClick={() =>
+          runAction('whatsapp', `/api/invoices/${invoiceId}/payment-link`, {
+            onSuccess: (data) => {
+              if (data.whatsappShareUrl) {
+                window.open(data.whatsappShareUrl, '_blank', 'noopener,noreferrer');
+              }
+            },
+          })
+        }
+        type="button"
+      >
+        {pendingAction === 'whatsapp' ? 'Opening...' : 'Share by WhatsApp'}
+      </button>
+
+      {checkoutUrl ? (
+        <section className="admin-panel admin-payment-link-panel" aria-labelledby={`invoice-payment-link-${invoiceId}`}>
+          <div className="admin-panel__header admin-panel__header--compact">
+            <div>
+              <h2 id={`invoice-payment-link-${invoiceId}`}>Payment Link</h2>
+            </div>
+          </div>
+
+          <div className="admin-payment-link-panel__box">
+            <a
+              className="admin-payment-link-panel__anchor"
+              href={checkoutUrl}
+              rel="noreferrer"
+              target="_blank"
+            >
+              Open Payment Link
+            </a>
+          </div>
+
+          <div className="admin-payment-link-panel__actions">
+            <button className="admin-secondary-button" onClick={copyPaymentLink} type="button">
+              {copied ? 'Copied' : 'Copy Link'}
+            </button>
+            <button
+              className="admin-secondary-button"
+              onClick={() => window.open(checkoutUrl, '_blank', 'noopener,noreferrer')}
+              type="button"
+            >
+              Open Link
+            </button>
+            <button
+              className="admin-secondary-button"
+              disabled={pendingAction === 'emailLink'}
+              onClick={() => runAction('emailLink', `/api/invoices/${invoiceId}/send-payment-link`)}
+              type="button"
+            >
+              {pendingAction === 'emailLink' ? 'Sending...' : 'Send via Email'}
+            </button>
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }

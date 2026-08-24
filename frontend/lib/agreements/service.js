@@ -13,6 +13,33 @@ import { retryFailedAgreementCompletion } from '@/lib/agreements/completion';
 
 const ACTIVE_DOCUSIGN_STATUSES = ['sent', 'delivered', 'viewed'];
 const TERMINAL_DOCUSIGN_STATUSES = ['completed', 'declined', 'voided'];
+const ADMIN_AGREEMENT_LIST_CACHE_MS = 1000 * 60 * 5;
+const ADMIN_AGREEMENT_LIST_PROJECTION = [
+  'clientName',
+  'clientEmail',
+  'providerSignatureName',
+  'packageName',
+  'clientSignature',
+  'providerSignature',
+  'status',
+  'sentAt',
+  'signedPdfUrl',
+  'createdAt',
+  'updatedAt',
+].join(' ');
+const ADMIN_AGREEMENT_LIST_PROJECTION_FIELDS = {
+  clientName: 1,
+  clientEmail: 1,
+  providerSignatureName: 1,
+  packageName: 1,
+  clientSignature: 1,
+  providerSignature: 1,
+  status: 1,
+  sentAt: 1,
+  signedPdfUrl: 1,
+  createdAt: 1,
+  updatedAt: 1,
+};
 
 function shouldSyncAgreementStatus(agreementDocument) {
   return Boolean(
@@ -26,15 +53,66 @@ function shouldAppendEnvelopeEvent(agreementDocument, rawStatus) {
   return latestEvent?.status !== rawStatus;
 }
 
+function getAdminAgreementListCacheState() {
+  if (!globalThis.__nineJobsAdminAgreementListCache) {
+    globalThis.__nineJobsAdminAgreementListCache = {
+      data: null,
+      expiresAt: 0,
+      promise: null,
+    };
+  }
+
+  return globalThis.__nineJobsAdminAgreementListCache;
+}
+
+function invalidateAdminAgreementListCache() {
+  const cacheState = getAdminAgreementListCacheState();
+  cacheState.data = null;
+  cacheState.expiresAt = 0;
+  cacheState.promise = null;
+}
+
 export async function listAgreements() {
   await connectDB();
   const agreements = await Agreement.find({}).sort({ createdAt: -1 }).lean();
   return agreements.map(serializeAgreement);
 }
 
+export async function listAdminAgreements() {
+  const cacheState = getAdminAgreementListCacheState();
+  const now = Date.now();
+
+  if (cacheState.data && cacheState.expiresAt > now) {
+    return cacheState.data;
+  }
+
+  if (cacheState.promise) {
+    return cacheState.promise;
+  }
+
+  await connectDB();
+  cacheState.promise = Agreement.collection
+    .find({}, { projection: ADMIN_AGREEMENT_LIST_PROJECTION_FIELDS })
+    .hint('admin_register_listing_idx')
+    .sort({ createdAt: -1 })
+    .toArray()
+    .then((agreements) => {
+      const serialized = agreements.map(serializeAgreement);
+      cacheState.data = serialized;
+      cacheState.expiresAt = Date.now() + ADMIN_AGREEMENT_LIST_CACHE_MS;
+      return serialized;
+    })
+    .finally(() => {
+      cacheState.promise = null;
+    });
+
+  return cacheState.promise;
+}
+
 export async function deleteAllAgreements() {
   await connectDB();
   const result = await Agreement.deleteMany({});
+  invalidateAdminAgreementListCache();
   return result.deletedCount || 0;
 }
 
@@ -49,15 +127,17 @@ export async function getAgreementDocumentById(id) {
   return Agreement.findById(id);
 }
 
-export async function syncAgreementDocumentStatusFromDocuSign(agreementDocument) {
+export async function syncAgreementDocumentStatusFromDocuSign(agreementDocument, options = {}) {
   if (!shouldSyncAgreementStatus(agreementDocument) || !hasDocuSignRuntimeConfig()) {
     return agreementDocument ? serializeAgreement(agreementDocument) : null;
   }
 
-  const envelope = await getDocuSignEnvelopeStatus(agreementDocument.docuSignEnvelopeId);
+  const envelope = await getDocuSignEnvelopeStatus(agreementDocument.docuSignEnvelopeId, options);
   const rawStatus = String(envelope?.status || '').toLowerCase();
+  agreementDocument.docuSignLastSyncedAt = new Date();
 
   if (!rawStatus) {
+    await agreementDocument.save();
     return serializeAgreement(agreementDocument);
   }
 
@@ -75,58 +155,143 @@ export async function syncAgreementDocumentStatusFromDocuSign(agreementDocument)
   if (mappedStatus === 'completed') {
     agreementDocument.signedAt = agreementDocument.signedAt || new Date();
     await agreementDocument.save();
+    invalidateAdminAgreementListCache();
 
     if (!agreementDocument.signedPdfUrl) {
       await attachSignedAgreementPdf(agreementDocument);
     }
   } else {
     await agreementDocument.save();
+    invalidateAdminAgreementListCache();
   }
 
   return serializeAgreement(agreementDocument);
 }
 
-let lastSyncTime = 0;
-let lastRecoveryTime = 0;
 const COOLDOWN_MS = 1000 * 60 * 5; // 5 minutes cooldown
 
+function getAgreementSyncState() {
+  if (!globalThis.__nineJobsAgreementSyncState) {
+    globalThis.__nineJobsAgreementSyncState = {
+      lastSyncTime: 0,
+      lastRecoveryTime: 0,
+    };
+  }
+
+  return globalThis.__nineJobsAgreementSyncState;
+}
+
+function getAgreementSyncFailureState() {
+  if (!globalThis.__nineJobsAgreementSyncFailureState) {
+    globalThis.__nineJobsAgreementSyncFailureState = new Map();
+  }
+
+  return globalThis.__nineJobsAgreementSyncFailureState;
+}
+
+function getAgreementMaintenanceState() {
+  if (!globalThis.__nineJobsAgreementMaintenanceState) {
+    globalThis.__nineJobsAgreementMaintenanceState = {
+      pending: false,
+    };
+  }
+
+  return globalThis.__nineJobsAgreementMaintenanceState;
+}
+
+export function scheduleAgreementMaintenance() {
+  const maintenanceState = getAgreementMaintenanceState();
+
+  if (maintenanceState.pending) {
+    return false;
+  }
+
+  maintenanceState.pending = true;
+
+  const schedule =
+    typeof setImmediate === 'function'
+      ? setImmediate
+      : (callback) => setTimeout(callback, 0);
+
+  schedule(async () => {
+    try {
+      await syncPendingAgreementStatuses();
+      await recoverFailedInternalAgreementCompletions();
+    } catch (error) {
+      console.error('Agreement maintenance error:', error);
+    } finally {
+      maintenanceState.pending = false;
+    }
+  });
+
+  return true;
+}
+
 export async function syncPendingAgreementStatuses() {
+  const syncState = getAgreementSyncState();
   const now = Date.now();
-  if (now - lastSyncTime < COOLDOWN_MS) {
+  if (now - syncState.lastSyncTime < COOLDOWN_MS) {
     return 0;
   }
-  lastSyncTime = now;
+  syncState.lastSyncTime = now;
 
   if (!hasDocuSignRuntimeConfig()) {
     return 0;
   }
 
   await connectDB();
+  const syncCutoff = new Date(now - COOLDOWN_MS);
   const agreements = await Agreement.find({
     docuSignEnvelopeId: { $nin: ['', null] },
     status: { $in: ACTIVE_DOCUSIGN_STATUSES },
+    $or: [{ docuSignLastSyncedAt: null }, { docuSignLastSyncedAt: { $lte: syncCutoff } }],
+  }).select('_id docuSignEnvelopeId status envelopeEvents signedAt signedPdfUrl docuSignLastSyncedAt');
+
+  if (agreements.length) {
+    const syncStartedAt = new Date(now);
+    const agreementIds = agreements.map((agreementDocument) => agreementDocument._id);
+
+    await Agreement.updateMany(
+      { _id: { $in: agreementIds } },
+      { $set: { docuSignLastSyncedAt: syncStartedAt } }
+    );
+
+    agreements.forEach((agreementDocument) => {
+      agreementDocument.docuSignLastSyncedAt = syncStartedAt;
+    });
+  }
+
+  const syncFailureState = getAgreementSyncFailureState();
+  const syncableAgreements = agreements.filter((agreementDocument) => {
+    const failureKey = agreementDocument.docuSignEnvelopeId || String(agreementDocument._id);
+    const lastFailedAt = syncFailureState.get(failureKey);
+    return !lastFailedAt || now - lastFailedAt >= COOLDOWN_MS;
   });
 
   await Promise.all(
-    agreements.map(async (agreementDocument) => {
+    syncableAgreements.map(async (agreementDocument) => {
+      const failureKey = agreementDocument.docuSignEnvelopeId || String(agreementDocument._id);
       try {
-        await syncAgreementDocumentStatusFromDocuSign(agreementDocument);
+        await syncAgreementDocumentStatusFromDocuSign(agreementDocument, { timeoutMs: 3000 });
+        syncFailureState.delete(failureKey);
       } catch (error) {
+        syncFailureState.set(failureKey, Date.now());
         console.error(`DocuSign status sync failed for agreement ${agreementDocument._id}:`, error);
       }
     })
   );
 
-  return agreements.length;
+  return syncableAgreements.length;
 }
 
 export async function recoverFailedInternalAgreementCompletions(limit = 10) {
+  const syncState = getAgreementSyncState();
   if (limit > 1) {
     const now = Date.now();
-    if (now - lastRecoveryTime < COOLDOWN_MS) {
+    if (now - syncState.lastRecoveryTime < COOLDOWN_MS) {
       return 0;
     }
-    lastRecoveryTime = now;
+    syncState.lastRecoveryTime = now;
   }
 
   await connectDB();
@@ -138,6 +303,7 @@ export async function recoverFailedInternalAgreementCompletions(limit = 10) {
     'clientSignature.signedAt': { $ne: null },
     'providerSignature.signedAt': { $ne: null },
   })
+    .select('_id status updatedAt')
     .sort({ updatedAt: -1 })
     .limit(limit);
 
@@ -158,6 +324,9 @@ export async function recoverFailedInternalAgreementCompletions(limit = 10) {
   );
 
   recoveredCount = results.reduce((sum, val) => sum + val, 0);
+  if (recoveredCount > 0) {
+    invalidateAdminAgreementListCache();
+  }
   return recoveredCount;
 }
 
@@ -169,6 +338,7 @@ export async function createAgreement(payload) {
     status: 'draft',
   });
 
+  invalidateAdminAgreementListCache();
   return serializeAgreement(agreement);
 }
 
@@ -263,12 +433,16 @@ export async function updateAgreementById(id, updates) {
     { new: true }
   );
 
+  invalidateAdminAgreementListCache();
   return agreement ? serializeAgreement(agreement) : null;
 }
 
 export async function deleteAgreementById(id) {
   await connectDB();
   const result = await Agreement.findByIdAndDelete(id);
+  if (result) {
+    invalidateAdminAgreementListCache();
+  }
   return Boolean(result);
 }
 
@@ -291,6 +465,7 @@ export async function generateAndStoreAgreementPdf(agreementDocument) {
   agreementDocument.pdfAnchorCoords = artifact.anchorCoords;
   agreementDocument.status = agreementDocument.status === 'draft' ? 'previewed' : agreementDocument.status;
   await agreementDocument.save();
+  invalidateAdminAgreementListCache();
 
   return {
     agreement: serializeAgreement(agreementDocument),
@@ -349,6 +524,7 @@ export async function attachSignedAgreementPdf(agreementDocument) {
   agreementDocument.signedPdfPath = upload.path;
   agreementDocument.signedAt = new Date();
   await agreementDocument.save();
+  invalidateAdminAgreementListCache();
 
   return signedBuffer;
 }

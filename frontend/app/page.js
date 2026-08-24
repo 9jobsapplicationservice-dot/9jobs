@@ -166,10 +166,10 @@ export const metadata = {
     siteName: "9 Jobs (9jobs)",
     images: [
       {
-        url: "/dashboard.png",
-        width: 1200,
-        height: 630,
-        alt: "9 Jobs (9jobs) career support dashboard for Australian job seekers",
+        url: "https://9jobs.co/opengraph-image.png",
+        width: 356,
+        height: 356,
+        alt: "9Jobs logo",
       },
     ],
     locale: "en_AU",
@@ -179,7 +179,7 @@ export const metadata = {
     card: "summary_large_image",
     title: homepageTitle,
     description: homepageDescription,
-    images: ["/dashboard.png"],
+    images: ["https://9jobs.co/twitter-image.png"],
   },
 };
 
@@ -451,7 +451,7 @@ export default function Home() {
     },
     "primaryImageOfPage": {
       "@type": "ImageObject",
-      "url": "https://9jobs.co/dashboard.png",
+      "url": "https://9jobs.co/opengraph-image.png",
     },
   };
 
@@ -857,3 +857,4 @@ export default function Home() {
     </main>
   );
 }
+

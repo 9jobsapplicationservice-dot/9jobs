@@ -2,7 +2,13 @@ const FIXED_PROVIDER = {
   legalName: '9 Jobs Pty Ltd',
   abn: '83679842972',
   phone: '+61 422 279 428',
+  email: '9jobsapplicationservice@gmail.com',
 };
+
+function normalizeMonthTerm(value, fallback = '1 month') {
+  const term = String(value || fallback).trim();
+  return term.toLowerCase().includes('month') ? term : `${term} month`;
+}
 
 function createSection(heading, paragraphs, intro = '') {
   return {
@@ -19,6 +25,10 @@ export function buildFortnightAgreementTemplate(input) {
     phone: input.providerPhone || FIXED_PROVIDER.phone,
   };
 
+  const hasRenewal = Boolean(input.renewalEnabled);
+  const servicePeriod = normalizeMonthTerm(input.initialTerm, '2 month');
+  const renewalTerm = normalizeMonthTerm(input.renewalTerm, '1 month');
+
   const sections = [
     createSection(
       '1. Service Provider',
@@ -33,24 +43,27 @@ export function buildFortnightAgreementTemplate(input) {
     createSection(
       '2. Service Period',
       [],
-      `The service period is defined as ${(() => {
-        const term = (input.initialTerm || 'two (2)').trim();
-        return term.toLowerCase().includes('month') ? term : `${term} months`;
-      })()}, commencing from the date this agreement is signed.`
+      `The service period is defined as ${servicePeriod}, commencing from the date this agreement is signed.`
     ),
     createSection(
       '3. Upfront Service Fee',
-      [
-        `Fee Amount: The Client agrees to pay an upfront service fee of ${input.servicePrice || 'AUD $200'}.`,
-        'Non-Refundable: This fee is non-refundable.',
-        'Coverage: It covers profile review, resume optimisation, account setup, and initial job application activities.',
-      ]
+      hasRenewal
+        ? [
+            `Fee Amount: The Client agrees to pay an upfront service fee of ${input.servicePrice || 'AUD $200'} for ${servicePeriod}.`,
+            `Renewal: To continue the services after ${renewalTerm}, the Client must pay ${input.renewalFee || 'AUD $90'} for each additional month.`,
+          ]
+        : [
+            `Fee Amount: The Client agrees to pay an upfront service fee of ${input.servicePrice || 'AUD $200'}.`,
+            'Non-Refundable: This fee is non-refundable.',
+          ]
     ),
     createSection(
       '4. Success Fee',
       [
         'If the Client secures employment during the service period, or from any application submitted by 9Jobs during the service period, the Client agrees to pay a success fee.',
-        'Amount: The success fee is equal to fortnight gross salary before taxes.',
+        'Permanent Employment or Fixed-Term Employment of Six (6) Months or More: The success fee will be equal to fourteen (14) days of the Client\'s gross salary before taxes.',
+        'Fixed-Term Employment of Three (3) Months or Less: The success fee will be equal to seven (7) days of the Client\'s gross salary before taxes.',
+        'Other Fixed-Term Employment: If the Client secures fixed-term or contract employment for a period greater than three (3) months but less than six (6) months, the applicable success fee may be adjusted and will be agreed upon in writing between the Client and 9Jobs.',
       ]
     ),
     createSection(
@@ -92,15 +105,6 @@ export function buildFortnightAgreementTemplate(input) {
     ),
   ];
 
-  const notes = input.notes ? String(input.notes).trim() : '';
-  if (notes) {
-    sections.push(
-      createSection('Notes', [
-        notes,
-      ])
-    );
-  }
-
   return {
     title: '9Jobs Service Agreement',
     provider,
@@ -110,7 +114,7 @@ export function buildFortnightAgreementTemplate(input) {
       provider: {
         label: 'Service Provider',
         name: input.providerSignatureName || 'Aditya Singh',
-        email: input.providerEmail || FIXED_PROVIDER.phone,
+        email: input.providerEmail || FIXED_PROVIDER.email,
         phone: provider.phone,
       },
       customer: {

@@ -2,6 +2,7 @@ const FIXED_PROVIDER = {
   legalName: '9 Jobs Pty Ltd',
   abn: '83679842972',
   phone: '+61 422 279 428',
+  email: '9jobsapplicationservice@gmail.com',
 };
 
 function formatInitialTerm(value) {
@@ -27,7 +28,6 @@ function createSection(heading, paragraphs, intro = null) {
 }
 
 export function buildAgreementTemplate(input) {
-  const notes = input.notes?.trim();
   const provider = {
     legalName: input.providerName || FIXED_PROVIDER.legalName,
     abn: input.providerAbn || FIXED_PROVIDER.abn,
@@ -38,16 +38,16 @@ export function buildAgreementTemplate(input) {
     createSection(
       '1. Scope of Services',
       [
-        `Job Applications: Creation of a dedicated email address and access to the Customer’s LinkedIn and SEEK accounts to apply for a minimum of ${input.weeklyJobTarget || '70'} jobs per week.`,
+        `Job Applications: Creation of a dedicated email address and access to the Customer’s LinkedIn and SEEK accounts to apply for a minimum of ${input.weeklyJobTarget || '100+'} jobs per week.`,
         'Recruiter Follow-Up: Follow up with recruiters regarding submitted applications as required.',
         'LinkedIn Networking Support: Assist the Customer in reaching out to their LinkedIn connections to notify them of the Customer’s job search.',
       ],
       'The Service Provider agrees to perform the following services on behalf of the Customer:'
     ),
     createSection('2. Payment Terms', [
-      `The Customer agrees to pay the Service Provider a fee of ${input.servicePrice || '$150 (AUD)'} in advance for the services.`,
-      `If the Customer wishes to continue receiving services after ${formatInitialTerm(input.initialTerm)}, the fee will be ${input.servicePrice || '$150 (AUD)'} per week, payable in advance.`,
-      `Payments must be made using the agreed payment method between the Customer and the Service Provider. Payments are due every ${input.paymentDay || 'Monday'} before services commence for that week. Services will not be provided unless payment is received in advance.`,
+        `The Customer agrees to pay the Service Provider a fee of ${input.servicePrice || '$150 (AUD)'} in advance for the services.`,
+        `If the Customer wishes to continue receiving services after ${formatInitialTerm(input.initialTerm || '1')}, the fee will be ${input.servicePrice || '$150 (AUD)'} per week, payable in advance.`,
+        `Payments must be made using the agreed payment method between the Customer and the Service Provider. Payments are due every ${input.paymentDay || 'Monday'} before services commence for that week. Services will not be provided unless payment is received in advance.`,
     ]),
     createSection('3. Payment Schedule, Cost Structure and Service Oversight', [
       'The services include management of the job application process, delivered by two team members and personally reviewed by the Service Provider to ensure quality.',
@@ -61,7 +61,7 @@ export function buildAgreementTemplate(input) {
       'Additional materials (cover letters, LinkedIn updates, etc.) may be prepared at an additional cost if requested by the Customer.',
     ]),
     createSection('6. Job Application Targets', [
-      `The Service Provider agrees to apply for a minimum of ${input.weeklyJobTarget || '70'} jobs per week as directed by the Customer.`,
+      `The Service Provider agrees to apply for a minimum of ${input.weeklyJobTarget || '100+'} jobs per week as directed by the Customer.`,
       'No refunds will be provided if external factors (job availability, market conditions) affect outcomes.',
     ]),
     createSection('7. Customer’s Responsibilities', [
@@ -105,14 +105,6 @@ export function buildAgreementTemplate(input) {
     ]),
   ];
 
-  if (notes) {
-    sections.push(
-      createSection('Notes', [
-        notes,
-      ])
-    );
-  }
-
   return {
     title: '9Jobs Standard Plan Contract',
     provider,
@@ -122,7 +114,7 @@ export function buildAgreementTemplate(input) {
       provider: {
         label: 'Service Provider',
         name: input.providerSignatureName || 'Aditya Singh',
-        email: input.providerEmail || FIXED_PROVIDER.phone, // fallback values
+        email: input.providerEmail || FIXED_PROVIDER.email,
         phone: provider.phone,
       },
       customer: {

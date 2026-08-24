@@ -19,6 +19,38 @@ import { executeFinalSealing } from '@/lib/fortnight-agreements/completion';
 
 export const dynamic = 'force-dynamic';
 
+function getReadOnlySigningState({ isClient, status }) {
+  if (isClient && status === 'sent_to_provider') {
+    return {
+      submissionState: 'client_signed',
+      submissionMessage: 'The service provider will receive the invitation to sign next.',
+    };
+  }
+
+  if (status === 'completion_processing') {
+    return {
+      submissionState: 'completion_processing',
+      submissionMessage: 'We are finalizing the completed agreement now.',
+    };
+  }
+
+  if (status === 'completed') {
+    return {
+      submissionState: 'completed',
+      submissionMessage: 'A completed copy of the document has been emailed to your registered mailbox.',
+    };
+  }
+
+  if (status === 'completion_processing_failed') {
+    return {
+      submissionState: 'completion_processing_failed',
+      submissionMessage: 'Your signature was received, but the completed document is still being processed. Our team has been notified.',
+    };
+  }
+
+  return null;
+}
+
 export async function GET(request, { params }) {
   await connectDB();
   const id = (await params).id;
@@ -50,9 +82,6 @@ export async function GET(request, { params }) {
   }
 
   const isClient = constantTimeCompare(agreement.clientSigningTokenHash, tokenHash);
-  const isProvider = constantTimeCompare(agreement.providerSigningTokenHash, tokenHash);
-  console.log('[FortnightSign GET] Token matched as client:', isClient, 'as provider:', isProvider, 'Status:', agreement.status);
-
   const expiry = isClient ? agreement.clientTokenExpiresAt : agreement.providerTokenExpiresAt;
   const usedAt = isClient ? agreement.clientTokenUsedAt : agreement.providerTokenUsedAt;
 
@@ -69,6 +98,23 @@ export async function GET(request, { params }) {
   }
 
   if (usedAt) {
+    const readOnlyState = getReadOnlySigningState({ isClient, status: agreement.status });
+
+    if (readOnlyState) {
+      return NextResponse.json({
+        agreementId: String(agreement._id),
+        clientName: agreement.clientName,
+        providerName: agreement.providerName,
+        providerSignerName: agreement.providerSignatureName,
+        signerRole: isClient ? 'Client' : 'Provider',
+        signerEmail: isClient ? agreement.clientEmail : agreement.providerEmail,
+        signerName: isClient ? agreement.clientName : agreement.providerSignatureName,
+        isOtpVerified: true,
+        linkConsumed: true,
+        ...readOnlyState,
+      });
+    }
+
     const errorMsg = isClient
       ? 'This client signing link has already been used. If you need to countersign as the provider, please click the countersign link sent to your registered provider email.'
       : 'This service provider countersign link has already been used. The agreement has been fully signed and completed.';
@@ -97,9 +143,11 @@ export async function GET(request, { params }) {
   return NextResponse.json({
     agreementId: String(agreement._id),
     clientName: agreement.clientName,
-    providerName: agreement.providerSignatureName,
+    providerName: agreement.providerName,
+    providerSignerName: agreement.providerSignatureName,
     signerRole: isClient ? 'Client' : 'Provider',
     signerEmail: isClient ? agreement.clientEmail : agreement.providerEmail,
+    signerName: isClient ? agreement.clientName : agreement.providerSignatureName,
     isOtpVerified: Boolean(otpVerifiedAt),
   });
 }
@@ -130,9 +178,7 @@ export async function POST(request, { params }) {
   }
 
   const isClient = constantTimeCompare(agreement.clientSigningTokenHash, tokenHash);
-  const isProvider = constantTimeCompare(agreement.providerSigningTokenHash, tokenHash);
   const email = isClient ? agreement.clientEmail : agreement.providerEmail;
-  console.log('[FortnightSign POST] Action:', action, 'isClient:', isClient, 'isProvider:', isProvider, 'Target email:', email);
 
   const name = isClient ? agreement.clientName : agreement.providerSignatureName;
   const tokenUsedAt = isClient ? agreement.clientTokenUsedAt : agreement.providerTokenUsedAt;

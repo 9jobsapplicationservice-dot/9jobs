@@ -10,7 +10,27 @@ export default async function AdminClientInformationPage() {
   await requireAdminPageSession();
   await connectDB();
   
-  const submissions = await ClientInfo.find({}).sort({ createdAt: -1 }).lean();
+  const submissions = await ClientInfo.find({})
+    .select([
+      'fullName',
+      'contactNo',
+      'workingRights',
+      'address',
+      'dob',
+      'expectedSalary',
+      'preferredJobLocation',
+      'workType',
+      'noticePeriod',
+      'email',
+      'password',
+      'preferredRole',
+      'resumeFileName',
+      'billing',
+      'createdAt',
+      'updatedAt',
+    ].join(' '))
+    .sort({ createdAt: -1 })
+    .lean();
 
   // Convert Mongoose documents to plain JSON objects to prevent Next.js serialization warnings
   const plainSubmissions = submissions.map((doc) => {

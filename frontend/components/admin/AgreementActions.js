@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState, startTransition } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -24,8 +25,17 @@ export default function AgreementActions({ agreementId, hasGeneratedPdf, hasSign
         return;
       }
 
+      if (action === 'whatsapp' && data.whatsappShareUrl) {
+        window.open(data.whatsappShareUrl, '_blank', 'noopener,noreferrer');
+      }
+
       pushToast({
-        title: action === 'generate' ? 'Agreement preview generated.' : 'Agreement sent.',
+        title:
+          action === 'generate'
+            ? 'Agreement preview generated.'
+            : action === 'whatsapp'
+              ? 'WhatsApp share is ready.'
+              : 'Agreement sent.',
         tone: 'success',
       });
       startTransition(() => {
@@ -47,6 +57,10 @@ export default function AgreementActions({ agreementId, hasGeneratedPdf, hasSign
         {pendingAction === 'generate' ? 'Generating...' : hasGeneratedPdf ? 'Regenerate Preview' : 'Generate Preview'}
       </button>
 
+      <Link className="admin-dark-button admin-dark-button--link" href={`/admin/agreements/${agreementId}/edit`} prefetch={false}>
+        Edit
+      </Link>
+
       <button
         className="admin-dark-button"
         disabled={pendingAction === 'send'}
@@ -54,6 +68,15 @@ export default function AgreementActions({ agreementId, hasGeneratedPdf, hasSign
         type="button"
       >
         {pendingAction === 'send' ? 'Sending...' : 'Send Agreement'}
+      </button>
+
+      <button
+        className="admin-dark-button"
+        disabled={pendingAction === 'whatsapp'}
+        onClick={() => runAction('whatsapp', `/api/agreements/${agreementId}/send-whatsapp`)}
+        type="button"
+      >
+        {pendingAction === 'whatsapp' ? 'Opening...' : 'Send by WhatsApp'}
       </button>
 
       {hasSignedPdf ? (

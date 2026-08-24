@@ -15,6 +15,9 @@ const FortnightAgreementSchema = new mongoose.Schema(
     servicePrice: { type: String, required: true, trim: true }, // Upfront Service Fee
     weeklyJobTarget: { type: String, default: '70', trim: true },
     initialTerm: { type: String, required: true, trim: true }, // Service Period
+    renewalEnabled: { type: Boolean, default: false },
+    renewalTerm: { type: String, default: '', trim: true },
+    renewalFee: { type: String, default: '', trim: true },
     paymentDay: { type: String, default: 'Monday', trim: true },
     notes: { type: String, default: '', trim: true },
     generatedPdfUrl: { type: String, default: '' },
@@ -133,5 +136,8 @@ const FortnightAgreementSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+FortnightAgreementSchema.index({ createdAt: -1 });
+FortnightAgreementSchema.index({ status: 1, createdAt: -1 });
 
 export default mongoose.models.FortnightAgreement || mongoose.model('FortnightAgreement', FortnightAgreementSchema);

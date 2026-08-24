@@ -121,6 +121,7 @@ const AgreementSchema = new mongoose.Schema(
     sentAt: { type: Date, default: null },
     signedAt: { type: Date, default: null },
     lastViewedAt: { type: Date, default: null },
+    docuSignLastSyncedAt: { type: Date, default: null },
     envelopeEvents: [
       {
         status: { type: String, required: true },
@@ -133,5 +134,26 @@ const AgreementSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+AgreementSchema.index({ createdAt: -1 });
+AgreementSchema.index(
+  {
+    createdAt: -1,
+    _id: 1,
+    clientName: 1,
+    clientEmail: 1,
+    providerSignatureName: 1,
+    packageName: 1,
+    status: 1,
+    sentAt: 1,
+    signedPdfUrl: 1,
+    updatedAt: 1,
+  },
+  { name: 'admin_register_listing_idx' }
+);
+AgreementSchema.index({ status: 1, createdAt: -1 });
+AgreementSchema.index({ status: 1, updatedAt: -1 });
+AgreementSchema.index({ docuSignEnvelopeId: 1, status: 1 });
+AgreementSchema.index({ status: 1, docuSignLastSyncedAt: 1 });
 
 export default mongoose.models.Agreement || mongoose.model('Agreement', AgreementSchema);

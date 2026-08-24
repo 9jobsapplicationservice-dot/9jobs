@@ -59,8 +59,14 @@ export default function SignFortnightAgreementPage() {
           setError(data.error || 'Access denied: Invalid link.');
         } else {
           setSignerContext(data);
-          setSignerName(data.signerRole === 'Client' ? data.clientName : data.providerName);
+          setSignerName(
+            data.signerName || (data.signerRole === 'Client' ? data.clientName : data.providerSignerName || data.providerName)
+          );
           setIsOtpVerified(data.isOtpVerified);
+          if (data.linkConsumed && data.submissionState) {
+            setSubmissionState(data.submissionState);
+            setSubmissionMessage(data.submissionMessage || '');
+          }
         }
       } catch (err) {
         setError('Connection failed. Please check your internet connection.');
@@ -585,7 +591,7 @@ export default function SignFortnightAgreementPage() {
           }}>
             {signerContext?.signerRole === 'Client' 
               ? `Signing as CLIENT: ${signerContext?.clientName} (${signerContext?.signerEmail})` 
-              : `Signing as SERVICE PROVIDER: ${signerContext?.providerName} (${signerContext?.signerEmail})`
+              : `Signing as SERVICE PROVIDER: ${signerContext?.providerSignerName || signerContext?.signerName} (${signerContext?.providerName})`
             }
           </div>
 
@@ -623,7 +629,9 @@ export default function SignFortnightAgreementPage() {
           </div>
 
           <div style={{ marginBottom: '20px' }}>
-            <label style={styles.inputLabel}>Full Legal Name</label>
+            <label style={styles.inputLabel}>
+              {signerContext?.signerRole === 'Client' ? 'Client Full Legal Name' : 'Service Provider Signer Name'}
+            </label>
             <input
               type="text"
               value={signerName}

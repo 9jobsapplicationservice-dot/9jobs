@@ -6,21 +6,31 @@ import { useRouter } from 'next/navigation';
 import { agreementInputSchema } from '@/lib/agreements/schema';
 import { useToast } from '@/components/admin/ToastProvider';
 
+function getWeekdayName(dateValue) {
+  const date = new Date(`${dateValue}T00:00:00`);
+
+  if (Number.isNaN(date.getTime())) {
+    return 'Monday';
+  }
+
+  return new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(date);
+}
+
 const initialState = {
   clientName: '',
   clientEmail: '',
   clientPhone: '',
-  providerName: '',
-  providerEmail: '',
-  providerPhone: '',
-  providerSignatureName: '',
+  providerName: 'Aditya',
+  providerEmail: '9jobsapplicationservice@gmail.com',
+  providerPhone: '+61 422 279 428',
+  providerSignatureName: 'Aditya Singh',
   providerAbn: '83679842972',
   agreementDate: new Date().toISOString().slice(0, 10),
-  packageName: '',
+  packageName: 'Weekly Plan',
   servicePrice: '',
-  weeklyJobTarget: '',
-  initialTerm: '',
-  paymentDay: 'Monday',
+  weeklyJobTarget: '100+',
+  initialTerm: '1',
+  paymentDay: getWeekdayName(new Date().toISOString().slice(0, 10)),
   notes: '',
 };
 
@@ -35,7 +45,7 @@ const sections = [
   },
   {
     title: 'Agreement Details',
-    fields: ['agreementDate', 'packageName', 'servicePrice', 'weeklyJobTarget', 'initialTerm', 'paymentDay', 'notes'],
+    fields: ['agreementDate', 'packageName', 'servicePrice', 'weeklyJobTarget', 'paymentDay'],
   },
 ];
 
@@ -52,10 +62,27 @@ const labels = {
   packageName: 'Package Name',
   servicePrice: 'Service Price',
   weeklyJobTarget: 'Weekly Job Target',
-  initialTerm: 'Initial Term',
   paymentDay: 'Payment Due Day (e.g. Monday)',
-  notes: 'Notes',
 };
+
+const lockedFields = new Set(['providerEmail', 'providerPhone', 'providerAbn', 'packageName', 'weeklyJobTarget', 'paymentDay']);
+const providerNameOptions = ['Aditya', 'Addy', 'Jay'];
+
+function buildFormValues(initialValues) {
+  return {
+    ...initialState,
+    ...initialValues,
+    providerName: initialValues?.providerName || initialState.providerName,
+    providerEmail: initialState.providerEmail,
+    providerPhone: initialState.providerPhone,
+    providerAbn: initialState.providerAbn,
+    packageName: initialState.packageName,
+    weeklyJobTarget: initialState.weeklyJobTarget,
+    initialTerm: initialState.initialTerm,
+    paymentDay: getWeekdayName(initialValues?.agreementDate || initialState.agreementDate),
+    notes: '',
+  };
+}
 
 function getInputType(field) {
   if (field.includes('Email')) return 'email';
@@ -66,7 +93,7 @@ function getInputType(field) {
 export default function AgreementForm({ initialValues = null, agreementId = '', mode = 'create' }) {
   const router = useRouter();
   const { pushToast } = useToast();
-  const [values, setValues] = useState(initialValues ? { ...initialState, ...initialValues } : initialState);
+  const [values, setValues] = useState(initialValues ? buildFormValues(initialValues) : initialState);
   const [fieldErrors, setFieldErrors] = useState({});
   const [isPending, setIsPending] = useState(false);
 
@@ -74,12 +101,26 @@ export default function AgreementForm({ initialValues = null, agreementId = '', 
     setValues((current) => ({
       ...current,
       [field]: value,
+      ...(field === 'providerName' ? { providerSignatureName: value } : {}),
+      ...(field === 'agreementDate' ? { paymentDay: getWeekdayName(value) } : {}),
     }));
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const validation = agreementInputSchema.safeParse(values);
+    const validation = agreementInputSchema.safeParse({
+      ...values,
+      providerName: values.providerName,
+      providerEmail: initialState.providerEmail,
+      providerPhone: initialState.providerPhone,
+      providerSignatureName: values.providerSignatureName,
+      providerAbn: initialState.providerAbn,
+      packageName: initialState.packageName,
+      weeklyJobTarget: initialState.weeklyJobTarget,
+      initialTerm: initialState.initialTerm,
+      paymentDay: getWeekdayName(values.agreementDate),
+      notes: '',
+    });
 
     if (!validation.success) {
       const nextErrors = {};
@@ -141,7 +182,7 @@ export default function AgreementForm({ initialValues = null, agreementId = '', 
         <section className="admin-panel" key={section.title}>
           <h2>{section.title}</h2>
           <div className="admin-form-grid">
-            {section.fields.map((field) => (
+    {section.fields.map((field) => (
               <label className={`admin-field ${field === 'notes' ? 'admin-field--full' : ''}`} key={field}>
                 <span>{labels[field]}</span>
                 {field === 'notes' ? (
@@ -150,8 +191,17 @@ export default function AgreementForm({ initialValues = null, agreementId = '', 
                     rows={5}
                     value={values[field]}
                   />
+                ) : field === 'providerName' ? (
+                  <select onChange={(event) => updateField(field, event.target.value)} value={values[field]}>
+                    {providerNameOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
                 ) : (
                   <input
+                    readOnly={lockedFields.has(field)}
                     onChange={(event) => updateField(field, event.target.value)}
                     type={getInputType(field)}
                     value={values[field]}

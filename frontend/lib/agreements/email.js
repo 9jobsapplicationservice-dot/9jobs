@@ -1,34 +1,12 @@
-import nodemailer from 'nodemailer';
+import { sendEmail } from '@/lib/email/delivery';
 
-const ADMIN_MAILBOX = '9jobsapplicationservice@gmail.com';
-
-/**
- * Returns a configured nodemailer transporter using Gmail SMTP.
- */
-function getTransporter() {
-  const gmailPass = process.env.GMAIL_PASS;
-  if (!gmailPass) {
-    throw new Error('Email delivery cannot proceed: GMAIL_PASS is not configured.');
-  }
-
-  return nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user: ADMIN_MAILBOX,
-      pass: gmailPass,
-    },
-  });
-}
+const ADMIN_MAILBOX = process.env.MAIL_FROM || '9jobsapplicationservice@gmail.com';
 
 /**
  * Sends a six-digit OTP to the signer.
  */
 export async function sendOtpEmail({ email, name, otp }) {
-  const transporter = getTransporter();
-  const mailOptions = {
-    from: '"9Jobs Contract Service" <' + ADMIN_MAILBOX + '>',
+  await sendEmail({
     to: email,
     subject: '9Jobs Verification Code: ' + otp,
     html: `
@@ -46,20 +24,17 @@ export async function sendOtpEmail({ email, name, otp }) {
         <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 0;">© 2026 9Jobs Pty Ltd. All rights reserved.</p>
       </div>
     `
-  };
-  await transporter.sendMail(mailOptions);
+  });
 }
 
 /**
  * Sends a signing invitation link to the client.
  */
 export async function sendClientSigningInvite(agreement, rawToken) {
-  const transporter = getTransporter();
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
   const signingUrl = `${baseUrl}/agreements/${agreement._id}/sign?token=${rawToken}`;
 
-  const mailOptions = {
-    from: '"9Jobs Contract Service" <' + ADMIN_MAILBOX + '>',
+  await sendEmail({
     to: agreement.clientEmail,
     subject: 'Signature Required: Your 9Jobs Contract',
     html: `
@@ -77,20 +52,17 @@ export async function sendClientSigningInvite(agreement, rawToken) {
         <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 0;">© 2026 9Jobs Pty Ltd. All rights reserved.</p>
       </div>
     `
-  };
-  await transporter.sendMail(mailOptions);
+  });
 }
 
 /**
  * Sends a signing invitation link to the provider.
  */
 export async function sendProviderSigningInvite(agreement, rawToken) {
-  const transporter = getTransporter();
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
   const signingUrl = `${baseUrl}/agreements/${agreement._id}/sign?token=${rawToken}`;
 
-  const mailOptions = {
-    from: '"9Jobs Contract Service" <' + ADMIN_MAILBOX + '>',
+  await sendEmail({
     to: agreement.providerEmail,
     subject: 'Signature Required: 9Jobs Contract (' + agreement.clientName + ')',
     html: `
@@ -108,20 +80,28 @@ export async function sendProviderSigningInvite(agreement, rawToken) {
         <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 0;">© 2026 9Jobs Pty Ltd. All rights reserved.</p>
       </div>
     `
-  };
-  await transporter.sendMail(mailOptions);
+  });
 }
 
 export async function sendAgreementCompletedEmail({ email, name, agreement, pdfBuffer, downloadToken }) {
-  const transporter = getTransporter();
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
   
   const downloadUrl = downloadToken
     ? `${baseUrl}/api/agreements/${agreement._id}/download?token=${downloadToken}`
     : `${baseUrl}/api/docusign/download/${agreement._id}`;
 
-  const mailOptions = {
-    from: '"9Jobs Contract Service" <' + ADMIN_MAILBOX + '>',
+  const attachments =
+    pdfBuffer.length <= 20 * 1024 * 1024
+      ? [
+          {
+            filename: `9jobs-signed-contract-${agreement._id}.pdf`,
+            content: pdfBuffer,
+            contentType: 'application/pdf',
+          },
+        ]
+      : [];
+
+  await sendEmail({
     to: email,
     subject: 'Contract Completed: 9Jobs & ' + agreement.clientName,
     html: `
@@ -142,19 +122,7 @@ export async function sendAgreementCompletedEmail({ email, name, agreement, pdfB
         <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
         <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 0;">© 2026 9Jobs Pty Ltd. All rights reserved.</p>
       </div>
-    `
-  };
-
-  // Only attach the PDF if it is under the 20MB Gmail attachment size limit
-  if (pdfBuffer.length <= 20 * 1024 * 1024) {
-    mailOptions.attachments = [
-      {
-        filename: `9jobs-signed-contract-${agreement._id}.pdf`,
-        content: pdfBuffer,
-        contentType: 'application/pdf'
-      }
-    ];
-  }
-
-  await transporter.sendMail(mailOptions);
+    `,
+    attachments,
+  });
 }

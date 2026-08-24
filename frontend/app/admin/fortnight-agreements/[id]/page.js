@@ -79,10 +79,6 @@ export default async function FortnightAgreementDetailPage({ params }) {
           </div>
         </div>
 
-        <div className="admin-notes-card">
-          <h3>Notes</h3>
-          <p>{agreement.notes || 'No notes were added for this contract.'}</p>
-        </div>
       </section>
 
       <section className="admin-preview-layout">

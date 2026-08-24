@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Onest } from "next/font/google";
+import { headers } from "next/headers";
 import DeferredAnalytics from "../components/DeferredAnalytics";
 import AppChrome from "../components/AppChrome";
 
@@ -13,6 +14,35 @@ const onest = Onest({
 export const metadata = {
   metadataBase: new URL("https://9jobs.co"),
   applicationName: "9Jobs",
+  title: {
+    default: "9Jobs",
+    template: "%s | 9Jobs",
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [
+      { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: ["/favicon.ico"],
+  },
+  openGraph: {
+    siteName: "9Jobs",
+    images: [
+      {
+        url: "https://9jobs.co/opengraph-image.png",
+        width: 356,
+        height: 356,
+        alt: "9Jobs logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["https://9jobs.co/twitter-image.png"],
+  },
   keywords: [
     "9jobs",
     "9 Jobs",
@@ -34,7 +64,9 @@ function jsonLd(schema) {
   return JSON.stringify(schema).replace(/</g, "\\u003c");
 }
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const requestHeaders = await headers();
+  const isAdminRoute = requestHeaders.get("x-9jobs-admin-route") === "1";
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -47,7 +79,7 @@ export default function RootLayout({ children }) {
       "9 Jobs Australia"
     ],
     "url": siteUrl,
-    "logo": "https://9jobs.co/framer/app-icon.svg",
+    "logo": "https://9jobs.co/9jobs-logo.png",
     "description": "9 Jobs (9jobs), also known as 9 Jobs Australia, is an Australian career support brand helping professionals with resumes, LinkedIn optimization, ATS resume strategy, and job application services.",
     "areaServed": {
       "@type": "Country",
@@ -101,7 +133,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={onest.variable}>
-        <AppChrome>{children}</AppChrome>
+        {isAdminRoute ? children : <AppChrome>{children}</AppChrome>}
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
           <DeferredAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
         )}
@@ -110,3 +142,4 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+

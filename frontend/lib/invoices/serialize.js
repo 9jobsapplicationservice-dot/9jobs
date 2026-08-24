@@ -11,5 +11,7 @@ export function serializeInvoice(invoice) {
     createdAt: source.createdAt ? new Date(source.createdAt).toISOString() : null,
     updatedAt: source.updatedAt ? new Date(source.updatedAt).toISOString() : null,
     sentAt: source.sentAt ? new Date(source.sentAt).toISOString() : null,
+    paidAt: source.paidAt ? new Date(source.paidAt).toISOString() : null,
+    paymentLinkSentAt: source.paymentLinkSentAt ? new Date(source.paymentLinkSentAt).toISOString() : null,
   };
 }

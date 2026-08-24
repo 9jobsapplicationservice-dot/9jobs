@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 
 const appDir = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(appDir, "..");
+const isDev = process.env.NODE_ENV !== "production";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -31,7 +32,7 @@ const nextConfig = {
       "form-action 'self'",
       "frame-ancestors 'self'",
       "object-src 'none'",
-      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://assets.calendly.com",
+      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://www.googletagmanager.com https://assets.calendly.com`,
       "style-src 'self' 'unsafe-inline' https://assets.calendly.com https://fonts.googleapis.com",
       "img-src 'self' data: blob: https:",
       "font-src 'self' https://fonts.gstatic.com data:",

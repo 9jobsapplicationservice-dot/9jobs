@@ -114,6 +114,95 @@ function fitTextToWidth(text, font, size, maxWidth) {
   return ellipsis;
 }
 
+function formatPeriodValue(rawValue, suffix) {
+  const value = String(rawValue || '').trim();
+  const normalizedSuffix = String(suffix || '').trim().toUpperCase();
+
+  if (!value) {
+    return '';
+  }
+
+  if (!normalizedSuffix) {
+    return value;
+  }
+
+  if (/[A-Za-z]/.test(value)) {
+    return value;
+  }
+
+  const upperValue = value.toUpperCase();
+  if (upperValue.includes(normalizedSuffix)) {
+    return value;
+  }
+
+  return `${value} ${normalizedSuffix}`;
+}
+
+function getInvoicePlanNote(invoiceData) {
+  if (invoiceData.planNoteHeading || invoiceData.planNoteBody) {
+    return {
+      heading: invoiceData.planNoteHeading || 'Note',
+      body: invoiceData.planNoteBody || '',
+    };
+  }
+
+  const description = String(invoiceData.description || '').trim().toLowerCase();
+  const duration = String(invoiceData.duration || '').trim().toLowerCase();
+  const periodValue = String(invoiceData.weekLabel || '').trim();
+
+  if (
+    description.includes('onboarding') ||
+    duration.includes('upfront') ||
+    duration.includes('one time')
+  ) {
+    return {
+      heading: 'Note',
+      body:
+        'This invoice is for the 9Jobs onboarding fee and is processed as a one-time payment only. No recurring autopay applies to this invoice.',
+    };
+  }
+
+  if (description.includes('standard plan') || description.includes('weekly plan')) {
+    return {
+      heading: 'Note',
+      body:
+        'This invoice is for the 9Jobs Weekly Plan. It covers the billed weekly service period shown above and should be retained for payment and service records.',
+    };
+  }
+
+  const termLabel = periodValue ? `${periodValue}` : 'the selected term';
+  return {
+    heading: 'Note',
+    body: `This invoice is for the 9Jobs Fortnight Plan (${termLabel}). It records the selected service term and should be kept for billing and service reference.`,
+  };
+}
+
+function drawWrappedText(page, text, x, y, maxWidth, lineHeight, options) {
+  const words = sanitizePdfText(text).split(/\s+/).filter(Boolean);
+  let line = '';
+  let currentY = y;
+
+  for (const word of words) {
+    const candidate = line ? `${line} ${word}` : word;
+    const width = options.font.widthOfTextAtSize(candidate, options.size);
+
+    if (line && width > maxWidth) {
+      drawText(page, line, x, currentY, options);
+      currentY -= lineHeight;
+      line = word;
+    } else {
+      line = candidate;
+    }
+  }
+
+  if (line) {
+    drawText(page, line, x, currentY, options);
+    currentY -= lineHeight;
+  }
+
+  return currentY;
+}
+
 export async function generateInvoicePdfBuffer(invoice) {
   const invoiceData = applyInvoiceDefaults(invoice);
   const pdfDoc = await PDFDocument.create();
@@ -220,17 +309,14 @@ export async function generateInvoicePdfBuffer(invoice) {
 
   let rightY = colHeaderY - 20;
 
-  // Formatting week label as e.g. "1 WEEK" instead of "1"
-  let weekLabelVal = invoiceData.weekLabel;
-  if (weekLabelVal) {
-    const weekStr = String(weekLabelVal).toUpperCase();
-    if (!weekStr.includes('WEEK')) {
-      weekLabelVal = `${weekLabelVal} WEEK`;
-    }
-  }
+  const periodLabel = invoiceData.periodLabel || 'Week';
+  const periodSuffix = String(invoiceData.periodSuffix || 'WEEK').toUpperCase();
+
+  // Formatting period label as e.g. "1 WEEK" or "1 MONTH" instead of "1"
+  const weekLabelVal = formatPeriodValue(invoiceData.weekLabel, periodSuffix);
 
   const detailsList = [
-    ['Week:', weekLabelVal],
+    [`${periodLabel}:`, weekLabelVal],
     ['Issued:', formatDate(invoiceData.issuedDate)],
     ['Valid:', formatDate(invoiceData.validUntil)],
     ['Due:', formatDate(invoiceData.dueDate)],
@@ -432,6 +518,31 @@ export async function generateInvoicePdfBuffer(invoice) {
     size: 12,
     color: rgb(1, 1, 1),
   });
+
+  const note = getInvoicePlanNote(invoiceData);
+  const noteBoxY = totalBoxY - 88;
+  const noteBoxHeight = 68;
+
+  drawPanel(page, MARGIN_LEFT, noteBoxY, tableWidth, noteBoxHeight);
+  drawText(page, note.heading, MARGIN_LEFT + 12, noteBoxY + noteBoxHeight - 18, {
+    font: bold,
+    size: 10.5,
+    color: COLOR_NAVY,
+  });
+
+  drawWrappedText(
+    page,
+    note.body,
+    MARGIN_LEFT + 12,
+    noteBoxY + noteBoxHeight - 36,
+    tableWidth - 24,
+    13,
+    {
+      font: regular,
+      size: 9.5,
+      color: COLOR_TEXT,
+    }
+  );
 
   const bytes = await pdfDoc.save();
   return Buffer.from(bytes);

@@ -71,7 +71,7 @@ export default function LinkedinOptimizationPage() {
       "@type": "LocalBusiness",
       "name": "9Jobs",
       "url": "https://9jobs.co",
-      "logo": "https://9jobs.co/framer/app-icon.svg",
+      "logo": "https://9jobs.co/9jobs-logo.png",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Melbourne",
@@ -356,3 +356,4 @@ export default function LinkedinOptimizationPage() {
     </PageTransition>
   );
 }
+
