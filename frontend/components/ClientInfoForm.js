@@ -23,6 +23,7 @@ const emptyForm = {
 export default function ClientInfoForm() {
   const [formData, setFormData] = useState(emptyForm);
   const [resumeFile, setResumeFile] = useState(null); // { data, name, type }
+  const [coverLetterFile, setCoverLetterFile] = useState(null); // { data, name, type }
   const [status, setStatus] = useState({ type: '', message: '' });
   const [loading, setLoading] = useState(false);
 
@@ -30,9 +31,12 @@ export default function ClientInfoForm() {
     setFormData((current) => ({ ...current, [field]: value }));
   }
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e, setFile) => {
     const file = e.target.files[0];
-    if (!file) return;
+    if (!file) {
+      setFile(null);
+      return;
+    }
 
     if (file.size > 5 * 1024 * 1024) {
       setStatus({
@@ -45,7 +49,7 @@ export default function ClientInfoForm() {
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      setResumeFile({
+      setFile({
         data: reader.result,
         name: file.name,
         type: file.type,
@@ -78,6 +82,9 @@ export default function ClientInfoForm() {
           resumeData: resumeFile.data,
           resumeName: resumeFile.name,
           resumeType: resumeFile.type,
+          coverLetterData: coverLetterFile?.data || '',
+          coverLetterName: coverLetterFile?.name || '',
+          coverLetterType: coverLetterFile?.type || '',
         }),
       });
 
@@ -97,8 +104,11 @@ export default function ClientInfoForm() {
       });
       setFormData(emptyForm);
       setResumeFile(null);
+      setCoverLetterFile(null);
       const fileInput = document.getElementById('resume-file-input');
       if (fileInput) fileInput.value = '';
+      const coverLetterInput = document.getElementById('cover-letter-file-input');
+      if (coverLetterInput) coverLetterInput.value = '';
     } catch (err) {
       console.error(err);
       setStatus({
@@ -423,7 +433,64 @@ export default function ClientInfoForm() {
               id="resume-file-input"
               type="file"
               accept=".pdf,.doc,.docx"
-              onChange={handleFileChange}
+              onChange={(e) => handleFileChange(e, setResumeFile)}
+              style={{ display: 'none' }}
+            />
+          </div>
+        </StaggerItem>
+
+        <div style={{ borderTop: '1.5px solid rgba(218, 224, 224, 0.95)', paddingTop: '20px', marginTop: '10px' }}>
+          <h3 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--fj-ink)' }}>Cover Letter (Optional)</h3>
+          <p style={{ fontSize: '0.88rem', color: 'var(--fj-muted)', marginTop: '4px' }}>Upload a cover letter if available (PDF, DOC, or DOCX up to 5MB).</p>
+        </div>
+
+        <StaggerItem className="field">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <label
+              htmlFor="cover-letter-file-input"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '12px',
+                padding: '28px',
+                border: '2px dashed rgba(218, 224, 224, 0.95)',
+                borderRadius: '18px',
+                cursor: 'pointer',
+                background: '#f8fafa',
+                transition: 'all 0.25s ease',
+                textAlign: 'center',
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.borderColor = 'var(--fj-ink)';
+                e.currentTarget.style.background = '#f0f4f4';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(218, 224, 224, 0.95)';
+                e.currentTarget.style.background = '#f8fafa';
+              }}
+            >
+              {coverLetterFile ? (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--fj-ink)' }}>
+                  <FileText size={28} />
+                  <div style={{ textAlign: 'left' }}>
+                    <strong style={{ display: 'block', fontSize: '0.95rem', fontWeight: '600' }}>{coverLetterFile.name}</strong>
+                    <span style={{ fontSize: '0.78rem', color: 'var(--fj-muted)' }}>Ready for upload</span>
+                  </div>
+                </div>
+              ) : (
+                <div style={{ color: 'var(--fj-muted)' }}>
+                  <Upload size={32} style={{ margin: '0 auto 8px', display: 'block', color: 'var(--fj-muted)' }} />
+                  <strong style={{ fontSize: '0.95rem', fontWeight: '600', display: 'block', color: 'var(--fj-ink)' }}>Click to choose a file</strong>
+                  <span style={{ display: 'block', fontSize: '0.78rem', marginTop: '4px' }}>PDF, DOCX, or DOC up to 5MB</span>
+                </div>
+              )}
+            </label>
+            <input
+              id="cover-letter-file-input"
+              type="file"
+              accept=".pdf,.doc,.docx"
+              onChange={(e) => handleFileChange(e, setCoverLetterFile)}
               style={{ display: 'none' }}
             />
           </div>

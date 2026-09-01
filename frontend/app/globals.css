@@ -8520,6 +8520,140 @@ section.hero.hero-split,
   margin-bottom: 24px;
 }
 
+@media (max-width: 1180px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+    height: auto;
+    max-height: none;
+    position: static;
+    overflow: visible;
+    padding: 20px 20px 16px;
+  }
+
+  .admin-sidebar__brand {
+    margin-bottom: 20px;
+  }
+
+  .admin-sidebar__nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .admin-sidebar__group {
+    min-width: 0;
+  }
+
+  .admin-sidebar__summary-widget {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .admin-sidebar__footer {
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+
+  .admin-main {
+    width: 100%;
+    padding: 24px 20px;
+  }
+}
+
+@media (max-width: 760px) {
+  .admin-layout {
+    min-height: 100dvh;
+  }
+
+  .admin-sidebar {
+    padding: 16px 16px 14px;
+  }
+
+  .admin-sidebar__nav {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-main {
+    padding: 18px 16px 28px;
+  }
+
+  .admin-topbar__actions {
+    gap: 10px;
+  }
+
+  .admin-topbar__notify-container {
+    width: 100%;
+  }
+
+  .admin-topbar__notify {
+    margin-right: 0;
+  }
+
+  .admin-topbar__notify,
+  .admin-topbar__notify-container .admin-ghost-button--link,
+  .admin-topbar__actions .admin-primary-button,
+  .admin-topbar__actions .admin-ghost-button--link {
+    width: 100%;
+  }
+
+  .admin-topbar__actions .admin-ghost-button--link,
+  .admin-topbar__actions .admin-primary-button {
+    justify-content: center;
+  }
+
+  .admin-panel,
+  .admin-notes-card,
+  .admin-panel--builder-inline {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .admin-panel--compact {
+    padding: 12px;
+  }
+
+  .admin-chip-row {
+    gap: 10px;
+  }
+
+  .admin-chip {
+    min-height: 36px;
+    font-size: 0.84rem;
+  }
+
+  .admin-inline-setting {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-toggle-group {
+    width: 100%;
+  }
+
+  .admin-toggle-button {
+    flex: 1 1 0;
+  }
+
+  .admin-modal-actions,
+  .admin-payment-link-panel__actions {
+    flex-direction: column;
+  }
+
+  .admin-payment-link-panel__actions .admin-secondary-button,
+  .admin-payment-link-panel__actions .admin-primary-button,
+  .admin-payment-link-panel__actions .admin-ghost-button {
+    width: 100%;
+  }
+
+  .admin-table-wrap {
+    margin-inline: -4px;
+  }
+}
+
 .admin-home-hero {
   position: relative;
   overflow: hidden;

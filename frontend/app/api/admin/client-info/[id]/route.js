@@ -73,6 +73,12 @@ export async function DELETE(request, { params }) {
       });
     }
 
+    if (clientInfo.coverLetterStorageKey) {
+      await deleteStoredFileByKey(clientInfo.coverLetterStorageKey).catch((err) => {
+        console.error('Error deleting cover letter file from GridFS:', err);
+      });
+    }
+
     await ClientInfo.findByIdAndDelete(id);
 
     return NextResponse.json({ message: 'Client submission deleted successfully.' }, { status: 200 });

@@ -24,7 +24,10 @@ export async function POST(request) {
       preferredRole,
       resumeData,      // Base64 string of file
       resumeName,      // Filename
-      resumeType       // Mime-type
+      resumeType,      // Mime-type
+      coverLetterData,
+      coverLetterName,
+      coverLetterType
     } = body;
 
     // Validation
@@ -61,6 +64,26 @@ export async function POST(request) {
     // Resolve final working rights text
     const finalWorkingRights = workingRights === 'Other' ? (workingRightsCustom || 'Other') : workingRights;
 
+    let coverLetterUploadResult = null;
+    if (coverLetterData && coverLetterName) {
+      const coverLetterBase64Content = coverLetterData.substring(coverLetterData.indexOf(',') + 1);
+      const coverLetterBuffer = Buffer.from(coverLetterBase64Content, 'base64');
+      const coverLetterFileName = `${Date.now()}-${coverLetterName}`;
+      const coverLetterContentType = coverLetterType || 'application/octet-stream';
+
+      try {
+        coverLetterUploadResult = await uploadPrivatePdf({
+          folder: 'client-cover-letters',
+          fileName: coverLetterFileName,
+          buffer: coverLetterBuffer,
+          contentType: coverLetterContentType,
+        });
+      } catch (uploadError) {
+        console.error('Failed to upload client cover letter:', uploadError);
+        return NextResponse.json({ error: 'Failed to upload cover letter to private storage.' }, { status: 500 });
+      }
+    }
+
     const newClientInfo = new ClientInfo({
       fullName,
       contactNo,
@@ -76,7 +99,10 @@ export async function POST(request) {
       preferredRole,
       resumeUrl: uploadResult.url,
       resumeStorageKey: uploadResult.path,
-      resumeFileName: resumeName
+      resumeFileName: resumeName,
+      coverLetterUrl: coverLetterUploadResult?.url || '',
+      coverLetterStorageKey: coverLetterUploadResult?.path || '',
+      coverLetterFileName: coverLetterName || '',
     });
 
     await newClientInfo.save();

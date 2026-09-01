@@ -32,7 +32,7 @@ function formatDate(value) {
 
   return new Intl.DateTimeFormat('en-GB', {
     day: '2-digit',
-    month: 'long',
+    month: 'short',
     year: 'numeric',
     timeZone: 'UTC',
   }).format(date);
@@ -112,6 +112,20 @@ function fitTextToWidth(text, font, size, maxWidth) {
   }
 
   return ellipsis;
+}
+
+function drawCellText(page, text, x, y, width, options, align = 'left') {
+  const fittedText = fitTextToWidth(text, options.font, options.size, width);
+  const fittedWidth = options.font.widthOfTextAtSize(fittedText, options.size);
+
+  let drawX = x;
+  if (align === 'right') {
+    drawX = x + width - fittedWidth;
+  } else if (align === 'center') {
+    drawX = x + (width - fittedWidth) / 2;
+  }
+
+  drawText(page, fittedText, drawX, y, options);
 }
 
 function formatPeriodValue(rawValue, suffix) {
@@ -352,66 +366,64 @@ export async function generateInvoicePdfBuffer(invoice) {
 
   // Header column labels (vertically aligned)
   const textY = tableHeaderY - tableHeaderHeight + 8;
-  drawText(page, 'Description', MARGIN_LEFT + 12, textY, {
+  const descriptionX = MARGIN_LEFT + 12;
+  const amountColumnWidth = 84;
+  const rateColumnWidth = 76;
+  const quantityColumnWidth = 116;
+  const amountColumnX = PAGE_WIDTH - MARGIN_RIGHT - 12 - amountColumnWidth;
+  const rateColumnX = amountColumnX - 18 - rateColumnWidth;
+  const quantityColumnX = rateColumnX - 18 - quantityColumnWidth;
+  const descriptionColumnWidth = quantityColumnX - descriptionX - 18;
+
+  drawText(page, 'Description', descriptionX, textY, {
     font: bold,
     size: 11,
     color: rgb(1, 1, 1),
   });
 
-  drawText(page, 'Quantity', 290, textY, {
+  drawCellText(page, 'Quantity', quantityColumnX, textY, quantityColumnWidth, {
     font: bold,
     size: 11,
     color: rgb(1, 1, 1),
-  });
+  }, 'center');
 
-  drawText(page, 'Rate', 370, textY, {
+  drawCellText(page, 'Rate', rateColumnX, textY, rateColumnWidth, {
     font: bold,
     size: 11,
     color: rgb(1, 1, 1),
-  });
+  }, 'center');
 
-  const amtLabel = 'Amount';
-  const amtLabelWidth = bold.widthOfTextAtSize(amtLabel, 11);
-  drawText(page, amtLabel, PAGE_WIDTH - MARGIN_RIGHT - 12 - amtLabelWidth, textY, {
+  drawCellText(page, 'Amount', amountColumnX, textY, amountColumnWidth, {
     font: bold,
     size: 11,
     color: rgb(1, 1, 1),
-  });
+  }, 'center');
 
   // Table row content
   currentY = tableHeaderY - tableHeaderHeight - 25;
-  const descriptionX = MARGIN_LEFT + 12;
-  const quantityX = 290;
-  const rateX = 370;
-  const amountX = PAGE_WIDTH - MARGIN_RIGHT - 12;
-  const descriptionMaxWidth = quantityX - descriptionX - 18;
-  const fittedDescription = fitTextToWidth(invoiceData.description, regular, 11, descriptionMaxWidth);
-
-  drawText(page, fittedDescription, descriptionX, currentY, {
+  drawCellText(page, invoiceData.description, descriptionX, currentY, descriptionColumnWidth, {
     font: regular,
     size: 11,
     color: COLOR_TEXT,
   });
 
-  drawText(page, invoiceData.duration, quantityX, currentY, {
+  drawCellText(page, invoiceData.duration, quantityColumnX, currentY, quantityColumnWidth, {
     font: regular,
     size: 11,
     color: COLOR_TEXT,
-  });
+  }, 'center');
 
-  drawText(page, `$${invoiceData.total}`, rateX, currentY, {
+  drawCellText(page, `$${invoiceData.total}`, rateColumnX, currentY, rateColumnWidth, {
     font: regular,
     size: 11,
     color: COLOR_TEXT,
-  });
+  }, 'center');
 
-  const rowAmtText = `$${invoiceData.total}`;
-  const rowAmtWidth = bold.widthOfTextAtSize(rowAmtText, 11);
-  drawText(page, rowAmtText, amountX - rowAmtWidth, currentY, {
+  drawCellText(page, `$${invoiceData.total}`, amountColumnX, currentY, amountColumnWidth, {
     font: bold,
     size: 11,
     color: COLOR_TEXT,
-  });
+  }, 'center');
 
   // Divider 3
   currentY -= 25;

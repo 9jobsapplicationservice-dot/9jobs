@@ -92,6 +92,9 @@ const ClientInfoSchema = new mongoose.Schema(
     resumeUrl: { type: String, default: '' },
     resumeStorageKey: { type: String, default: '' },
     resumeFileName: { type: String, default: '' },
+    coverLetterUrl: { type: String, default: '' },
+    coverLetterStorageKey: { type: String, default: '' },
+    coverLetterFileName: { type: String, default: '' },
     billing: { type: BillingSchema, default: () => ({}) },
   },
   {

@@ -59,6 +59,7 @@ function normalizeSubmission(submission) {
     password: textValue(submission?.password),
     preferredRole: textValue(submission?.preferredRole),
     resumeFileName: textValue(submission?.resumeFileName, 'CV'),
+    coverLetterFileName: textValue(submission?.coverLetterFileName, ''),
   };
 }
 
@@ -271,14 +272,14 @@ export default function ClientInfoList({ initialSubmissions }) {
   };
 
   return (
-    <section className="admin-panel" style={{ width: '100%' }}>
+    <section className="admin-panel admin-client-register" style={{ width: '100%' }}>
       <div className="admin-panel__header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <h2>Client Information Register</h2>
           <p>Manage client submissions, billing terms, and private Stripe checkout links from one register.</p>
         </div>
 
-        <div style={{ position: 'relative', width: '300px' }}>
+        <div className="admin-client-register__search" style={{ position: 'relative', width: '300px' }}>
           <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)' }} />
           <input
             type="text"
@@ -317,6 +318,7 @@ export default function ClientInfoList({ initialSubmissions }) {
                 <th style={{ whiteSpace: 'nowrap' }}>Billing Plan</th>
                 <th style={{ whiteSpace: 'nowrap' }}>Billing Status</th>
                 <th style={{ whiteSpace: 'nowrap' }}>Resume</th>
+                <th style={{ whiteSpace: 'nowrap' }}>Cover Letter</th>
                 <th style={{ whiteSpace: 'nowrap' }}>Submitted At</th>
                 <th style={{ whiteSpace: 'nowrap' }}>Actions</th>
               </tr>
@@ -349,6 +351,20 @@ export default function ClientInfoList({ initialSubmissions }) {
                     >
                       <Download size={14} /> Resume
                     </a>
+                  </td>
+                  <td style={{ whiteSpace: 'nowrap' }}>
+                    {sub.coverLetterFileName ? (
+                      <a
+                        className="admin-link admin-link--download"
+                        href={`/api/admin/client-info/${sub._id}/cover-letter`}
+                        download
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem', textDecoration: 'none' }}
+                      >
+                        <Download size={14} /> Cover Letter
+                      </a>
+                    ) : (
+                      'Optional'
+                    )}
                   </td>
                   <td style={{ whiteSpace: 'nowrap' }}>{formatDate(sub.createdAt)}</td>
                   <td style={{ whiteSpace: 'nowrap' }}>
@@ -430,6 +446,7 @@ export default function ClientInfoList({ initialSubmissions }) {
 
       {editingSub && (
         <div
+          className="admin-client-modal admin-client-modal--overlay"
           style={{
             position: 'fixed',
             top: 0,
@@ -445,6 +462,7 @@ export default function ClientInfoList({ initialSubmissions }) {
           onClick={() => setEditingSub(null)}
         >
           <div
+            className="admin-client-modal__card"
             style={{
               background: '#ffffff',
               width: '100%',
@@ -479,7 +497,7 @@ export default function ClientInfoList({ initialSubmissions }) {
             </div>
 
             <form onSubmit={handleSaveEdit} style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.2rem' }}>
+              <div className="admin-client-modal__grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.2rem' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '4px' }}>Full Name *</label>
                   <input required type="text" value={editingSub.fullName} onChange={(e) => updateEditField('fullName', e.target.value)} style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border)', borderRadius: '6px' }} />
@@ -490,7 +508,7 @@ export default function ClientInfoList({ initialSubmissions }) {
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.2rem' }}>
+              <div className="admin-client-modal__grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.2rem' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '4px' }}>Date of Birth *</label>
                   <input required type="text" value={editingSub.dob} onChange={(e) => updateEditField('dob', e.target.value)} style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border)', borderRadius: '6px' }} />
@@ -501,7 +519,7 @@ export default function ClientInfoList({ initialSubmissions }) {
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.2rem' }}>
+              <div className="admin-client-modal__grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.2rem' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '4px' }}>Working Rights *</label>
                   <input required type="text" value={editingSub.workingRights} onChange={(e) => updateEditField('workingRights', e.target.value)} style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border)', borderRadius: '6px' }} />
@@ -512,7 +530,7 @@ export default function ClientInfoList({ initialSubmissions }) {
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.2rem' }}>
+              <div className="admin-client-modal__grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.2rem' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '4px' }}>Expected Salary *</label>
                   <input required type="text" value={editingSub.expectedSalary} onChange={(e) => updateEditField('expectedSalary', e.target.value)} style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border)', borderRadius: '6px' }} />
@@ -546,7 +564,7 @@ export default function ClientInfoList({ initialSubmissions }) {
 
               <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: '1rem', display: 'grid', gap: '1rem' }}>
                 <h4 style={{ fontSize: '1rem', fontWeight: '700', margin: 0 }}>Billing Terms</h4>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div className="admin-client-modal__grid admin-client-modal__grid--tight" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '4px' }}>Billing plan</label>
                     <select value={editingSub.billing.planType} onChange={(e) => updateBillingField('planType', e.target.value)} style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border)', borderRadius: '6px' }}>
@@ -560,7 +578,7 @@ export default function ClientInfoList({ initialSubmissions }) {
                     <input type="text" value={editingSub.billing.agreementStatus} onChange={(e) => updateBillingField('agreementStatus', e.target.value)} style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border)', borderRadius: '6px' }} />
                   </div>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div className="admin-client-modal__grid admin-client-modal__grid--tight" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '4px' }}>Weekly amount (AUD)</label>
                     <input type="number" min="0" step="0.01" value={(editingSub.billing.agreedWeeklyAmountCents || 0) / 100} onChange={(e) => updateBillingField('agreedWeeklyAmountCents', Math.round(Number(e.target.value || 0) * 100))} style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border)', borderRadius: '6px' }} />
@@ -570,7 +588,7 @@ export default function ClientInfoList({ initialSubmissions }) {
                     <input type="number" min="0" step="0.01" value={(editingSub.billing.onboardingFeeCents || 0) / 100} onChange={(e) => updateBillingField('onboardingFeeCents', Math.round(Number(e.target.value || 0) * 100))} style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border)', borderRadius: '6px' }} />
                   </div>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div className="admin-client-modal__grid admin-client-modal__grid--tight" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '4px' }}>Agreement ID</label>
                     <input type="text" value={editingSub.billing.agreementId} onChange={(e) => updateBillingField('agreementId', e.target.value)} style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--color-border)', borderRadius: '6px' }} />
@@ -582,7 +600,7 @@ export default function ClientInfoList({ initialSubmissions }) {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', gap: '12px', marginTop: '1rem', borderTop: '1px solid var(--color-border)', paddingTop: '1.2rem' }}>
+              <div className="admin-client-modal__actions" style={{ display: 'flex', gap: '12px', marginTop: '1rem', borderTop: '1px solid var(--color-border)', paddingTop: '1.2rem' }}>
                 <button type="submit" className="admin-primary-button" style={{ minWidth: '120px' }}>
                   Save Changes
                 </button>
@@ -597,6 +615,7 @@ export default function ClientInfoList({ initialSubmissions }) {
 
       {selectedSub && (
         <div
+          className="admin-client-modal admin-client-modal--overlay"
           style={{
             position: 'fixed',
             top: 0,
@@ -612,6 +631,7 @@ export default function ClientInfoList({ initialSubmissions }) {
           onClick={() => setSelectedSub(null)}
         >
           <div
+            className="admin-client-modal__card"
             style={{
               background: '#ffffff',
               width: '100%',
@@ -646,7 +666,7 @@ export default function ClientInfoList({ initialSubmissions }) {
               <p style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>Submitted on {formatDate(selectedSub.createdAt)}</p>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div className="admin-client-modal__grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
               <div>
                 <h4 style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>
                   <Mail size={12} style={{ display: 'inline', marginRight: '4px', verticalAlign: 'middle' }} /> Contact Email
@@ -661,7 +681,7 @@ export default function ClientInfoList({ initialSubmissions }) {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div className="admin-client-modal__grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
               <div>
                 <h4 style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>
                   <Briefcase size={12} style={{ display: 'inline', marginRight: '4px', verticalAlign: 'middle' }} /> Preferred Role
@@ -676,7 +696,7 @@ export default function ClientInfoList({ initialSubmissions }) {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div className="admin-client-modal__grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
               <div>
                 <h4 style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>
                   <Shield size={12} style={{ display: 'inline', marginRight: '4px', verticalAlign: 'middle' }} /> Working Rights
@@ -691,7 +711,7 @@ export default function ClientInfoList({ initialSubmissions }) {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div className="admin-client-modal__grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
               <div>
                 <h4 style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>
                   <Clock size={12} style={{ display: 'inline', marginRight: '4px', verticalAlign: 'middle' }} /> Notice Period
@@ -722,8 +742,13 @@ export default function ClientInfoList({ initialSubmissions }) {
             </div>
 
             <div style={{ marginBottom: '1.5rem', borderTop: '1px solid var(--color-border)', paddingTop: '1rem' }}>
+              <h4 style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>Cover Letter</h4>
+              <p style={{ fontWeight: '600' }}>{selectedSub.coverLetterFileName || 'Optional - not uploaded'}</p>
+            </div>
+
+            <div style={{ marginBottom: '1.5rem', borderTop: '1px solid var(--color-border)', paddingTop: '1rem' }}>
               <h3 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '1rem' }}>Billing</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+            <div className="admin-client-modal__grid admin-client-modal__grid--tight" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
                 <div>
                   <h4 style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>Plan</h4>
                   <p style={{ fontWeight: '600' }}>{selectedSub.billing.planType.replaceAll('_', ' ')}</p>
@@ -758,7 +783,7 @@ export default function ClientInfoList({ initialSubmissions }) {
 
             <div style={{ marginBottom: '1.5rem', borderTop: '1px solid var(--color-border)', paddingTop: '1rem' }}>
               <h3 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '1rem' }}>Account Details</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+              <div className="admin-client-modal__grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                 <div>
                   <h4 style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>
                     <Mail size={12} style={{ display: 'inline', marginRight: '4px', verticalAlign: 'middle' }} /> Email Address
@@ -772,7 +797,7 @@ export default function ClientInfoList({ initialSubmissions }) {
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', borderTop: '1px solid var(--color-border)', paddingTop: '1.5rem', marginTop: '1.5rem' }}>
+            <div className="admin-client-modal__actions" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', borderTop: '1px solid var(--color-border)', paddingTop: '1.5rem', marginTop: '1.5rem' }}>
               <a
                 className="admin-primary-button"
                 href={`/api/admin/client-info/${selectedSub._id}/resume`}
@@ -781,6 +806,16 @@ export default function ClientInfoList({ initialSubmissions }) {
               >
                 <Download size={16} /> Download Resume ({selectedSub.resumeFileName || 'CV'})
               </a>
+              {selectedSub.coverLetterFileName ? (
+                <a
+                  className="admin-ghost-button"
+                  href={`/api/admin/client-info/${selectedSub._id}/cover-letter`}
+                  download
+                  style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+                >
+                  <Download size={16} /> Download Cover Letter ({selectedSub.coverLetterFileName})
+                </a>
+              ) : null}
               <button className="admin-ghost-button" onClick={() => handleGenerateBillingLink(selectedSub._id)}>
                 <Link2 size={14} style={{ marginRight: '6px' }} /> Generate billing link
               </button>
@@ -800,6 +835,43 @@ export default function ClientInfoList({ initialSubmissions }) {
           </div>
         </div>
       )}
+
+      <style jsx>{`
+        @media (max-width: 760px) {
+          .admin-client-register__search {
+            width: 100% !important;
+          }
+
+          .admin-client-modal--overlay {
+            align-items: flex-start !important;
+            justify-content: stretch !important;
+            padding: 12px;
+            overflow-y: auto;
+          }
+
+          .admin-client-modal__card {
+            max-width: none !important;
+            max-height: none !important;
+            min-height: calc(100dvh - 24px);
+            padding: 1.25rem !important;
+            border-radius: 16px !important;
+          }
+
+          .admin-client-modal__grid {
+            grid-template-columns: 1fr !important;
+            gap: 1rem !important;
+          }
+
+          .admin-client-modal__actions {
+            flex-direction: column;
+          }
+
+          .admin-client-modal__actions :global(.admin-primary-button),
+          .admin-client-modal__actions :global(.admin-ghost-button) {
+            width: 100%;
+          }
+        }
+      `}</style>
     </section>
   );
 }

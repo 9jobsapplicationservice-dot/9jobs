@@ -25,6 +25,7 @@ export default async function AdminClientInformationPage() {
       'password',
       'preferredRole',
       'resumeFileName',
+      'coverLetterFileName',
       'billing',
       'createdAt',
       'updatedAt',
