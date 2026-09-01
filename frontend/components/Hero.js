@@ -22,7 +22,7 @@ export default function Hero() {
         </p>
         <div className="hero-actions">
           <Link className="btn btn-light" href="/pricing">
-            1 day trial
+            2 days trial
           </Link>
           <CalendlyLink className="btn btn-dark">
             Schedule a demo

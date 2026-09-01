@@ -229,7 +229,7 @@ const growthItems = [
 ];
 
 const plans = [
-  ["Trial Plan", "Try the full 9Jobs experience for a day — perfect for a quick, focused job search sprint.", null],
+  ["Trial Plan", "Try the full 9Jobs experience for 2 days — perfect for a quick, focused job search sprint.", null],
   ["Non-IT Support", "Hands-on weekly support tailored for non-tech professionals ready to land their next role.", "Popular Choice"],
   ["IT Support", "Premium weekly support for tech professionals — from ATS-ready resumes to interview prep.", "Executive Choice"],
 ];
@@ -482,7 +482,7 @@ export default function Home() {
               </StaggerItem>
               <StaggerItem as="div">
                 <div className="fj-actions">
-                  <Link className="fj-button fj-button--ghost fj-button--motion" href="/pricing" prefetch={false}>1 Day Trial</Link>
+                  <Link className="fj-button fj-button--ghost fj-button--motion" href="/pricing" prefetch={false}>2 Days Trial</Link>
                   <CalendlyLink className="fj-button fj-button--dark fj-button--motion fj-button--glow">Get a demo</CalendlyLink>
                 </div>
               </StaggerItem>
@@ -846,7 +846,7 @@ export default function Home() {
             <span>Automate with 9Jobs</span>
             <h2>Start for free <span className="heading-mark">today.</span></h2>
             <div className="fj-actions">
-              <Link className="fj-button fj-button--ghost fj-button--motion fj-cta-pulse" href="/pricing" prefetch={false}>1 Day Trial</Link>
+              <Link className="fj-button fj-button--ghost fj-button--motion fj-cta-pulse" href="/pricing" prefetch={false}>2 Days Trial</Link>
               <CalendlyLink className="fj-button fj-button--dark fj-button--motion fj-button--glow fj-cta-pulse">Schedule a demo</CalendlyLink>
               <Link className="fj-button fj-button--ghost fj-button--motion" href="/blog" prefetch={false}>Read our Blog</Link>
               <Link className="fj-button fj-button--ghost fj-button--motion" href="/contact" prefetch={false}>Contact Us</Link>

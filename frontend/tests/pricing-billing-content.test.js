@@ -15,7 +15,7 @@ describe('pricing billing content regression', () => {
     const resumePricingSection = read('components/ResumePricingSection.js');
 
     expect(pricingPage).toContain('AUD $50');
-    expect(pricingPage).toContain('/ 2 weeks');
+    expect(pricingPage).toContain('/ 2 days');
     expect(pricingPage).toContain('Standard Plan');
     expect(pricingPage).toContain('Request private checkout');
     expect(pricingPage).toContain('Two-Month Success-Based');

@@ -5,7 +5,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const checkoutPlans = {
   Trial: {
     unitAmount: 2500,
-    period: "/ 1 day",
+    period: "/ 2 days",
   },
   "Non-IT": {
     unitAmount: 20000,

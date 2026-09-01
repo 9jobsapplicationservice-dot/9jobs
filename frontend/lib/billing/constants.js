@@ -22,7 +22,7 @@ export const ONE_TIME_CHECKOUT_PLANS = {
   Trial: {
     unitAmount: 5000,
     currency: 'aud',
-    description: 'Trial plan - / 2 weeks',
+    description: 'Trial plan - / 2 days',
   },
   'Resume Makeover': {
     unitAmount: 4900,

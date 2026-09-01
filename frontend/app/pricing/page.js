@@ -9,9 +9,9 @@ const plans = [
   {
     name: "Trial",
     price: "AUD $50",
-    period: "/ 2 weeks",
-    summary: "Try the 9Jobs experience for 2 weeks with a simple one-time checkout under the Standard Plan.",
-    items: ["Full platform access", "Resume review", "Application support", "2-week support window"],
+    period: "/ 2 days",
+    summary: "Try the 9Jobs experience for 2 days with a simple one-time checkout under the Standard Plan.",
+    items: ["Full platform access", "Resume review", "Application support", "2-day support window"],
     ctaLabel: "Pay AUD $50",
   },
   {

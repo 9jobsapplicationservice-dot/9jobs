@@ -129,7 +129,7 @@ export default function Navbar() {
 
         <div className="nav-actions fj-nav-actions">
           <Link href="/pricing" className="fj-button fj-button--ghost" prefetch={false}>
-            1 Day Trial
+            2 Days Trial
           </Link>
           <CalendlyLink className="fj-button fj-button--dark">
             Get a demo <ArrowRight size={17} />
@@ -205,7 +205,7 @@ export default function Navbar() {
           );
         })}
         <Link className="fj-button fj-button--ghost" href="/pricing" prefetch={false} onClick={() => setIsOpen(false)}>
-          1 Day Trial
+          2 Days Trial
         </Link>
         <CalendlyLink className="fj-button fj-button--dark" onClick={() => setIsOpen(false)}>
           Get a demo <ArrowRight size={17} />
